@@ -1,5 +1,5 @@
 // Shared shell: nav, footer, language, citations, reveal, count-up, smooth scroll.
-import { KEYS } from './refs.js?v=6af5e395';
+import { KEYS } from './refs.js?v=6af5e468';
 
 const COMMON = {
   en: {

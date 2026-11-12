@@ -1,5 +1,5 @@
-import { initSite, $, $$, LANG } from './site.js?v=6af5e395';
-import { createMaskScene, loadBust } from './mask3d.js?v=6af5e395';
+import { initSite, $, $$, LANG } from './site.js?v=6af5e468';
+import { createMaskScene, loadBust } from './mask3d.js?v=6af5e468';
 
 const SITES = ['Frontalis', 'Orbicularis oculi', 'Zygomaticus major', 'Orbicularis oris', 'Depressor anguli oris', 'Mentalis'];
 const T = {
@@ -108,12 +108,24 @@ function tagText() {
   tagEls.forEach((e, i) => e.querySelector('span').textContent = mobile ? String(i + 1) : T[L].parts[e.dataset.t]);
   $('#legend').innerHTML = TAGS.map((k, i) => `<li><b class="num">${i + 1}</b>${T[L].parts[k]}</li>`).join('');
 }
-function frameCam() { if (!S) return; const w = canvas.clientWidth, h = canvas.clientHeight; if (!mobile) S.camera.setViewOffset(w, h, (L === 'ar' ? 1 : -1) * w * 0.21, 0, w, h); else S.camera.clearViewOffset(); S.camera.updateProjectionMatrix(); }
+function frameCam() {
+  if (!S) return; const w = canvas.clientWidth, h = canvas.clientHeight, cam = S.camera;
+  if (!mobile) { cam.setViewOffset(w, h, (L === 'ar' ? 1 : -1) * w * 0.21, 0, w, h); cam.updateProjectionMatrix(); return; }
+  // phones: fit the head + mask into the free band between the scene text and the progress card
+  let top = 0; document.querySelectorAll('.beat').forEach(b => { top = Math.max(top, b.offsetTop + b.offsetHeight); });
+  const card = document.getElementById('scard'), bot = card && card.offsetHeight ? card.offsetTop : h * 0.82;
+  const free = Math.max(160, bot - top - 12), cy = top + 6 + free / 2;
+  const t2 = Math.tan(THREE_DEG * cam.fov / 2), span = 4.15, wspan = 5.1;
+  const D = Math.max(span * h / free, wspan / (w / h)) / (2 * t2);
+  cam.clearViewOffset(); cam.position.set(0, 0.1, D); cam.lookAt(0, -0.05, 0);
+  cam.setViewOffset(w, h, 0, h / 2 - cy, w, h); cam.updateProjectionMatrix();
+}
+const THREE_DEG = Math.PI / 180;
 
 
 const frameOpts = () => ({ fit: mobile ? 1.0 : 0.8, wfit: mobile ? 0.6 : 0.9, lookY: mobile ? 0.25 : -0.05 });
 const sOpts = { lite, maxDpr: lite ? 1.25 : 2, cheapMat: mobile, noShadow: mobile, shadowSize: 2048, fit: mobile ? 1.0 : 0.8, wfit: mobile ? 0.6 : 0.9, lookY: mobile ? 0.25 : -0.05 };
-loadBust(lite ? 'assets/bust_lite.js?v=6af5e395' : 'assets/bust_full.js?v=6af5e395').then(b => createMaskScene(canvas, { ...sOpts, bust: b }))
+loadBust(lite ? 'assets/bust_lite.js?v=6af5e468' : 'assets/bust_full.js?v=6af5e468').then(b => createMaskScene(canvas, { ...sOpts, bust: b }))
   .then(s => { S = s; frameCam(); dirty = true; stage.classList.add('ready'); if (reduce) frame(0); })
   .catch(e => { console.warn(e); stage.classList.add('nogl'); });
 
