@@ -1399,3 +1399,28 @@ body:not(.unlocked) .pbtns .fb::before{content:"";display:inline-block;width:11p
   .beat .eyebrow{margin-bottom:6px!important}
   .beat .legend{display:none!important}
 }
+/* password: open layout, no box, no icon — a quiet line field with an arrow button */
+.lockbox{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(280px,420px)!important;gap:10px 48px;align-items:end;padding:0 0 28px!important;border-radius:0!important;background:none!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important;box-shadow:none!important;border-bottom:1px solid color-mix(in srgb,var(--ink) 10%,transparent)}
+.lk-tx b{font-size:22px;letter-spacing:-.01em}
+:root[lang="ar"] .lk-tx b{font-family:var(--f-display);font-size:26px}
+.lk-tx p{font-size:15px;margin-top:4px}
+.lk-form{padding:0!important;border-radius:0!important;background:none!important;box-shadow:none!important;border-bottom:1.5px solid color-mix(in srgb,var(--ink) 22%,transparent);transition:border-color .3s;align-items:center}
+.lk-form:focus-within{border-bottom-color:var(--teal)}
+.lk-form input{padding:12px 2px!important;font-size:17px!important;letter-spacing:.04em}
+.lk-form input::placeholder{letter-spacing:0;color:color-mix(in srgb,var(--ink) 40%,transparent)}
+.lk-form button{display:flex;align-items:center;gap:8px;background:none!important;color:var(--ink)!important;padding:10px 4px!important;font-size:15px!important}
+.lk-form button svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;transition:transform .3s var(--ease)}
+.lk-form button:hover svg{transform:translateX(4px)}
+:root[dir="rtl"] .lk-form button svg{transform:scaleX(-1)}
+:root[dir="rtl"] .lk-form button:hover svg{transform:scaleX(-1) translateX(4px)}
+.lk-msg{grid-column:2!important;font-size:13px;min-height:18px}
+.lockbox.open{grid-template-columns:minmax(0,1fr) auto!important;align-items:center}
+.lockbox.open .lk-msg{grid-column:1!important;grid-row:2}
+.lockbox.open .lk-out{grid-column:2;grid-row:1}
+.lockbox.open .lk-msg::before{content:"✓ ";font-weight:700}
+@media (max-width:760px){
+  .lockbox,.lockbox.open{grid-template-columns:1fr!important;gap:14px}
+  .lk-msg,.lockbox.open .lk-msg{grid-column:1!important;grid-row:auto}
+  .lockbox.open .lk-out{grid-column:1;grid-row:auto;justify-self:start}
+}
+.lk-msg:empty{display:none}.lockbox{padding-bottom:22px!important}
