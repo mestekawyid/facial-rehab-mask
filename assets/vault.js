@@ -1,9 +1,9 @@
-import { initSite, $, $$ } from './site.js?v=6af5ef37';
-import { unlock, fileBlob } from './crypt.js?v=6af5ef37';
+import { initSite, $, $$ } from './site.js?v=6af5f072';
+import { unlock, fileBlob } from './crypt.js?v=6af5f072';
 
 const T = {
   en: {
-    vpLocked: 'TEAM ONLY', vpOpen: 'VAULT', vgT: 'The project vault.', vgK: 'Restricted', vgH: 'Every file we made, in its latest version.',
+    vpLocked: 'TEAM ONLY', vpOpen: 'VAULT', vgT: 'The project vault.', vgK: 'Locked', vgK2: 'Team only', vgH: 'Every file we made, in its latest version.',
     vgL: 'The report, both papers, both presentations, the parameter files, the evidence appraisal and the 3D model.',
     vgPh: 'Vault password', vgGo: 'Open', vBad: 'That password does not open the vault.', vWait: 'Verifying…',
     sF: 'files', sG: 'collections', sE: 'encryption', prev: 'Previous', next: 'Next', vLock: 'Lock the vault',
@@ -12,7 +12,7 @@ const T = {
         ['Parameters', 'How every stimulation parameter was chosen, with references.'], ['Evidence appraisal', 'The team’s rating of every source.'], ['3D model', 'The interactive model of the mask and the raw 3D file.']],
   },
   ar: {
-    vpLocked: 'للفريق فقط', vpOpen: 'الأرشيف', vgT: 'أرشيف المشروع.', vgK: 'محظور', vgH: 'كل ملف عملناه، بأحدث نسخة.',
+    vpLocked: 'للفريق فقط', vpOpen: 'الأرشيف', vgT: 'أرشيف المشروع.', vgK: 'مقفول', vgK2: 'للفريق فقط', vgH: 'كل ملف عملناه، بأحدث نسخة.',
     vgL: 'التقرير، والبحثان، والعرضان، وملفات المعاملات، وتقييم الأدلة، والموديل الـ3D.',
     vgPh: 'كلمة مرور الأرشيف', vgGo: 'افتح', vBad: 'كلمة المرور دي مش بتفتح الأرشيف.', vWait: 'جارٍ التحقق…',
     sF: 'ملف', sG: 'مجموعات', sE: 'تشفير', prev: 'السابق', next: 'التالي', vLock: 'اقفل الأرشيف',
