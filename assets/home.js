@@ -1,5 +1,5 @@
-import { initSite, $, $$, LANG } from './site.js?v=6af5e174';
-import { createMaskScene, loadBust } from './mask3d.js?v=6af5e174';
+import { initSite, $, $$, LANG } from './site.js?v=6af5e224';
+import { createMaskScene, loadBust } from './mask3d.js?v=6af5e224';
 
 const SITES = ['Frontalis', 'Orbicularis oculi', 'Zygomaticus major', 'Orbicularis oris', 'Depressor anguli oris', 'Mentalis'];
 const T = {
@@ -113,7 +113,7 @@ function frameCam() { if (!S) return; const w = canvas.clientWidth, h = canvas.c
 
 const frameOpts = () => ({ fit: mobile ? 1.0 : 0.8, wfit: mobile ? 0.6 : 0.9, lookY: mobile ? 0.25 : -0.05 });
 const sOpts = { lite, maxDpr: lite ? 1.25 : 2, cheapMat: mobile, noShadow: mobile, shadowSize: 2048, fit: mobile ? 1.0 : 0.8, wfit: mobile ? 0.6 : 0.9, lookY: mobile ? 0.25 : -0.05 };
-loadBust(lite ? 'assets/bust_lite.js?v=6af5e174' : 'assets/bust_full.js?v=6af5e174').then(b => createMaskScene(canvas, { ...sOpts, bust: b }))
+loadBust(lite ? 'assets/bust_lite.js?v=6af5e224' : 'assets/bust_full.js?v=6af5e224').then(b => createMaskScene(canvas, { ...sOpts, bust: b }))
   .then(s => { S = s; frameCam(); dirty = true; stage.classList.add('ready'); if (reduce) frame(0); })
   .catch(e => { console.warn(e); stage.classList.add('nogl'); });
 
