@@ -1,5 +1,5 @@
-import { initSite, $, $$, LANG } from './site.js?v=6af64a94';
-import { createMaskScene, loadBust } from './mask3d.js?v=6af64a94';
+import { initSite, $, $$, LANG } from './site.js?v=6af64c73';
+import { createMaskScene, loadBust } from './mask3d.js?v=6af64c73';
 
 const CHC = ['#2A8A94', '#4A78B0', '#7D6FB4', '#C07A8E', '#C9915F', '#5E9C7A'];
 const SITES = ['Frontalis', 'Orbicularis oculi', 'Zygomaticus major', 'Orbicularis oris', 'Depressor anguli oris', 'Mentalis'];
@@ -12,6 +12,7 @@ const T = {
     b4e: 'Six target muscles', b4t: 'One muscle at a time.', b4l: 'All contractions for one muscle, then the next. The reference pad sits on the same-side shoulder.',
     sc: ['Swipe sideways on the model to turn it', 'Band, crown strap, then six arms', 'Seven parts, each with one job', 'The module moves to the affected side', 'Each muscle lights up in turn'], scNow: 'Now: ',
     holdTip: 'Press and hold to open', holdGo: 'Keep holding…',
+    pmA: 'Auto', pmS: 'Scroll', pmR: 'Replay the animation', pmL: 'Animation mode',
     hint: 'Scroll to explore', drag: 'Drag to turn', right: 'Right', left: 'Left',
     parts: { band: 'Padded head band', crown: 'Crown strap', dock: 'Temple dock · both sides', module: 'Detachable side module', pod: 'Temple pod', electrode: 'Electrode holder × 6', pad: 'Reference pad' },
     whyE: 'Why it matters', whyT: 'A common condition with a visible, daily cost.',
@@ -48,6 +49,7 @@ const T = {
     b4e: 'ست عضلات مستهدفة', b4t: 'عضلة واحدة في كل مرة.', b4l: 'كل انقباضات العضلة، ثم العضلة التالية. والقطب المرجعي على الكتف في نفس الجانب.',
     sc: ['اسحب الموديل يمين وشمال عشان تلفّه', 'الرباط وحزام الرأس، ثم الأذرع الست', 'سبع قطع، لكل واحدة وظيفة', 'الموديول ينتقل للجانب المصاب', 'كل عضلة بتشتغل بالدور'], scNow: 'الآن: ',
     holdTip: 'اضغط مطوّلًا للفتح', holdGo: 'كمّل ضغط…',
+    pmA: 'تلقائي', pmS: 'بالتمرير', pmR: 'إعادة الأنيميشن', pmL: 'طريقة العرض',
     hint: 'مرّر لأسفل للاستكشاف', drag: 'اسحب للتدوير', right: 'يمين', left: 'شمال',
     parts: { band: 'رباط الرأس المبطّن', crown: 'رباط فوق الرأس', dock: 'قاعدة تركيب · في الجانبين', module: 'موديول جانبي يُفك', pod: 'كبسولة الصدغ', electrode: 'حامل القطب × 6', pad: 'القطب المرجعي' },
     whyE: 'لماذا يهمّ', whyT: 'حالة شائعة، وأثرها ظاهر كل يوم.',
@@ -130,17 +132,42 @@ const THREE_DEG = Math.PI / 180;
 
 const frameOpts = () => ({ fit: mobile ? 1.0 : 0.8, wfit: mobile ? 0.6 : 0.9, lookY: mobile ? 0.25 : -0.05 });
 const sOpts = { lite, maxDpr: lite ? 1.25 : 2, cheapMat: mobile, noShadow: mobile, shadowSize: 2048, fit: mobile ? 1.0 : 0.8, wfit: mobile ? 0.6 : 0.9, lookY: mobile ? 0.25 : -0.05 };
-loadBust(lite ? 'assets/bust_lite.js?v=6af64a94' : 'assets/bust_full.js?v=6af64a94').then(b => createMaskScene(canvas, { ...sOpts, bust: b }))
+loadBust(lite ? 'assets/bust_lite.js?v=6af64c73' : 'assets/bust_full.js?v=6af64c73').then(b => createMaskScene(canvas, { ...sOpts, bust: b }))
   .then(s => { S = s; frameCam(); dirty = true; stage.classList.add('ready'); if (reduce) frame(0); })
   .catch(e => { console.warn(e); stage.classList.add('nogl'); });
 
 new IntersectionObserver(es => { visible = es[0].isIntersecting; }, { threshold: 0 }).observe(story);
-function readScroll() { const r = story.getBoundingClientRect(); target = reduce ? 1 : clamp(-r.top / Math.max(1, r.height - innerHeight)); }
+// ---- animation amode: 'scroll' (story follows the page) or 'auto' (plays once by itself; the page scrolls normally) ----
+const AUTO_SC = [0, 0.15, 0.32, 0.5, 0.8], AUTO_D = [3200, 3600, 3800, 3600];   // last scene lasts 6 muscles × ACT_MS
+let amode = 'scroll', autoT0 = 0, autoDone = false;
+try { amode = localStorage.getItem('kfsAnim') === 'auto' ? 'auto' : 'scroll'; } catch (_) { }
+const pmAuto = $('#pmAuto'), pmScroll = $('#pmScroll'), pmode = $('#pmode');
+function autoTotal() { return AUTO_D.reduce((a, b) => a + b, 0) + 6 * ACT_MS + 600; }
+function autoStep(now) {
+  let t = now - autoT0, sc = 0; for (; sc < 4 && t >= AUTO_D[sc]; sc++) t -= AUTO_D[sc];
+  const frac = Math.min(1, (now - autoT0) / autoTotal()); pmode.style.setProperty('--ap', frac.toFixed(4));
+  if (frac >= 1 && !autoDone) { autoDone = true; pmode.classList.add('done'); }
+  target = AUTO_SC[sc];
+}
+function startAuto() { autoT0 = performance.now(); autoDone = false; actT0 = -1; pmode.classList.remove('done'); pmode.style.setProperty('--ap', 0); target = 0; cur = 0; vel = 0; dirty = true; }
+function setMode(m, replay) {
+  const prevTop = story.getBoundingClientRect().top + scrollY;
+  amode = m; try { localStorage.setItem('kfsAnim', m); } catch (_) { }
+  document.documentElement.classList.toggle('anim-auto', m === 'auto');
+  pmAuto.setAttribute('aria-pressed', m === 'auto'); pmScroll.setAttribute('aria-pressed', m === 'scroll'); pmode.dataset.amode = m;
+  if (m === 'auto') { startAuto(); if (scrollY > prevTop) scrollTo({ top: prevTop, behavior: 'smooth' }); }
+  else { pmode.classList.remove('done'); readScroll(); }
+  dirty = true;
+}
+pmAuto.onclick = () => setMode('auto'); pmScroll.onclick = () => setMode('scroll');
+$('#pmReplay').onclick = () => { if (amode !== 'auto') setMode('auto'); else startAuto(); };
+function readScroll() { if (amode === 'auto') return; const r = story.getBoundingClientRect(); target = reduce ? 1 : clamp(-r.top / Math.max(1, r.height - innerHeight)); }
 function frame(now) {
   if (!reduce) requestAnimationFrame(frame);
   if (!visible && !dirty) return;
   // scroll only chooses which scene is on; each scene then plays at a fixed, eased pace (fast flicks can't rush or skip it)
   const dtS = Math.min(0.05, ((now || 0) - (lastT || now || 0)) / 1000); lastT = now || 0;
+  if (amode === 'auto' && !reduce) autoStep(now || performance.now());
   const sc = reduce ? 4 : target < 0.07 ? 0 : target < 0.24 ? 1 : target < 0.41 ? 2 : target < 0.58 ? 3 : 4, goal = ANCH[sc];
   // critically damped spring with a gentle speed limit: eases in, eases out, and re-targets without jolts,
   // so even a very fast flick plays through the scenes at the same calm pace
@@ -160,7 +187,7 @@ function frame(now) {
   if (!dragP) { uYaw += vYaw; vYaw *= 0.92; if (Math.abs(vYaw) < 1e-4) vYaw = 0; uYaw *= 0.985; uPitch *= 0.95; }
   yaw += uYaw;
   const ex = sm((p - 0.30) / 0.07) * (1 - sm((p - 0.43) / 0.05)), side = sm((p - 0.53) / 0.11);
-  const act = p >= 0.72 ? (actT0 < 0 ? 0 : Math.floor(((now || 0) - actT0) / ACT_MS) % 6) : -1;
+  const act = p >= 0.72 && !(amode === 'auto' && autoDone) ? (actT0 < 0 ? 0 : Math.min(amode === 'auto' ? 5 : 1e9, Math.floor(((now || 0) - actT0) / ACT_MS)) % 6) : -1;
   st.pitch = uPitch;
   Object.assign(st, { progress: reduce ? 1 : clamp((p - 0.02) / 0.2), yaw, explode: ex, side: reduce ? 0 : side, active: act, time: t });
   sig = [st.progress, yaw, ex, side, act, uPitch].map(v => (+v).toFixed(4)).join();
@@ -262,6 +289,7 @@ document.querySelectorAll('.cta').forEach(a => {
   });
   addEventListener('pageshow', ev => { if (ev.persisted) { gone = false; a.classList.remove('go-out', 'press', 'hold', 'tipon'); document.body.classList.remove('leaving'); } });
 });
+setMode(amode);
 initSite({
   page: 'home', T,
   onLang: (l, t) => {
