@@ -176,13 +176,17 @@ export function createMaskScene(canvas, opts = {}) {
   anchor('dock', root, docks[1].p.clone().addScaledVector(docks[1].n, 0.1));
 
   // ---- detachable side module (built for +x; mirrored for -x)
+  // Electrode sites from the motor-point rules of the original 3D model (Fridlund & Cacioppo landmarks),
+  // measured on this face. 1 cm = 0.107 model units (interpupillary distance 6.3 cm = 0.672 units).
+  // Landmarks (affected side, +x): pupil (0.336,-0.18), lateral canthus (0.50,-0.19), mouth corner (0.30,-0.925),
+  // pre-auricular notch (0.82,-0.32), pogonion at y -1.22. r = electrode radius.
   const sites = [
-    { name: 'Frontalis', yaw: 26, y: 0.40 },
-    { name: 'Orbicularis oculi', yaw: 42, y: 0.15 },
-    { name: 'Zygomaticus major', yaw: 42, y: -0.19 },
-    { name: 'Orbicularis oris', yaw: 14, y: -0.60 },
-    { name: 'Depressor anguli oris', yaw: 27, y: -0.75 },
-    { name: 'Mentalis', yaw: 7, y: -0.89 },
+    { name: 'Frontalis', x: 0.44, y: 0.18, r: 0.09 },              // 1 cm lateral to pupil line, 1.5 cm above mid-brow
+    { name: 'Orbicularis oculi', x: 0.45, y: -0.37, r: 0.08 },     // ~1 cm below lateral canthus, 0.5 cm medial; kept clear of the lower lid
+    { name: 'Zygomaticus major', x: 0.58, y: -0.66, r: 0.09 },     // 0.5 cm mouthward of the midpoint, mouth corner → pre-auricular notch
+    { name: 'Orbicularis oris', x: 0.25, y: -1.03, r: 0.055 },     // 1 cm below and 0.5 cm medial to the mouth corner
+    { name: 'Depressor anguli oris', x: 0.41, y: -1.09, r: 0.055 },// 1 cm lateral and 1.5 cm below the mouth corner
+    { name: 'Mentalis', x: 0.055, y: -1.22, r: 0.055 },            // 0.5 cm off the midline at the chin point
   ];
   function makeModule(sx) {
     const M = new THREE.Group(); root.add(M);
@@ -203,7 +207,7 @@ export function createMaskScene(canvas, opts = {}) {
     const samples = sideCurve.getSpacedPoints(200);
     const els = [];
     sites.forEach((s, i) => {
-      const hit = onDir(dirYaw(s.yaw, s.y), 0.0);
+      const hit = hitFrom(new THREE.Vector3(s.x, s.y, 6), new THREE.Vector3(0, 0, -1), 0.0), k = s.r / 0.09;
       const g = new THREE.Group();
       const puck = new THREE.Group();
       const body = new THREE.Mesh(new THREE.CylinderGeometry(0.085, 0.09, 0.032, Q(48)), siliconeMat); body.castShadow = true;
@@ -211,7 +215,7 @@ export function createMaskScene(canvas, opts = {}) {
       const dot = new THREE.Mesh(new THREE.CylinderGeometry(0.03, 0.03, 0.01, Q(32)), tealMat); dot.position.y = 0.019;
       const back = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.07, 0.03, Q(32)), frameMat); back.position.y = 0.04;
       puck.add(body, ring, dot, back);
-      puck.position.copy(hit.p).addScaledVector(hit.n, 0.018); puck.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), hit.n);
+      puck.scale.set(k, 1, k); puck.position.copy(hit.p).addScaledVector(hit.n, 0.018); puck.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), hit.n);
       g.add(puck);
       let best = samples[0], bd = 1e9; samples.forEach(q => { const d = q.distanceTo(hit.p); if (d < bd) { bd = d; best = q; } });
       const mid = best.clone().lerp(hit.p, 0.5); const md = mid.clone().normalize();
