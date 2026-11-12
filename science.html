@@ -6,10 +6,10 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="description" content="An open-face electrical-stimulation mask for facial palsy rehabilitation — graduation project, Faculty of Physical Therapy, Kafrelsheikh University.">
 <meta name="theme-color" content="#FFFFFF">
-<link rel="icon" type="image/png" sizes="64x64" href="assets/favicon.png?v=6af64d5e">
-<link rel="apple-touch-icon" href="assets/apple-touch-icon.png?v=6af64d5e">
+<link rel="icon" type="image/png" sizes="64x64" href="assets/favicon.png?v=6af64f8b">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png?v=6af64f8b">
 <link rel="preload" href="assets/fonts/inter-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/site.css?v=6af64d5e">
+<link rel="stylesheet" href="assets/site.css?v=6af64f8b">
 
 </head>
 <body>
@@ -53,6 +53,14 @@
     <p class="src" data-i="sdSrc"></p>
   </figure>
   <figure class="card chart rv" id="chPD" style="margin-top:20px"><figcaption><b data-i="pdT"></b><span data-i="pdS"></span></figcaption><div class="cv"></div><p class="src" data-i="pdSrc"></p></figure>
+  <div class="readcurve">
+    <div class="sqtitle rv"><p class="eyebrow" data-i="rcE"></p><h3 class="sqh" data-i="rcT"></h3><p class="sqp" data-i="rcP"></p></div>
+    <dl class="glos rv"><div><dt data-i="g1t"></dt><dd data-i="g1d"></dd></div><div><dt data-i="g2t"></dt><dd data-i="g2d"></dd></div><div><dt data-i="g3t"></dt><dd data-i="g3d"></dd></div><div><dt data-i="g4t"></dt><dd data-i="g4d"></dd></div></dl>
+    <div class="cgrid" style="margin-top:22px">
+      <figure class="card chart rv" id="chCx"><figcaption><b data-i="cxT"></b><span data-i="cxS"></span></figcaption><div class="cv"></div><p class="src" data-i="cxSrc"></p></figure>
+      <figure class="card chart rv" id="chTh"><figcaption><b data-i="thT"></b><span data-i="thS"></span></figcaption><div class="cv"></div><p class="src" data-i="thSrc"></p></figure>
+    </div>
+  </div>
 </div></section>
 
 <!-- 3 two modes -->
@@ -69,6 +77,24 @@
       <dl><dt data-i="kPulse"></dt><dd data-i="mB1"></dd><dt data-i="kFreq"></dt><dd data-i="mB2"></dd><dt data-i="kDose"></dt><dd data-i="mB3"></dd><dt data-i="kInt"></dt><dd data-i="mB4"></dd></dl></article>
   </div>
   <p class="strip rv" style="margin-top:20px" data-i="mNote"></p>
+  <div class="sqtitle rv"><p class="eyebrow" data-i="psE"></p><h3 class="sqh" data-i="psT"></h3><p class="sqp" data-i="psP"></p></div>
+  <div class="pane psheet rv">
+    <div class="pane-h"><div><span class="pn num" id="psN">A</span><b id="psH"></b><p class="note" id="psW"></p></div>
+      <div class="seg" role="group" aria-label="Mode"><button id="psA" aria-pressed="true" data-i="psBA"></button><button id="psB" aria-pressed="false" data-i="psBB"></button></div></div>
+    <div class="pshead" aria-hidden="true"><span data-i="psC1"></span><span data-i="psC2"></span><span data-i="psC3"></span></div>
+    <div class="psrows" id="psRows"></div>
+    <p class="note pane-f" data-i="psF"></p>
+  </div>
+  <div class="cgrid" style="margin-top:20px">
+    <figure class="card chart rv" id="chDuty"><figcaption><b data-i="duT"></b><span data-i="duS"></span></figcaption>
+      <div class="seg dseg" role="group" aria-label="Rest"><button data-r="5" aria-pressed="true">1 : 5</button><button data-r="4" aria-pressed="false">1 : 4</button><button data-r="3" aria-pressed="false">1 : 3</button></div>
+      <div class="cv"></div><div class="readout" id="duOut"></div><p class="src" data-i="duSrc"></p></figure>
+    <figure class="card chart rv" id="chTrain"><figcaption><b data-i="trT"></b><span data-i="trS"></span></figcaption>
+      <div class="trctl"><label for="ph" data-i="trPh"></label><input id="ph" type="range" min="25" max="240" step="5" value="100"><output id="phOut" class="num"></output>
+        <div class="seg tseg" role="group" aria-label="Pause"><button data-k="5" aria-pressed="true">5×</button><button data-k="3" aria-pressed="false">3×</button></div></div>
+      <div class="cv"></div><div class="readout" id="trOut"></div><p class="src" data-i="trSrc"></p></figure>
+  </div>
+  <figure class="card chart rv" id="chFq" style="margin-top:20px"><figcaption><b data-i="fqT"></b><span data-i="fqS"></span></figcaption><div class="cv"></div><p class="src" data-i="fqSrc"></p></figure>
 </div></section>
 
 <!-- 4 testing the nerve -->
@@ -132,6 +158,6 @@
   <p class="strip rv" style="margin-top:20px" data-i="safeN"></p>
 </div></section>
 </main>
-<script type="module" src="assets/science.js?v=6af64d5e"></script>
+<script type="module" src="assets/science.js?v=6af64f8b"></script>
 </body>
 </html>

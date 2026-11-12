@@ -1,5 +1,5 @@
-import { initSite, cite, $, $$ } from './site.js?v=6af64d5e';
-import { hbar, donut, ranges, forest, gantt, vbars, svg, logx } from './charts.js?v=6af64d5e';
+import { initSite, cite, $, $$ } from './site.js?v=6af64f8b';
+import { hbar, donut, ranges, forest, gantt, vbars, svg, logx } from './charts.js?v=6af64f8b';
 
 const T = {
  en: {
@@ -106,6 +106,152 @@ const T = {
  },
 };
 
+// ---------- added depth: reading the curve, parameter sheet, cycle / train / frequency charts ----------
+Object.assign(T.en, {
+  rcE: 'Reading the curve', rcT: 'Two numbers describe it.', rcP: 'The strength–duration curve is summarised by two values. The facial values differ from the limb values, so the healthy side is the safer comparison.',
+  g1t: 'Rheobase', g1d: 'The lowest current that gives a twitch with a long pulse (≥ 300 ms) [[Lescallette2021]].',
+  g2t: 'Chronaxie', g2d: 'The pulse duration that gives a twitch at twice the rheobase [[Lescallette2021]].',
+  g3t: 'Healthy face', g3d: 'Over the nerve trunk: chronaxie 1.2 ms on average, rheobase 1.5–4 mA (mean 3.2 mA) [[Podvinec1977]].',
+  g4t: 'Why compare sides', g4d: 'The limb rule “chronaxie above 1 ms = denervation” cannot simply be applied to the face [[Pieber2015,Podvinec1977]]; a recovered curve returns to the shape of the healthy side [[Lescallette2021]].',
+  cxT: 'Chronaxie in published series', cxS: 'Milliseconds, log scale. Dots: means. Bar: reported range.', cxSrc: 'Podvinec (1977); Robinson (2008); Pieber et al. (2015) [[Podvinec1977,Robinson2008a,Pieber2015]].',
+  cx: ['Healthy face (over nerve trunk)', 'Normal muscle (textbook range)', 'Denervated limb muscles (mean)', 'Denervated limb muscles (highest)'],
+  thT: 'Twitch threshold', thS: 'Mean current for a minimal twitch with single pulses (mA)', thSrc: 'Raslan et al. (2020) [[Raslan2020]].', th: ['Healthy faces', 'Affected side, postparetic synkinesis'],
+  psE: 'Parameter sheet', psT: 'Every setting, and why.', psP: 'Starting values from the project report. The clinician sets and adjusts each one; values marked “our inference” are not taken directly from a study.',
+  psBA: 'Mode A', psBB: 'Mode B', psC1: 'Setting', psC2: 'Starting value', psC3: 'Why',
+  psHA: 'Innervated muscle — the nerve still conducts', psHB: 'Partial or complete denervation',
+  psWA: 'Short biphasic pulses fire the nerve.', psWB: 'Long triangular pulses reach the muscle fibres directly.',
+  psF: 'Starting points only. Complete denervation is treated under specialist supervision.',
+  pA: [
+    ['Waveform', 'Biphasic rectangular, charge-balanced', 'No net charge is safer; in the face, pulse shape made no difference [[Cameron2023b,Selkowitz2021,Bowman1985,Rabello2021,Makela2020]]'],
+    ['Pulse width', '0.4–1 ms, start at 0.4 ms; down to about 0.2 ms if unpleasant (our inference)', 'Used in facial palsy and blink studies; force rises up to about 1 ms; overlaps the normal chronaxie of 0.15–0.8 ms [[Frigerio2015,Ilves2019,Marotta2020,Robinson2008a]]'],
+    ['Frequency', '20–30 Hz (35 at most); avoid below 20 Hz', 'Smooth contraction above 20 Hz; less fatigue at the lower end [[Efthimiou2024,Barss2018,Nussbaum2017,Loyo2020,Cameron2023a]]'],
+    ['Intensity', 'Lowest clear contraction of the target muscle only', 'Higher current spreads to other muscles and is linked to synkinesis [[Efthimiou2024,Ilves2019,Raslan2020,Maffiuletti2018,Geitner2026,Pauna2024,Jung2026]]'],
+    ['On / off', '10 s on with 2 s ramps; 50 s off (1:5), then 40 s (1:4) or 30 s (1:3)', 'Textbook duty cycles; facial protocol uses 10 s on [[Anthony2021,Cameron2023a,Nussbaum2017,Loyo2020,Taylor2018a,Taylor2018b,Gkesou2023]]'],
+    ['Dose', '1 set of 10 contractions, up to 15; one muscle at a time; about 11 min per muscle (our calculation)', 'Textbooks: 10–20 per session; trials: 3 × 30 or 5 strong [[Anthony2021,Cameron2023a,Loyo2020,Tuncay2015,Ray2025]]'],
+    ['Electrode', 'Active about 3 cm²; reference on the same-side trapezius; RMS current density ≤ 2 mA/cm²', 'Small electrodes are selective but concentrate the current [[Efthimiou2024,Tuncay2015,Celik2024,Anthony2021,Puls2020,Nussbaum2017]]'],
+  ],
+  pB: [
+    ['Waveform', 'Triangular; biphasic if available, otherwise monophasic with skin checks', 'Less pain and less spread; long biphasic pulses preferred over direct current [[Kurz2022,Efthimiou2024,Tuncay2015,Celik2024,Puls2020,Geitner2026,Volk2020]]'],
+    ['Phase duration', '≥ 25 ms; start at 50–200 ms; avoid ≥ 250 ms; shortest selective, comfortable phase', 'Selective only from 25 ms; in one series it fell from 155 to 51 ms over 20 weeks [[Kurz2022,Arnold2021,Geitner2026,Tuncay2015,DiPietro2023,Puls2020]]'],
+    ['Pause', '5 × the phase at the start, then 3 × as the twitch strengthens; never shorter than the phase', 'Published pauses ranged from about 1× to 10× the phase; the 5× rule is our inference [[Kurz2022,Tuncay2015,Puls2020,Geitner2026]]'],
+    ['Frequency', 'About 1–5 pulses per second, set by phase + pause', 'Example: 100 ms + 500 ms ≈ 1.7 per second (our calculation) [[Tuncay2015,Geitner2026,DiPietro2023]]'],
+    ['Intensity', 'Lowest selective response without pain or spread', 'Studies used currents up to 6–27 mA; check the RMS density for each programme [[Puls2020,Geitner2026,Kurz2022,Efthimiou2024]]'],
+    ['Dose', '3 × 30 twitches; rest about 5 × the set duration (about 1–1.5 min)', 'From Bell’s palsy trials; the rest rule is our inference [[Tuncay2015,Ray2025,Celik2024,DiPietro2023,Kurz2022]]'],
+    ['Complete denervation', 'Jena home protocol: 20 min twice a day — specialist only', 'The only tested home protocol (10 patients); risk of synkinesis [[Geitner2026,Pauna2024,Jung2026]]'],
+  ],
+  duT: 'One contraction in Mode A', duS: 'Current envelope over one cycle. Choose the rest ratio.', duSrc: 'Cycle from the parameter sheet [[Anthony2021,Cameron2023a,Loyo2020]]; times are our calculation.',
+  uS: 's', uMin: 'min', duRamp: 'ramp', duOn: '10 s on', duOff: 'off', duCyc: 'One cycle', duMus: '10 contractions, one muscle', duAll: 'All 6 muscles',
+  trT: 'Mode B pulse train', trS: 'Triangular pulses with a pause after each. Move the phase; choose the pause.', trPh: 'Phase', trSrc: 'Rules from the parameter sheet [[Kurz2022,Tuncay2015,Geitner2026]]; rates and times are our calculation.',
+  trRate: 'Pulses per second', trSet: 'One set of 30', trRest: 'Rest after the set', trWarn: 'Below 25 ms: not selective', trWarn2: 'Avoid 250 ms and above',
+  fqT: 'Frequency in each mode', fqS: 'Pulses per second, log scale', fqSrc: 'Parameter sheet [[Cameron2023a,Nussbaum2017,Barss2018,Tuncay2015,Geitner2026]].',
+  fqA: 'Mode A: 20–30 Hz', fqAm: 'max 35', fqB: 'Mode B: about 1–5 per second', fqX: 'Mode A below 20 Hz: contraction not smooth',
+});
+Object.assign(T.ar, {
+  rcE: 'قراءة المنحنى', rcT: 'رقمان يلخصانه.', rcP: 'يُلخَّص منحنى الشدة والمدة بقيمتين. وقيم الوجه تختلف عن قيم الأطراف، لذلك المقارنة بالجانب السليم هي الأأمن.',
+  g1t: 'الريوبيز (Rheobase)', g1d: 'أقل تيار يعطي انقباضة بنبضة طويلة (300 ms أو أكثر) [[Lescallette2021]].',
+  g2t: 'الكروناكسي (Chronaxie)', g2d: 'مدة النبضة التي تعطي انقباضة عند ضعف الريوبيز [[Lescallette2021]].',
+  g3t: 'الوجه السليم', g3d: 'فوق جذع العصب: الكروناكسي 1.2 ms في المتوسط، والريوبيز 1.5–4 mA (المتوسط 3.2 mA) [[Podvinec1977]].',
+  g4t: 'ليه نقارن بالجانب السليم', g4d: 'قاعدة الأطراف «كروناكسي أكثر من 1 ms = فقد العصب» لا تنطبق ببساطة على الوجه [[Pieber2015,Podvinec1977]]؛ والمنحنى بعد التعافي يرجع لشكل الجانب السليم [[Lescallette2021]].',
+  cxT: 'الكروناكسي في الدراسات المنشورة', cxS: 'بالمللي ثانية، مقياس لوغاريتمي. النقاط: متوسطات. الشريط: النطاق المذكور.', cxSrc: 'Podvinec (1977)؛ Robinson (2008)؛ Pieber et al. (2015) [[Podvinec1977,Robinson2008a,Pieber2015]].',
+  cx: ['الوجه السليم (فوق جذع العصب)', 'عضلة طبيعية (نطاق مرجعي)', 'عضلات أطراف فاقدة للعصب (المتوسط)', 'عضلات أطراف فاقدة للعصب (الأعلى)'],
+  thT: 'عتبة الانقباضة', thS: 'متوسط التيار لأصغر انقباضة بنبضات مفردة (mA)', thSrc: 'Raslan et al. (2020) [[Raslan2020]].', th: ['وجوه سليمة', 'الجانب المصاب، تزامن حركي بعد الشلل'],
+  psE: 'جدول المعاملات', psT: 'كل إعداد، وسببه.', psP: 'قيم بداية من تقرير المشروع. المعالج يضبط كل قيمة ويعدّلها؛ والقيم المكتوب جنبها «استنتاجنا» مش مأخوذة مباشرةً من دراسة.',
+  psBA: 'الوضع A', psBB: 'الوضع B', psC1: 'الإعداد', psC2: 'قيمة البداية', psC3: 'السبب',
+  psHA: 'عضلة سليمة التعصيب — العصب لا يزال يوصل', psHB: 'فقد جزئي أو كامل للعصب',
+  psWA: 'نبضات قصيرة ثنائية الطور تُثير العصب.', psWB: 'نبضات مثلثية طويلة تصل لألياف العضلة مباشرة.',
+  psF: 'نقاط بداية فقط. والفقد الكامل للعصب يُعالج تحت إشراف متخصص.',
+  pA: [
+    ['شكل الموجة', 'مستطيلة ثنائية الطور، متوازنة الشحنة', 'عدم وجود شحنة صافية أأمن؛ وفي الوجه لم يفرق شكل النبضة [[Cameron2023b,Selkowitz2021,Bowman1985,Rabello2021,Makela2020]]'],
+    ['عرض النبضة', '0.4–1 ms، البداية 0.4 ms؛ ونزولًا لنحو 0.2 ms لو مزعجة (استنتاجنا)', 'مستخدمة في دراسات شلل الوجه والرمش؛ القوة تزيد حتى نحو 1 ms؛ وتتداخل مع الكروناكسي الطبيعي 0.15–0.8 ms [[Frigerio2015,Ilves2019,Marotta2020,Robinson2008a]]'],
+    ['التردد', '20–30 Hz (35 كحد أقصى)؛ وتجنّب أقل من 20 Hz', 'انقباض سلس فوق 20 Hz؛ وإجهاد أقل عند الطرف الأدنى [[Efthimiou2024,Barss2018,Nussbaum2017,Loyo2020,Cameron2023a]]'],
+    ['الشدة', 'أقل انقباضة واضحة للعضلة المستهدفة فقط', 'التيار الأعلى ينتشر لعضلات أخرى ومرتبط بالتزامن الحركي [[Efthimiou2024,Ilves2019,Raslan2020,Maffiuletti2018,Geitner2026,Pauna2024,Jung2026]]'],
+    ['التشغيل / الراحة', '10 ث تشغيل مع صعود ونزول 2 ث؛ 50 ث راحة (1:5)، ثم 40 ث (1:4) أو 30 ث (1:3)', 'دورات تشغيل مرجعية من الكتب؛ وبروتوكول الوجه يستخدم 10 ث تشغيل [[Anthony2021,Cameron2023a,Nussbaum2017,Loyo2020,Taylor2018a,Taylor2018b,Gkesou2023]]'],
+    ['الجرعة', 'مجموعة واحدة من 10 انقباضات، حتى 15؛ عضلة واحدة في كل مرة؛ نحو 11 دقيقة لكل عضلة (حسابنا)', 'الكتب: 10–20 في الجلسة؛ والتجارب: 3 × 30 أو 5 قوية [[Anthony2021,Cameron2023a,Loyo2020,Tuncay2015,Ray2025]]'],
+    ['القطب', 'النشط نحو 3 سم²؛ المرجعي على العضلة شبه المنحرفة في نفس الجانب؛ كثافة تيار RMS ≤ 2 mA/سم²', 'الأقطاب الصغيرة انتقائية لكنها تُركّز التيار [[Efthimiou2024,Tuncay2015,Celik2024,Anthony2021,Puls2020,Nussbaum2017]]'],
+  ],
+  pB: [
+    ['شكل الموجة', 'مثلثية؛ ثنائية الطور إن توفرت، وإلا أحادية الطور مع فحص الجلد', 'ألم أقل وانتشار أقل؛ والنبضات الطويلة ثنائية الطور أفضل من التيار المستمر [[Kurz2022,Efthimiou2024,Tuncay2015,Celik2024,Puls2020,Geitner2026,Volk2020]]'],
+    ['مدة الطور', '25 ms أو أكثر؛ البداية 50–200 ms؛ وتجنّب 250 ms أو أكثر؛ أقصر طور انتقائي ومريح', 'انتقائي فقط من 25 ms؛ وفي سلسلة واحدة نزل من 155 إلى 51 ms خلال 20 أسبوعًا [[Kurz2022,Arnold2021,Geitner2026,Tuncay2015,DiPietro2023,Puls2020]]'],
+    ['الراحة', '5 × الطور في البداية، ثم 3 × مع قوة الانقباضة؛ ولا تقل أبدًا عن الطور', 'فترات الراحة المنشورة تراوحت من نحو 1× إلى 10× الطور؛ وقاعدة الـ5× استنتاجنا [[Kurz2022,Tuncay2015,Puls2020,Geitner2026]]'],
+    ['التردد', 'نحو 1–5 نبضات في الثانية، يتحدد بالطور + الراحة', 'مثال: 100 ms + 500 ms ≈ 1.7 في الثانية (حسابنا) [[Tuncay2015,Geitner2026,DiPietro2023]]'],
+    ['الشدة', 'أقل استجابة انتقائية بدون ألم أو انتشار', 'الدراسات استخدمت تيارات حتى 6–27 mA؛ وتُراجع كثافة RMS لكل برنامج [[Puls2020,Geitner2026,Kurz2022,Efthimiou2024]]'],
+    ['الجرعة', '3 × 30 انقباضة؛ والراحة نحو 5 × مدة المجموعة (نحو 1–1.5 دقيقة)', 'من تجارب شلل بِل؛ وقاعدة الراحة استنتاجنا [[Tuncay2015,Ray2025,Celik2024,DiPietro2023,Kurz2022]]'],
+    ['الفقد الكامل للعصب', 'بروتوكول Jena المنزلي: 20 دقيقة مرتين يوميًا — للمتخصص فقط', 'البروتوكول المنزلي الوحيد المُختبَر (10 مرضى)؛ مع خطر التزامن الحركي [[Geitner2026,Pauna2024,Jung2026]]'],
+  ],
+  duT: 'انقباضة واحدة في الوضع A', duS: 'شكل التيار خلال دورة واحدة. اختر نسبة الراحة.', duSrc: 'الدورة من جدول المعاملات [[Anthony2021,Cameron2023a,Loyo2020]]؛ والأزمنة حسابنا.',
+  uS: 'ث', uMin: 'دقيقة', duRamp: 'صعود', duOn: '10 ث تشغيل', duOff: 'راحة', duCyc: 'دورة واحدة', duMus: '10 انقباضات، عضلة واحدة', duAll: 'العضلات الست',
+  trT: 'سلسلة نبضات الوضع B', trS: 'نبضات مثلثية بعد كل واحدة راحة. حرّك مدة الطور واختر الراحة.', trPh: 'الطور', trSrc: 'القواعد من جدول المعاملات [[Kurz2022,Tuncay2015,Geitner2026]]؛ والمعدلات والأزمنة حسابنا.',
+  trRate: 'نبضة في الثانية', trSet: 'مجموعة من 30', trRest: 'الراحة بعد المجموعة', trWarn: 'أقل من 25 ms: غير انتقائي', trWarn2: 'تجنّب 250 ms فأكثر',
+  fqT: 'التردد في كل وضع', fqS: 'نبضة في الثانية، مقياس لوغاريتمي', fqSrc: 'جدول المعاملات [[Cameron2023a,Nussbaum2017,Barss2018,Tuncay2015,Geitner2026]].',
+  fqA: 'الوضع A: 20–30 Hz', fqAm: 'أقصى 35', fqB: 'الوضع B: نحو 1–5 في الثانية', fqX: 'الوضع A تحت 20 Hz: الانقباض غير سلس',
+});
+let psMode = 'A', duR = 5, trK = 5;
+const rtlTxt = m => !rtl() ? m : m.replace(/<text ([^>]*?)text-anchor="(start|end|middle)"/g, (_, a, k) => `<text ${a}direction="rtl" text-anchor="${k === 'start' ? 'end' : k === 'end' ? 'start' : k}"`);
+const fmtT = s => s >= 60 ? (Math.floor(s / 60) + ' ' + t.uMin + (Math.round(s % 60) ? ' ' + Math.round(s % 60) + ' ' + t.uS : '')) : (Math.round(s * 10) / 10 + ' ' + t.uS);
+function renderSheet() {
+  const rows = psMode === 'A' ? t.pA : t.pB;
+  $('#psN').textContent = psMode; $('#psH').textContent = t['psH' + psMode]; $('#psW').textContent = t['psW' + psMode];
+  $('#psRows').innerHTML = rows.map(([k, v, w], i) => `<div class="psr" style="--i:${i}"><span class="psk">${k}</span><b class="psv">${cite(v)}</b><span class="psw">${cite(w)}</span></div>`).join('');
+  $('#psA').setAttribute('aria-pressed', psMode === 'A'); $('#psB').setAttribute('aria-pressed', psMode === 'B');
+}
+function drawDuty() {
+  const W = nar() ? CW() : 560, H = 210, x0 = 14, x1 = W - 14, top = 40, base = 160, ramp = 2, on = 10, off = on * duR, cyc = ramp + on + ramp + off;
+  const X = s => x0 + s / cyc * (x1 - x0), rtl_ = rtl(), XX = s => rtl_ ? x0 + x1 - X(s) : X(s);
+  const pts = [[0, base], [ramp, top], [ramp + on, top], [ramp + on + ramp, base], [cyc, base]].map(([s, y]) => `${XX(s).toFixed(1)},${y}`).join(' ');
+  let s = `<line x1="${x0}" y1="${base}" x2="${x1}" y2="${base}" class="grid"/>`;
+  s += `<polygon points="${XX(0)},${base} ${pts} ${XX(cyc)},${base}" class="duarea"/><polyline points="${pts}" class="duline draw" pathLength="1"/>`;
+  const lab = (a, b, txt, y, cls = '') => s += `<line x1="${XX(a)}" y1="${y + 6}" x2="${XX(b)}" y2="${y + 6}" class="dim"/>` + `<text x="${(XX(a) + XX(b)) / 2}" y="${y}" class="ax ${cls}" text-anchor="middle">${txt}</text>`;
+  lab(ramp, ramp + on, t.duOn, top - 14, 'strong'); lab(ramp + on + ramp, cyc, `${t.duOff} ${off} ${t.uS}`, base - 14);
+  s += `<text x="${XX(ramp / 2)}" y="${base + 22}" class="ax" text-anchor="middle">2 ${t.uS}</text><text x="${XX(ramp + on + ramp / 2)}" y="${base + 22}" class="ax" text-anchor="middle">2 ${t.uS}</text>`;
+  s += `<text x="${XX(cyc / 2)}" y="${H - 6}" class="ax" text-anchor="middle">${t.duCyc}: ${cyc} ${t.uS}</text>`;
+  $('#chDuty .cv').innerHTML = svg(W, H, rtlTxt(s), t.duT);
+  const per = cyc * 10;
+  $('#duOut').innerHTML = `<div><b dir="auto">${cyc} ${t.uS}</b><span>${t.duCyc}</span></div><div><b dir="auto">${fmtT(per)}</b><span>${t.duMus}</span></div><div><b dir="auto">${fmtT(per * 6)}</b><span>${t.duAll}</span></div>`;
+  $$('#chDuty .dseg button').forEach(b => b.setAttribute('aria-pressed', +b.dataset.r === duR));
+}
+function drawTrain() {
+  const ph = +$('#ph').value, pause = ph * trK, per = ph + pause, rate = 1000 / per, win = 3000;
+  const W = nar() ? CW() : 560, H = 170, x0 = 14, x1 = W - 14, base = 128, top = 34, rtl_ = rtl();
+  const X = ms => { const v = x0 + ms / win * (x1 - x0); return rtl_ ? x0 + x1 - v : v; };
+  let d = `M${X(0)} ${base}`, n = 0;
+  for (let t0 = 120; t0 + ph <= win; t0 += per, n++) d += ` L${X(t0)} ${base} L${X(t0 + ph)} ${top} L${X(t0 + ph + 0.01)} ${base}`;
+  d += ` L${X(win)} ${base}`;
+  let s = `<line x1="${x0}" y1="${base}" x2="${x1}" y2="${base}" class="grid"/>`;
+  [0, 1000, 2000, 3000].forEach(ms => s += `<line x1="${X(ms)}" y1="${base}" x2="${X(ms)}" y2="${base + 6}" class="grid"/><text x="${X(ms)}" y="${base + 22}" class="ax" text-anchor="middle">${ms / 1000} ${t.uS}</text>`);
+  s += `<path d="${d}" class="trline"/>`;
+  $('#chTrain .cv').innerHTML = svg(W, H, rtlTxt(s), t.trT);
+  $('#phOut').textContent = ph + ' ms';
+  const set = 30 * per / 1000;
+  $('#trOut').innerHTML = `<div><b dir="auto">${rate.toFixed(1)}</b><span>${t.trRate}</span></div><div><b dir="auto">${fmtT(set)}</b><span>${t.trSet}</span></div><div><b dir="auto">${fmtT(set * 5)}</b><span>${t.trRest}</span></div>` +
+    (ph >= 250 ? `<p class="warn">${t.trWarn2}</p>` : '');
+  $$('#chTrain .tseg button').forEach(b => b.setAttribute('aria-pressed', +b.dataset.k === trK));
+}
+function drawFreq() {
+  const ph = nar(), W = ph ? CW() : 800, H = ph ? 230 : 170, x0 = 18, x1 = W - 18, rtl_ = rtl();
+  const lx0 = logx(0.5, 60, x0, x1), X = v => rtl_ ? x0 + x1 - lx0(v) : lx0(v);
+  const yB = ph ? 52 : 70, yA = ph ? 112 : 70, yAx = ph ? 140 : 100;
+  let s = '';
+  [0.5, 1, 2, 5, 10, 20, 50].forEach(v => s += `<line x1="${X(v)}" y1="${ph ? 20 : 30}" x2="${X(v)}" y2="${yAx}" class="grid"/><text x="${X(v)}" y="${yAx + 20}" class="ax" text-anchor="middle">${v}</text>`);
+  s += `<rect x="${Math.min(X(5), X(20))}" y="${(ph ? yA : yB) - 10}" width="${Math.abs(X(20) - X(5))}" height="20" class="fqx"/>`;
+  const band = (a, b, cls, label, y) => {
+    s += `<rect x="${Math.min(X(a), X(b))}" y="${y - 10}" width="${Math.abs(X(b) - X(a))}" height="20" rx="10" class="fqb ${cls}"/>`;
+    if (ph) { const anc = cls === 'a' ? (rtl_ ? 'start' : 'end') : (rtl_ ? 'end' : 'start'), lx = cls === 'a' ? X(30) : X(1);
+      s += `<text x="${lx}" y="${y - 18}" class="lbl sm ${cls}t" text-anchor="${anc}">${label}</text>`; }
+    else s += `<text x="${(X(a) + X(b)) / 2}" y="${y - 20}" class="lbl sm ${cls}t" text-anchor="middle">${label}</text>`; };
+  band(1, 5, 'b', t.fqB, yB); band(20, 30, 'a', t.fqA, yA);
+  s += `<line x1="${X(35)}" y1="${yA - 14}" x2="${X(35)}" y2="${yA + 14}" class="fqm"/>`;
+  if (!ph) s += `<text x="${X(35)}" y="${yA + 30}" class="ax" text-anchor="middle">${t.fqAm}</text>`;
+  else s += `<text x="${X(35) + (rtl_ ? -6 : 6)}" y="${yA + 4}" class="ax" text-anchor="${rtl_ ? 'end' : 'start'}">35</text>`;
+  s += `<rect x="${rtl_ ? x1 - 16 : x0}" y="${H - 22}" width="16" height="12" rx="3" class="fqx"/><text x="${rtl_ ? x1 - 24 : x0 + 24}" y="${H - 12}" class="ax" text-anchor="${rtl_ ? 'end' : 'start'}">${t.fqX}</text>`;
+  $('#chFq .cv').innerHTML = svg(W, H, rtlTxt(s), t.fqT);
+}
+function renderDepth() {
+  $('#chCx .cv').innerHTML = ranges(t.cx.map((l, i) => ({ label: l, a: [1.2, 0.15, 16, 80][i], b: [null, 0.8, 17, null][i], cls: i < 2 ? 'navy' : 'teal' })),
+    { a: 0.1, b: 200, ticks: [0.1, 1, 10, 100], rtl: rtl(), labelW: 260, w: nar() ? CW() : 560, stack: nar(), axisLabel: 'ms', label: t.cxT });
+  $('#chTh .cv').innerHTML = hbar(t.th.map((l, i) => ({ label: l, v: [4.1, 9.8][i], cls: i ? 'teal' : 'navy' })), { max: 12, unit: ' mA', rtl: rtl(), w: nar() ? CW() : 520, labelW: 230, label: t.thT, stack: nar() });
+  renderSheet(); drawDuty(); drawTrain(); drawFreq();
+}
+
 let L = 'en', t = T.en;
 const NM = matchMedia('(max-width: 600px)'); const nar = () => NM.matches; const CW = () => Math.max(300, Math.min(420, ($('#chAet') || document.body).clientWidth - 32));
 const rtl = () => L === 'ar';
@@ -134,6 +280,7 @@ function render() {
   $('#chPD .cv').innerHTML = ranges(t.pd.map((l, i) => ({ label: l, a: PD[i][0], b: PD[i][1], cls: i < 3 ? 'navy' : 'teal' })),
     { rtl: rtl(), labelW: 290, w: nar() ? CW() : 800, stack: nar(), axisLabel: t.axPD, zones: [{ from: 0.005, to: 1, cls: 'za', label: t.zS }, { from: 10, to: 2000, cls: 'zb', label: t.zL }], label: t.pdT });
   if (nar()) $('#chPD .cv').innerHTML = pdList();
+  renderDepth();
   drawSD();
   // 4. gantt
   const G = [[[0, 14, 1]], [[0, 7, 1], [7, 14, .5]], [[3, 14, 1], [14, 21, .45]], [[14, 21, .45], [21, 90, 1]], [[14, 21, 1]], [[14, 21, 1]]];
@@ -239,6 +386,10 @@ function updBar() {
 addEventListener('scroll', () => { if (!bTick) { bTick = true; requestAnimationFrame(updBar); } }, { passive: true });
 
 NM.addEventListener('change', () => render());
+$('#psA').onclick = () => { psMode = 'A'; renderSheet(); }; $('#psB').onclick = () => { psMode = 'B'; renderSheet(); };
+$$('#chDuty .dseg button').forEach(b => b.onclick = () => { duR = +b.dataset.r; drawDuty(); });
+$$('#chTrain .tseg button').forEach(b => b.onclick = () => { trK = +b.dataset.k; drawTrain(); });
+$('#ph').addEventListener('input', drawTrain);
 // waveforms drawn at the box's real pixel width, so pulses keep their true shape (no stretching)
 function waves() {
   document.querySelectorAll('.wavebox').forEach(box => {
