@@ -1,6 +1,7 @@
-import { initSite, $, $$, LANG } from './site.js?v=6af5e5fa';
-import { createMaskScene, loadBust } from './mask3d.js?v=6af5e5fa';
+import { initSite, $, $$, LANG } from './site.js?v=6af5eaf7';
+import { createMaskScene, loadBust } from './mask3d.js?v=6af5eaf7';
 
+const CHC = ['#2A8A94', '#4A78B0', '#7D6FB4', '#C07A8E', '#C9915F', '#5E9C7A'];
 const SITES = ['Frontalis', 'Orbicularis oculi', 'Zygomaticus major', 'Orbicularis oris', 'Depressor anguli oris', 'Mentalis'];
 const T = {
   en: {
@@ -10,6 +11,7 @@ const T = {
     b3e: 'Left or right', b3t: 'One module. Either side.', b3l: 'The side module attaches to the dock on the affected side. The free dock is closed with a soft cover.',
     b4e: 'Six target muscles', b4t: 'One muscle at a time.', b4l: 'All contractions for one muscle, then the next. The reference pad sits on the same-side shoulder.',
     sc: ['Swipe sideways on the model to turn it', 'Band, crown strap, then six arms', 'Seven parts, each with one job', 'The module moves to the affected side', 'Each muscle lights up in turn'], scNow: 'Now: ',
+    holdTip: 'Press and hold to open', holdGo: 'Keep holding…',
     hint: 'Scroll to explore', drag: 'Drag to turn', right: 'Right', left: 'Left',
     parts: { band: 'Padded head band', crown: 'Crown strap', dock: 'Temple dock · both sides', module: 'Detachable side module', pod: 'Temple pod', electrode: 'Electrode holder × 6', pad: 'Reference pad' },
     whyE: 'Why it matters', whyT: 'A common condition with a visible, daily cost.',
@@ -44,6 +46,7 @@ const T = {
     b3e: 'يمين أو شمال', b3t: 'موديول واحد لأي جانب.', b3l: 'يُركَّب الموديول الجانبي في قاعدة الجانب المصاب، وتُغلق القاعدة الأخرى بغطاء ناعم.',
     b4e: 'ست عضلات مستهدفة', b4t: 'عضلة واحدة في كل مرة.', b4l: 'كل انقباضات العضلة، ثم العضلة التالية. والقطب المرجعي على الكتف في نفس الجانب.',
     sc: ['اسحب الموديل يمين وشمال عشان تلفّه', 'الرباط وحزام الرأس، ثم الأذرع الست', 'سبع قطع، لكل واحدة وظيفة', 'الموديول ينتقل للجانب المصاب', 'كل عضلة بتشتغل بالدور'], scNow: 'الآن: ',
+    holdTip: 'اضغط مطوّلًا للفتح', holdGo: 'كمّل ضغط…',
     hint: 'مرّر لأسفل للاستكشاف', drag: 'اسحب للتدوير', right: 'يمين', left: 'شمال',
     parts: { band: 'رباط الرأس المبطّن', crown: 'رباط فوق الرأس', dock: 'قاعدة تركيب · في الجانبين', module: 'موديول جانبي يُفك', pod: 'كبسولة الصدغ', electrode: 'حامل القطب × 6', pad: 'القطب المرجعي' },
     whyE: 'لماذا يهمّ', whyT: 'حالة شائعة، وأثرها ظاهر كل يوم.',
@@ -125,7 +128,7 @@ const THREE_DEG = Math.PI / 180;
 
 const frameOpts = () => ({ fit: mobile ? 1.0 : 0.8, wfit: mobile ? 0.6 : 0.9, lookY: mobile ? 0.25 : -0.05 });
 const sOpts = { lite, maxDpr: lite ? 1.25 : 2, cheapMat: mobile, noShadow: mobile, shadowSize: 2048, fit: mobile ? 1.0 : 0.8, wfit: mobile ? 0.6 : 0.9, lookY: mobile ? 0.25 : -0.05 };
-loadBust(lite ? 'assets/bust_lite.js?v=6af5e5fa' : 'assets/bust_full.js?v=6af5e5fa').then(b => createMaskScene(canvas, { ...sOpts, bust: b }))
+loadBust(lite ? 'assets/bust_lite.js?v=6af5eaf7' : 'assets/bust_full.js?v=6af5eaf7').then(b => createMaskScene(canvas, { ...sOpts, bust: b }))
   .then(s => { S = s; frameCam(); dirty = true; stage.classList.add('ready'); if (reduce) frame(0); })
   .catch(e => { console.warn(e); stage.classList.add('nogl'); });
 
@@ -192,7 +195,7 @@ const K = 4; let mode = 'block', ev = [], ptr = 0;
 function events() { ev = []; if (mode === 'block') { for (let c = 0; c < 6; c++) for (let k = 0; k < K; k++) ev.push([c, k]); } else { for (let k = 0; k < K; k++) for (let c = 0; c < 6; c++) ev.push([c, k]); } }
 function buildSeq() {
   events(); ptr = 0;
-  $('#seq').innerHTML = SITES.map((n, i) => `<div class="ch"><b class="num">CH ${i + 1}</b><span class="ltr">${n}</span><i></i><em class="num"></em></div>`).join('');
+  $('#seq').innerHTML = SITES.map((n, i) => `<div class="ch" style="--c:${CHC[i]}"><b class="num">CH ${i + 1}</b><span class="ltr">${n}</span><i></i><em class="num"></em></div>`).join('');
   $('#modeDesc').textContent = T[L][mode === 'block' ? 'mBlockD' : 'mCircD'];
   $('#mBlock').setAttribute('aria-pressed', mode === 'block'); $('#mCirc').setAttribute('aria-pressed', mode !== 'block');
   drawTl();
@@ -201,11 +204,11 @@ function drawTl() {
   const tl = $('#tl'), VW = Math.max(300, Math.round(tl.clientWidth || 1000)); tl.setAttribute('viewBox', `0 0 ${VW} 110`);
   const n = ev.length, w = VW / n, rtl = L === 'ar'; let s = '';
   const groups = mode === 'block' ? 6 : K, gw = VW / groups;
-  for (let g = 0; g < groups; g++) if (g % 2) s += `<rect class="band" x="${rtl ? VW - (g + 1) * gw : g * gw}" y="14" width="${gw}" height="62" rx="8"/>`;
+  for (let g = 0; g < groups; g++) s += `<rect class="band${mode === 'block' ? '' : (g % 2 ? ' odd' : ' none')}" style="--c:${mode === 'block' ? CHC[g] : '#2A8A94'}" x="${rtl ? VW - (g + 1) * gw : g * gw}" y="14" width="${gw}" height="62" rx="8"/>`;
   s += `<line x1="0" y1="66" x2="${VW}" y2="66"/>`;
   ev.forEach(([c], i) => {
     const x = rtl ? VW - (i + 1) * w : i * w, y0 = 66, h = i === ptr ? 40 : 30, r = w * 0.18, hold = w * 0.26, cls = i === ptr ? 'c now' : i < ptr ? 'c done' : 'c next';
-    s += `<polygon class="${cls}" points="${x + 3},${y0} ${x + 3 + r},${y0 - h} ${x + 3 + r + hold},${y0 - h} ${x + 3 + 2 * r + hold},${y0}"/>`;
+    s += `<polygon class="${cls}" style="--c:${CHC[c]}" points="${x + 3},${y0} ${x + 3 + r},${y0 - h} ${x + 3 + r + hold},${y0 - h} ${x + 3 + 2 * r + hold},${y0}"/>`;
   });
   const X = v => rtl ? VW - v : v;
   if (mode === 'block') for (let c = 0; c < 6; c++) s += `<text x="${X((c * K + K / 2) * w)}" y="96" text-anchor="middle">CH ${c + 1}</text>`;
@@ -234,19 +237,28 @@ $$('.turn').forEach(el => {
 
 // ---- ticker ----
 const tk = SITES.map(n => `<span>${n}</span>`).join(''); $('#tick').innerHTML = tk + tk;
-// link tiles: colour on press; tap or press-and-hold plays a short zoom, then goes (no long-press menu on phones)
+// link tiles. Mouse: click opens. Touch: a tap only shows "press and hold"; holding fills a ring, then opens.
+const HOLD_MS = 700;
 document.querySelectorAll('.cta').forEach(a => {
-  let holdT = 0, gone = false;
-  const go = () => { if (gone) return; gone = true; clearTimeout(holdT); a.classList.add('go-out', 'press'); document.body.classList.add('leaving'); setTimeout(() => { location.href = a.href; }, 420); };
-  const reset = () => { clearTimeout(holdT); a.classList.remove('hold'); setTimeout(() => { if (!gone) a.classList.remove('press'); }, 200); };
+  a.insertAdjacentHTML('beforeend', '<span class="holdtip" aria-hidden="true"></span>');
+  let holdT = 0, gone = false, touch = false, sx = 0, sy = 0;
+  const tip = a.querySelector('.holdtip');
+  const go = () => { if (gone) return; gone = true; clearTimeout(holdT); a.classList.remove('hold'); a.classList.add('go-out', 'press'); document.body.classList.add('leaving'); setTimeout(() => { location.href = a.href; }, 420); };
+  const cancel = () => { clearTimeout(holdT); a.classList.remove('hold'); if (!gone) setTimeout(() => a.classList.remove('press'), 200); };
   a.addEventListener('contextmenu', e => e.preventDefault());
-  a.addEventListener('pointerdown', e => { a.classList.add('press'); if (e.pointerType !== 'mouse') { a.classList.add('hold'); holdT = setTimeout(go, 450); } });
-  a.addEventListener('pointerup', reset); a.addEventListener('pointercancel', reset); a.addEventListener('pointerleave', reset);
-  a.addEventListener('click', e => {
-    if (e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0 || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    e.preventDefault(); go();
+  a.addEventListener('pointerdown', e => {
+    touch = e.pointerType !== 'mouse'; a.classList.add('press'); if (!touch) return;
+    sx = e.clientX; sy = e.clientY; tip.textContent = T[L].holdGo; a.classList.add('hold', 'tipon'); holdT = setTimeout(go, HOLD_MS);
   });
-  addEventListener('pageshow', ev => { if (ev.persisted) { gone = false; a.classList.remove('go-out', 'press', 'hold'); document.body.classList.remove('leaving'); } });
+  a.addEventListener('pointermove', e => { if (touch && Math.hypot(e.clientX - sx, e.clientY - sy) > 12) cancel(); });
+  a.addEventListener('pointerup', cancel); a.addEventListener('pointercancel', cancel); a.addEventListener('pointerleave', cancel);
+  a.addEventListener('click', e => {
+    if (e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;
+    e.preventDefault();
+    if (touch) { if (!gone) { tip.textContent = T[L].holdTip; a.classList.add('tipon', 'nudge'); setTimeout(() => a.classList.remove('nudge'), 500); clearTimeout(a._tt); a._tt = setTimeout(() => a.classList.remove('tipon'), 2200); } return; }
+    go();
+  });
+  addEventListener('pageshow', ev => { if (ev.persisted) { gone = false; a.classList.remove('go-out', 'press', 'hold', 'tipon'); document.body.classList.remove('leaving'); } });
 });
 initSite({
   page: 'home', T,

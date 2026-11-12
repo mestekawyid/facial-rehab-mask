@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<title>Vault · Facial Rehabilitation Mask</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="An open-face electrical-stimulation mask for facial palsy rehabilitation — graduation project, Faculty of Physical Therapy, Kafrelsheikh University.">
+<meta name="theme-color" content="#FFFFFF">
+<link rel="icon" type="image/png" sizes="64x64" href="assets/favicon.png?v=6af5eaf7">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png?v=6af5eaf7">
+<link rel="preload" href="assets/fonts/inter-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/site.css?v=6af5eaf7">
+
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"}}</script>
+</head>
+<body class="vault-locked">
+<main id="main">
+<section class="vgate" id="vgate" aria-labelledby="vgT">
+  <canvas id="v3d" aria-hidden="true"></canvas>
+  <div class="vglow" aria-hidden="true"></div>
+  <div class="vring" aria-hidden="true"><i></i><i></i><i></i></div>
+  <div class="vcopy">
+    <p class="vk"><span class="dot"></span><span data-i="vgK"></span></p>
+    <h1 id="vgT" data-i="vgT"></h1>
+    <p class="vl" data-i="vgL"></p>
+    <form class="vform" id="vForm" autocomplete="off">
+      <input id="vpw" type="password" data-ia="placeholder:vgPh" aria-label="Password" autocomplete="off" spellcheck="false">
+      <button type="submit" id="vGo" data-ia="aria-label:vgGo"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+    </form>
+    <p class="vmsg" id="vMsg" role="status"></p>
+  </div>
+  <p class="vstatus" id="vStatus" aria-hidden="true"></p>
+</section>
+
+<div class="vcontent" id="vcontent" hidden>
+  <section class="vhead"><div class="wrap">
+    <p class="eyebrow" data-i="vcE"></p>
+    <h2 class="sec-h" data-i="vcT"></h2>
+    <p class="sec-p" data-i="vcP"></p>
+    <div class="vstats"><div><b class="num" id="vsN">0</b><span data-i="vsN"></span></div><div><b class="num" id="vsS">0</b><span data-i="vsS"></span></div><div><b class="num" id="vsG">0</b><span data-i="vsG"></span></div></div>
+  </div></section>
+  <section class="vlist"><div class="wrap" id="vgroups"></div></section>
+  <section class="vfoot"><div class="wrap"><p data-i="vfN"></p><button type="button" class="vlock" id="vLock" data-i="vLock"></button></div></section>
+</div>
+</main>
+<script type="module" src="assets/vault.js?v=6af5eaf7"></script>
+</body>
+</html>

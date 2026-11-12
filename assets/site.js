@@ -1,17 +1,17 @@
 // Shared shell: nav, footer, language, citations, reveal, count-up, smooth scroll.
-import { KEYS } from './refs.js?v=6af5e5fa';
+import { KEYS } from './refs.js?v=6af5eaf7';
 
 const COMMON = {
   en: {
     brand: 'Smart Facial Rehabilitation Mask', brandS: 'Facial Mask', skip: 'Skip to content', menu: 'Menu',
-    nMask: 'The mask', nScience: 'Science', nEvidence: 'Evidence', nPapers: 'Papers', nTeam: 'Team',
+    nMask: 'The mask', nScience: 'Science', nEvidence: 'Evidence', nPapers: 'Papers', nTeam: 'Team', nVault: 'Vault',
     caveat: 'Concept prototype — not a cleared medical device',
     tmT: 'Built by our graduation project team.', tmP: 'Faculty of Physical Therapy, Kafrelsheikh University.', tmMore: 'Meet the team',
     fL: 'Graduation project · Concept design for discussion', fR: 'Not medical advice. Not tested on patients.',
   },
   ar: {
     brand: 'القناع الذكي لتأهيل الوجه', brandS: 'قناع الوجه', skip: 'تخطَّ إلى المحتوى', menu: 'القائمة',
-    nMask: 'القناع', nScience: 'العلم', nEvidence: 'الأدلة', nPapers: 'الأبحاث', nTeam: 'الفريق',
+    nMask: 'القناع', nScience: 'العلم', nEvidence: 'الأدلة', nPapers: 'الأبحاث', nTeam: 'الفريق', nVault: 'الأرشيف',
     caveat: 'نموذج تصوّري — ليس جهازًا طبيًا معتمدًا',
     tmT: 'من صنع فريق مشروع التخرج.', tmP: 'كلية العلاج الطبيعي، جامعة كفر الشيخ.', tmMore: 'تعرّف على الفريق',
     fL: 'مشروع تخرج · تصميم تصوّري للنقاش', fR: 'ليس نصيحة طبية. لم يُجرَّب على مرضى.',
@@ -44,11 +44,12 @@ const ICONS = {
   science: '<path d="M3 12.5h4l2.2-5.5 4.2 10.5 2.2-5h5.4"/>',
   evidence: '<path d="M5 5.5a2 2 0 0 1 2-2h10v15H7a2 2 0 0 0-2 2z"/><path d="M5 20.5a2 2 0 0 0 2 0h12V7"/><path d="m8.8 10.6 2 2 3.9-4"/>',
   papers: '<path d="M7 3.5h7l4 4v13H7z"/><path d="M14 3.5v4h4M9.6 12h5.8M9.6 15h5.8M9.6 18h3.6"/>',
+  vault: '<rect x="5" y="10.5" width="14" height="10" rx="2.5"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/><path d="M12 14.5v2.2"/>',
   team: '<circle cx="9" cy="9" r="3.2"/><path d="M3.4 19.5c.8-3 3-4.7 5.6-4.7s4.8 1.7 5.6 4.7"/><circle cx="16.6" cy="8.2" r="2.6"/><path d="M15.4 13.7c2.5-.3 4.5 1.2 5.2 4"/>'
 };
 const ico = k => `<svg viewBox="0 0 24 24" aria-hidden="true">${ICONS[k]}</svg>`;
 function shell(page) {
-  const L = [['index.html', 'nMask', 'home'], ['science.html', 'nScience', 'science'], ['evidence.html', 'nEvidence', 'evidence'], ['papers.html', 'nPapers', 'papers'], ['team.html', 'nTeam', 'team']];
+  const L = [['index.html', 'nMask', 'home'], ['science.html', 'nScience', 'science'], ['evidence.html', 'nEvidence', 'evidence'], ['papers.html', 'nPapers', 'papers'], ['team.html', 'nTeam', 'team'], ['vault.html', 'nVault', 'vault']];
   const links = L.map(([h, k, p]) => `<a href="${h}"${p === page ? ' aria-current="page"' : ''}><span class="ic">${ico(p)}</span><span class="lb" data-i="${k}"></span></a>`).join('');
   const nav = document.createElement('div');
   nav.innerHTML = `<a class="skip" href="#main" data-i="skip"></a>

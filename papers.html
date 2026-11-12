@@ -91,37 +91,23 @@ const T = {
 let t = T.en;
 initSite({ page: 'papers', T, onLang: (l, tt) => { t = tt; } });
 
-// Files are stored encrypted (AES-256-GCM, key from the password via PBKDF2-SHA256); nothing readable is on the server.
+import { unlock, fileBlob } from './assets/crypt.js';
 const NAMES = { 'paper1.pdf': 'Paper1_Narrative_Review.pdf', 'paper1.docx': 'Paper1_Narrative_Review.docx', 'paper2.pdf': 'Paper2_Mask_Design.pdf', 'paper2.docx': 'Paper2_Mask_Design.docx',
   'report.pdf': 'Smart_Facial_Mask_Report.pdf', 'report.docx': 'Smart_Facial_Mask_Report.docx', 'deck.pdf': 'Smart_Facial_Mask_Presentation.pdf', 'deck.pptx': 'Smart_Facial_Mask_Presentation.pptx' };
-const MIME = { pdf: 'application/pdf', docx: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', pptx: 'application/vnd.openxmlformats-officedocument.presentationml.presentation' };
-const b64 = s => Uint8Array.from(atob(s), c => c.charCodeAt(0));
-let man = null, key = null; const cache = {};
+let key = null; const cache = {};
 const box = $('#lockbox'), msg = $('#lkMsg'), pw = $('#pw');
 const say = (k, bad) => { msg.textContent = t[k] || ''; msg.classList.toggle('bad', !!bad); };
-async function loadMan() { if (!man) man = await (await fetch('files/manifest.json', { cache: 'no-cache' })).json(); return man; }
-async function derive(pass) {
-  const m = await loadMan(), base = await crypto.subtle.importKey('raw', new TextEncoder().encode(pass), 'PBKDF2', false, ['deriveKey']);
-  return crypto.subtle.deriveKey({ name: 'PBKDF2', hash: 'SHA-256', salt: b64(m.salt), iterations: m.it }, base, { name: 'AES-GCM', length: 256 }, false, ['decrypt']);
-}
-const dec = (k, buf) => crypto.subtle.decrypt({ name: 'AES-GCM', iv: buf.slice(0, 12) }, k, buf.slice(12));
 function setLocked(l) { box.classList.toggle('open', !l); document.body.classList.toggle('unlocked', !l); }
 $('#lkForm').addEventListener('submit', async e => {
   e.preventDefault(); if (!pw.value) return say('lkNeed', true);
   say('lkWait'); box.classList.add('busy');
-  try { const k = await derive(pw.value), c = b64((await loadMan()).check); const out = new TextDecoder().decode(await dec(k, c));
-    if (out !== 'kfs-ok') throw 0; key = k; pw.value = ''; setLocked(false); say('lkOk'); }
+  try { key = await unlock('papers', pw.value); pw.value = ''; setLocked(false); say('lkOk'); }
   catch (_) { say('lkBad', true); box.classList.remove('shake'); void box.offsetWidth; box.classList.add('shake'); }
   finally { box.classList.remove('busy'); }
 });
 $('#lkOut').onclick = () => { key = null; for (const k in cache) { URL.revokeObjectURL(cache[k]); delete cache[k]; } setLocked(true); say(''); };
 let dls = null; (async () => { try { dls = await window.claude?.use?.('downloads'); } catch (e) { } })();
-async function getBlob(f) {
-  const m = await loadMan(), e = m.files[f]; let buf;
-  if (e.chunks) { const parts = await Promise.all(e.chunks.map(async c => b64((await (await fetch(c)).text()).trim()))); buf = new Uint8Array(parts.reduce((n, p) => n + p.length, 0)); let o = 0; for (const p of parts) { buf.set(p, o); o += p.length; } }
-  else { const r = await fetch(e.path); if (!r.ok) throw new Error('fetch'); buf = new Uint8Array(await r.arrayBuffer()); }
-  const plain = await dec(key, buf); return new Blob([plain], { type: MIME[f.split('.').pop()] });
-}
+async function getBlob(f) { return fileBlob(key, f); }
 $$('.fb').forEach(btn => btn.addEventListener('click', async () => {
   if (!key) { say('lkNeed', true); box.scrollIntoView({ behavior: 'smooth', block: 'center' }); setTimeout(() => pw.focus(), 400); return; }
   if (btn.classList.contains('busy')) return; btn.classList.add('busy');
