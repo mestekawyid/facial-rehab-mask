@@ -176,17 +176,17 @@ export function createMaskScene(canvas, opts = {}) {
   anchor('dock', root, docks[1].p.clone().addScaledVector(docks[1].n, 0.1));
 
   // ---- detachable side module (built for +x; mirrored for -x)
-  // Electrode sites from the motor-point rules of the original 3D model (Fridlund & Cacioppo landmarks),
-  // measured on this face. 1 cm = 0.107 model units (interpupillary distance 6.3 cm = 0.672 units).
-  // Landmarks (affected side, +x): pupil (0.336,-0.18), lateral canthus (0.50,-0.19), mouth corner (0.30,-0.925),
-  // pre-auricular notch (0.82,-0.32), pogonion at y -1.22. r = electrode radius.
+  // Electrode sites: the original model's placement rules (Fridlund & Cacioppo landmarks), applied to the
+  // landmarks of THIS head. Vertical scale 0.129 units/cm above the mouth, 0.083 below it; horizontal 0.104/cm
+  // (lateral canthus 4.8 cm in the original = 0.50 here). Landmarks: lateral canthus (0.50,-0.19),
+  // mouth corner (0.31,-0.925), chin point y -1.22, face half-width at the cheek ~0.66.
   const sites = [
-    { name: 'Frontalis', x: 0.44, y: 0.18, r: 0.09 },              // 1 cm lateral to pupil line, 1.5 cm above mid-brow
-    { name: 'Orbicularis oculi', x: 0.45, y: -0.37, r: 0.08 },     // ~1 cm below lateral canthus, 0.5 cm medial; kept clear of the lower lid
-    { name: 'Zygomaticus major', x: 0.58, y: -0.66, r: 0.09 },     // 0.5 cm mouthward of the midpoint, mouth corner → pre-auricular notch
-    { name: 'Orbicularis oris', x: 0.25, y: -1.03, r: 0.055 },     // 1 cm below and 0.5 cm medial to the mouth corner
-    { name: 'Depressor anguli oris', x: 0.41, y: -1.09, r: 0.055 },// 1 cm lateral and 1.5 cm below the mouth corner
-    { name: 'Mentalis', x: 0.055, y: -1.22, r: 0.055 },            // 0.5 cm off the midline at the chin point
+    { name: 'Frontalis', x: 0.395, y: 0.19, r: 0.09 },              // 1 cm lateral to the pupil, 1.5 cm above the brow
+    { name: 'Orbicularis oculi', x: 0.448, y: -0.355, r: 0.08 },    // 0.5 cm medial and ~1.4 cm below the lateral canthus
+    { name: 'Zygomaticus major', x: 0.42, y: -0.67, r: 0.09 },      // mouth-corner→tragus line, 0.5 cm mouthward of its midpoint
+    { name: 'Orbicularis oris', x: 0.258, y: -1.008, r: 0.055 },    // 1 cm below, 0.5 cm medial to the mouth corner
+    { name: 'Depressor anguli oris', x: 0.414, y: -1.05, r: 0.055 },// 1 cm lateral, 1.5 cm below the mouth corner
+    { name: 'Mentalis', x: 0.052, y: -1.22, r: 0.055 },             // 0.5 cm off the midline at the chin point
   ];
   function makeModule(sx) {
     const M = new THREE.Group(); root.add(M);

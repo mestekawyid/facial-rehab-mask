@@ -1740,3 +1740,11 @@ body.vaultpg{background:#F6F8FA!important}
 .dose2 li.ours{padding-inline-start:44px!important}.dose2 li.ours::before{inset-inline-start:16px;top:12px}
 .pane-h .seg button{white-space:nowrap}
 .seq .ch.on{background:transparent!important}
+
+/* saved-password autofill: keep our colours (no blue/yellow fill) */
+input:-webkit-autofill,input:-webkit-autofill:hover,input:-webkit-autofill:focus,input:-webkit-autofill:active{-webkit-text-fill-color:#2A2E35!important;caret-color:#2A2E35;-webkit-box-shadow:0 0 0 1000px #FFFFFF inset!important;box-shadow:0 0 0 1000px #FFFFFF inset!important;transition:background-color 99999s ease-out 0s;border-radius:999px}
+.lk-form input:-webkit-autofill{-webkit-box-shadow:0 0 0 1000px #FBFCFD inset!important;border-radius:0}
+input:autofill{background:transparent!important}
+/* nav icons: finer, consistent */
+nav#nav svg,.drawer svg{stroke-width:1.5!important}
+nav#nav .navlinks a .ic svg{width:21px;height:21px}

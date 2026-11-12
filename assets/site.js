@@ -1,5 +1,5 @@
 // Shared shell: nav, footer, language, citations, reveal, count-up, smooth scroll.
-import { KEYS } from './refs.js?v=6af5f29d';
+import { KEYS } from './refs.js?v=6af5f4cb';
 
 const COMMON = {
   en: {
@@ -40,12 +40,12 @@ export function fill(root, t) {
 }
 
 const ICONS = {
-  home: '<path d="M6.6 9.2c3.6-1.7 7.2-1.7 10.8 0"/><ellipse cx="12" cy="10.5" rx="5.6" ry="6.6"/><path d="M4.8 21c1.3-3.3 4-5 7.2-5s5.9 1.7 7.2 5"/>',
-  science: '<path d="M3 12.5h4l2.2-5.5 4.2 10.5 2.2-5h5.4"/>',
-  evidence: '<path d="M5 5.5a2 2 0 0 1 2-2h10v15H7a2 2 0 0 0-2 2z"/><path d="M5 20.5a2 2 0 0 0 2 0h12V7"/><path d="m8.8 10.6 2 2 3.9-4"/>',
-  papers: '<path d="M7 3.5h7l4 4v13H7z"/><path d="M14 3.5v4h4M9.6 12h5.8M9.6 15h5.8M9.6 18h3.6"/>',
-  vault: '<rect x="5" y="10.5" width="14" height="10" rx="2.5"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/><path d="M12 14.5v2.2"/>',
-  team: '<circle cx="9" cy="9" r="3.2"/><path d="M3.4 19.5c.8-3 3-4.7 5.6-4.7s4.8 1.7 5.6 4.7"/><circle cx="16.6" cy="8.2" r="2.6"/><path d="M15.4 13.7c2.5-.3 4.5 1.2 5.2 4"/>'
+  home: '<path d="M12 3.6c-3.5 0-5.9 2.7-5.9 6.4 0 3.2 1.7 6 4 7.3V20.4h3.8v-3.1c2.3-1.3 4-4.1 4-7.3 0-3.7-2.4-6.4-5.9-6.4z"/><path d="M6.5 8.3c3.6-1.5 7.4-1.5 11 0"/><circle cx="15" cy="12.4" r="1.25"/>',
+  science: '<path d="M2.8 12.2h3.6l2.1-5.4 3.6 10.6 2.5-6.3 1.4 1.1h5.2"/>',
+  evidence: '<circle cx="10.6" cy="10.6" r="6.2"/><path d="m15.2 15.2 5 5"/><path d="m8 10.7 1.9 1.9 3.6-3.8"/>',
+  papers: '<path d="M8.5 3.6h6.8L19 7.3v11.1a1.2 1.2 0 0 1-1.2 1.2H8.5a1.2 1.2 0 0 1-1.2-1.2V4.8a1.2 1.2 0 0 1 1.2-1.2z"/><path d="M15.2 3.6v3.7H19"/><path d="M10.2 11h5.8M10.2 14h5.8M10.2 17h3.6"/><path d="M4.6 7.4v12.4a1.6 1.6 0 0 0 1.6 1.6h9.6"/>',
+  vault: '<path d="M12 3.2 19 6v5.3c0 4.4-2.9 7.7-7 9.5-4.1-1.8-7-5.1-7-9.5V6z"/><circle cx="12" cy="10.8" r="1.9"/><path d="M12 12.7v2.9"/>',
+  team: '<circle cx="12" cy="8.2" r="3"/><path d="M6.6 19.2c.6-3 2.8-4.7 5.4-4.7s4.8 1.7 5.4 4.7"/><circle cx="5.6" cy="10.2" r="2"/><path d="M2.4 17.6c.3-1.9 1.4-3 3.1-3.2"/><circle cx="18.4" cy="10.2" r="2"/><path d="M21.6 17.6c-.3-1.9-1.4-3-3.1-3.2"/>'
 };
 const ico = k => `<svg viewBox="0 0 24 24" aria-hidden="true">${ICONS[k]}</svg>`;
 function shell(page) {
