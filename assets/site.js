@@ -1,5 +1,5 @@
 // Shared shell: nav, footer, language, citations, reveal, count-up, smooth scroll.
-import { KEYS } from './refs.js?v=6af5f072';
+import { KEYS } from './refs.js?v=6af5f10e';
 
 const COMMON = {
   en: {
@@ -106,7 +106,7 @@ export function initSite({ page, T, onLang }) {
     while (x < W) { const burst = rnd() < 0.35, len = burst ? 70 + rnd() * 90 : 40 + rnd() * 80;
       for (let i = 0; i < len; i += 4) { const env = burst ? Math.sin(Math.PI * i / len) : 0.06; d += ` L${(x + i).toFixed(0)} ${(mid + (rnd() - 0.5) * 2 * 70 * env).toFixed(1)}`; } x += len; }
     const el = document.createElement('div'); el.className = 'hdeco'; el.setAttribute('aria-hidden', 'true');
-    el.innerHTML = page === 'science' ? `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none"><path d="${d}"/></svg>` : '';
+    el.innerHTML = '';
     el.insertAdjacentHTML('afterbegin', '<i class="fog f1"></i><i class="fog f2"></i>');
     h.prepend(el);
   });

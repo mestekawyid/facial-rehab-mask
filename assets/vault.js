@@ -1,5 +1,5 @@
-import { initSite, $, $$ } from './site.js?v=6af5f072';
-import { unlock, fileBlob } from './crypt.js?v=6af5f072';
+import { initSite, $, $$ } from './site.js?v=6af5f10e';
+import { unlock, fileBlob } from './crypt.js?v=6af5f10e';
 
 const T = {
   en: {
@@ -45,8 +45,7 @@ function trace(W, H, seed, bursts) { let s = seed; const r = () => (s = (s * 168
   while (x < W) { const b = r() < bursts, len = b ? W * (0.08 + r() * 0.08) : W * (0.05 + r() * 0.07);
     for (let i = 0; i < len; i += W / 400) { const env = b ? Math.sin(Math.PI * i / len) : 0.05; d += ` L${(x + i).toFixed(1)} ${(mid + (r() - 0.5) * H * 0.9 * env).toFixed(1)}`; } x += len; }
   return d; }
-document.getElementById('trace').setAttribute('d', trace(400, 120, 7, 0.4));
-document.getElementById('bgTrace').setAttribute('d', trace(1600, 200, 19, 0.3));
+
 // ---------- unlock ----------
 const form = $('#vForm'), pw = $('#vpw'), msg = $('#vMsg'), card = $('#vcard');
 const say = k => { msg.textContent = k ? t[k] : ''; msg.classList.toggle('bad', k === 'vBad'); };
@@ -81,7 +80,7 @@ function build() {
   if (!sess) return;
   const files = sess.m.files;
   $('#vtrack').innerHTML = t.g.map((g, gi) => { const s = stats(gi);
-    return `<article class="vslide" data-i="${gi}"><div class="vtile"><svg class="vtrace" viewBox="0 0 400 120" preserveAspectRatio="none" aria-hidden="true"><use href="#trace"/></svg><svg class="vico" viewBox="0 0 120 120" aria-hidden="true"><use href="#g${gi}"/></svg><span class="vno num">${String(gi + 1).padStart(2, '0')}</span></div>
+    return `<article class="vslide" data-i="${gi}"><div class="vtile"><svg class="vico" viewBox="0 0 120 120" aria-hidden="true"><use href="#g${gi}"/></svg><span class="vno num">${String(gi + 1).padStart(2, '0')}</span></div>
       <div class="vpanel"><p class="vk">${String(gi + 1).padStart(2, '0')} · ${s.n} ${t.files}</p><h2>${g[0]}</h2><p class="vd">${g[1]}</p>
         <ul class="vfiles">${s.rows.map(([title, meta, acts, , base]) => `<li><div class="vt"><b>${title[L]}</b><small class="ltr">${meta} · ${fmt(files[acts[0][0]].size)}</small></div><div class="va">${acts.map(([id, lab]) => {
           const ext = id.split('.').pop(), canOpen = ['pdf', 'html'].includes(ext);
