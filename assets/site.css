@@ -1748,3 +1748,8 @@ input:autofill{background:transparent!important}
 /* nav icons: finer, consistent */
 nav#nav svg,.drawer svg{stroke-width:1.5!important}
 nav#nav .navlinks a .ic svg{width:21px;height:21px}
+/* ranges chart on phones: legend under the axis, lighter zones, readable labels */
+.chart .zone.soft{opacity:.45}
+.chart .zone.key{opacity:1}
+.chart text.halo{paint-order:stroke;stroke:#fff;stroke-width:4px;stroke-linejoin:round}
+@media (max-width:600px){#chPD .zl{font-size:13px;font-weight:600}}

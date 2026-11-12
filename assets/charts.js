@@ -42,15 +42,20 @@ export const logx = (a, b, x0, x1) => v => x0 + (Math.log10(v) - Math.log10(a)) 
 // Range bars on a log axis (pulse durations used in studies)
 export function ranges(rows, { a = 0.005, b = 2000, w = 800, rowH = 36, labelW = 300, rtl = false, ticks = [0.01, 0.1, 1, 10, 100, 1000], axisLabel = '', zones = [], label = '', stack = false } = {}) {
   if (stack) { rowH = 46; labelW = 0; }
-  const h = rows.length * rowH + 64, X0 = stack ? 12 : rtl ? 20 : labelW, X1 = stack ? w - 12 : rtl ? w - labelW : w - 20;
+  const LEG = stack && zones.length ? 26 * zones.length + 8 : 0;
+  const h = rows.length * rowH + 64 + (stack ? 20 : 0) + LEG, X0 = stack ? 12 : rtl ? 20 : labelW, X1 = stack ? w - 12 : rtl ? w - labelW : w - 20;
   const lx0 = logx(a, b, X0, X1), lx = v => rtl ? X0 + X1 - lx0(v) : lx0(v);
   let s = '';
-  zones.forEach(z => { const xa = lx(z.from), xb = lx(z.to); s += `<rect x="${Math.min(xa, xb)}" y="4" width="${Math.abs(xb - xa)}" height="${h - 50}" class="zone ${z.cls}"/>` + T((xa + xb) / 2, 18, z.label, 'zl ' + z.cls, 'middle'); });
-  ticks.forEach(t => { s += `<line x1="${lx(t)}" y1="26" x2="${lx(t)}" y2="${h - 46}" class="grid"/>` + T(lx(t), h - 30, t, 'ax', 'middle'); });
-  s += T((X0 + X1) / 2, h - 8, axisLabel, 'ax', 'middle');
+  const HB = h - LEG; // bottom of the plot area (legend sits below it on phones)
+  zones.forEach((z, k) => { const xa = lx(z.from), xb = lx(z.to);
+    if (stack) { s += `<rect x="${Math.min(xa, xb)}" y="22" width="${Math.abs(xb - xa)}" height="${HB - 68}" class="zone soft ${z.cls}"/>`;
+      const ly = HB + 8 + k * 26; s += `<rect x="${rtl ? w - 22 : 4}" y="${ly}" width="18" height="12" rx="3" class="zone key ${z.cls}"/>` + T(rtl ? w - 30 : 30, ly + 10, z.label, 'zl ' + z.cls, rtl ? 'end' : 'start'); }
+    else s += `<rect x="${Math.min(xa, xb)}" y="4" width="${Math.abs(xb - xa)}" height="${h - 50}" class="zone ${z.cls}"/>` + T((xa + xb) / 2, 18, z.label, 'zl ' + z.cls, 'middle'); });
+  ticks.forEach(t => { s += `<line x1="${lx(t)}" y1="26" x2="${lx(t)}" y2="${HB - 46}" class="grid"/>` + T(lx(t), HB - 30, t, 'ax', 'middle'); });
+  s += T((X0 + X1) / 2, HB - 8, axisLabel, 'ax', 'middle');
   rows.forEach((r, i) => {
     const y = 30 + i * rowH + rowH / 2 + (stack ? 8 : 0);
-    if (stack) s += T(rtl ? w - 4 : 4, y - 15, r.label, 'lbl sm', rtl ? 'end' : 'start');
+    if (stack) s += T(rtl ? w - 4 : 4, y - 15, r.label, 'lbl sm halo', rtl ? 'end' : 'start');
     else s += T(rtl ? w - 10 : X0 - 12, y, r.label, 'lbl sm', 'end', 'dominant-baseline="middle"');
     if (r.b == null) s += `<circle cx="${lx(r.a)}" cy="${y}" r="7" class="pop ${r.cls}" style="--i:${i}"/>`;
     else s += `<line x1="${lx(r.a)}" y1="${y}" x2="${lx(r.b)}" y2="${y}" class="rng draw ${r.cls}" pathLength="1" style="--i:${i}"/>`;

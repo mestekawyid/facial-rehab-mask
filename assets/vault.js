@@ -1,5 +1,5 @@
-import { initSite, $, $$ } from './site.js?v=6af5f4cb';
-import { unlock, fileBlob } from './crypt.js?v=6af5f4cb';
+import { initSite, $, $$ } from './site.js?v=6af60492';
+import { unlock, fileBlob } from './crypt.js?v=6af60492';
 
 const T = {
   en: {
