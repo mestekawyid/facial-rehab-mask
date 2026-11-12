@@ -1849,3 +1849,18 @@ html.anim-auto .hint{opacity:0!important}
   .scard{bottom:72px!important}
   .chip-caveat{display:none!important}
 }
+
+/* ===== selection only where it makes sense: text content yes, interface and graphics no ===== */
+nav,.drawer,.scrim,button,.seg,.pseg,.pmode,.stage,.story,.scard,.progress,.hint,.callout,.tag3d,#tags,
+.chart svg,.cv,svg,canvas,img,.ticker,.cta,.turn,.turncard .turn,.orbit,.bub,.astack,.alab,.tip,
+.vtile,.varr,.vdots,.vpill,.vbadge,.vstats,.vno,.seq,#tl,.wave,.wavebox,.onemark,.pn,.steps .dot,.steps svg,
+.flow,.flow-m i,.openchip,.waffle,.pdtrack,.pdscale,.pdh .sw,.rnum,.ry,.qn,.lb,.sprog,.chapbar,.draghint,.chip-caveat,
+.pcover,.suplogos,.aic,.vn,.dots,.dot,.legend,.rkey,.mkey,.zl,.ax,.sidepick,.holdtip,.selfx,.brand,.teamband .lg,.lk-out,.vlock,
+.stats .v,.fact .v,.tstats b,.vstats b,.eyebrow,.vk,.k,.chart figcaption::before,.area .aic,.arow .av,.av{
+  -webkit-user-select:none!important;user-select:none!important;-webkit-touch-callout:none}
+/* the scene text on the 3D stage can still be read and copied if someone really wants it */
+.stage .beat .lede,.stage .beat h1,.stage .beat .h1{-webkit-user-select:text!important;user-select:text!important}
+/* inputs stay editable */
+input,textarea{-webkit-user-select:text!important;user-select:text!important}
+/* dragging images or links doesn't drag a ghost copy */
+img,svg,a{-webkit-user-drag:none}
