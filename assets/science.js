@@ -1,5 +1,5 @@
-import { initSite, cite, $, $$ } from './site.js?v=6af5f10e';
-import { hbar, donut, ranges, forest, gantt, vbars, svg, logx } from './charts.js?v=6af5f10e';
+import { initSite, cite, $, $$ } from './site.js?v=6af5f29d';
+import { hbar, donut, ranges, forest, gantt, vbars, svg, logx } from './charts.js?v=6af5f29d';
 
 const T = {
  en: {

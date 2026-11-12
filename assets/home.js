@@ -1,5 +1,5 @@
-import { initSite, $, $$, LANG } from './site.js?v=6af5f10e';
-import { createMaskScene, loadBust } from './mask3d.js?v=6af5f10e';
+import { initSite, $, $$, LANG } from './site.js?v=6af5f29d';
+import { createMaskScene, loadBust } from './mask3d.js?v=6af5f29d';
 
 const CHC = ['#2A8A94', '#4A78B0', '#7D6FB4', '#C07A8E', '#C9915F', '#5E9C7A'];
 const SITES = ['Frontalis', 'Orbicularis oculi', 'Zygomaticus major', 'Orbicularis oris', 'Depressor anguli oris', 'Mentalis'];
@@ -27,6 +27,7 @@ const T = {
     syE: 'How a session runs', syT: 'Three parts, one sequence.', syP: 'A certified stimulator makes the current. A switching box connects it to one electrode at a time.',
     n1: 'Stimulator', n1s: 'Commercial, certified', n2: 'Switching box', n2s: 'Picks one channel', n3: 'Mask', n3s: 'Six channels', n4: 'Phone app? Under discussion', n2o: 'Design open',
     opT: 'The control side is still open.', opP: 'The switching box will be designed and built with the engineer. Its control logic, and whether it is run from the box itself or from a phone app, has not been decided yet.',
+    sqE: 'Sequence', sqT: 'One muscle, start to finish.', sqP: 'How a session moves across the six muscles, and how much each one receives.',
     ordT: 'In what order are the muscles stimulated?', mBlock: 'Muscle by muscle', mCirc: 'Round by round',
     mBlockD: 'All contractions for one muscle are completed, then the next muscle starts. This is the order chosen in the project report.',
     mCircD: 'One contraction per muscle, then on to the next, repeated in rounds. No study has compared this with the block order — it is an option to evaluate.',
@@ -62,6 +63,7 @@ const T = {
     syE: 'كيف تسير الجلسة', syT: 'ثلاثة أجزاء، وتسلسل واحد.', syP: 'جهاز تحفيز معتمد يولّد التيار، وصندوق تبديل يوصله إلى قطب واحد في كل مرة.',
     n1: 'جهاز التحفيز', n1s: 'تجاري ومعتمد', n2: 'صندوق التبديل', n2s: 'يختار قناة واحدة', n3: 'القناع', n3s: 'ست قنوات', n4: 'تطبيق على الهاتف؟ قيد النقاش', n2o: 'التصميم لم يُحسم',
     opT: 'جانب التحكم ما زال مفتوحًا.', opP: 'صندوق التبديل سيُصمَّم ويُبنى مع المهندس. لم يُحسم بعد منطق التحكم فيه، ولا هل سيُشغَّل من الصندوق نفسه أم من تطبيق على الهاتف.',
+    sqE: 'التسلسل', sqT: 'عضلة واحدة، من أولها لآخرها.', sqP: 'إزاي الجلسة بتمشي على العضلات الست، وكل عضلة بتاخد قد إيه.',
     ordT: 'بأي ترتيب تُحفَّز العضلات؟', mBlock: 'عضلة عضلة', mCirc: 'جولة بعد جولة',
     mBlockD: 'تكتمل كل انقباضات العضلة الأولى، ثم تبدأ العضلة التالية. هذا هو الترتيب المختار في تقرير المشروع.',
     mCircD: 'انقباضة واحدة لكل عضلة ثم ننتقل للتالية، وتتكرر الجولات. لم تقارن أي دراسة هذا بالترتيب الأول، فهو خيار يحتاج تقييمًا.',
@@ -128,7 +130,7 @@ const THREE_DEG = Math.PI / 180;
 
 const frameOpts = () => ({ fit: mobile ? 1.0 : 0.8, wfit: mobile ? 0.6 : 0.9, lookY: mobile ? 0.25 : -0.05 });
 const sOpts = { lite, maxDpr: lite ? 1.25 : 2, cheapMat: mobile, noShadow: mobile, shadowSize: 2048, fit: mobile ? 1.0 : 0.8, wfit: mobile ? 0.6 : 0.9, lookY: mobile ? 0.25 : -0.05 };
-loadBust(lite ? 'assets/bust_lite.js?v=6af5f10e' : 'assets/bust_full.js?v=6af5f10e').then(b => createMaskScene(canvas, { ...sOpts, bust: b }))
+loadBust(lite ? 'assets/bust_lite.js?v=6af5f29d' : 'assets/bust_full.js?v=6af5f29d').then(b => createMaskScene(canvas, { ...sOpts, bust: b }))
   .then(s => { S = s; frameCam(); dirty = true; stage.classList.add('ready'); if (reduce) frame(0); })
   .catch(e => { console.warn(e); stage.classList.add('nogl'); });
 
