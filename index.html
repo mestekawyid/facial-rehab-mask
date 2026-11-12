@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<title>Facial Rehabilitation Mask</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="An open-face electrical-stimulation mask for facial palsy rehabilitation — graduation project, Faculty of Physical Therapy, Kafrelsheikh University.">
+<meta name="theme-color" content="#FFFFFF">
+<link rel="icon" type="image/png" sizes="64x64" href="assets/favicon.png?v=6af5e174">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png?v=6af5e174">
+<link rel="preload" href="assets/fonts/inter-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/site.css?v=6af5e174">
+
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"}}</script>
+</head>
+<body>
+<main id="main">
+<div class="story" id="story">
+  <div class="stage" id="stage">
+    <canvas id="c3d" aria-label="3D model of a faceless head wearing the open-face mask"></canvas>
+    <div class="beat on" data-b="0"><p class="eyebrow" data-i="b0e"></p><h1 data-i="b0t"></h1><p class="lede" data-i="b0l"></p></div>
+    <div class="beat" data-b="1"><p class="eyebrow" data-i="b1e"></p><p class="h1" data-i="b1t"></p><p class="lede" data-i="b1l"></p></div>
+    <div class="beat" data-b="2"><p class="eyebrow" data-i="b2e"></p><p class="h1" data-i="b2t"></p><p class="lede" data-i="b2l"></p><ol class="legend" id="legend"></ol></div>
+    <div class="beat" data-b="3"><p class="eyebrow" data-i="b3e"></p><p class="h1" data-i="b3t"></p><p class="lede" data-i="b3l"></p><div class="sidepick" aria-hidden="true"><span id="spR" data-i="right"></span><i id="spBar"><b></b></i><span id="spL" data-i="left"></span></div></div>
+    <div class="beat" data-b="4"><p class="eyebrow" data-i="b4e"></p><p class="h1" data-i="b4t"></p><p class="lede" data-i="b4l"></p></div>
+    <div id="tags"></div>
+    <div class="callout" id="callout"><div class="pin"></div><div class="lbl"><b class="num" id="cn">1/6</b><span id="ct"></span></div></div>
+    <div class="hint" id="hint" data-i="hint"></div>
+    <div class="progress" id="prog"><span class="on"></span><span></span><span></span><span></span><span></span></div>
+    <div class="scard" id="scard" aria-hidden="true"><div class="sch"><b class="num" id="scN">01</b><span class="num">/05</span><em id="scT"></em></div><div class="strack"><i id="scFill"></i><span></span><span></span><span></span><span></span></div><p id="scS"></p></div>
+    <div class="chip-caveat" data-i="caveat"></div>
+    <div class="draghint" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12a8 4 0 0 0 16 0M17 9l3 3-3 3M7 9l-3 3 3 3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span data-i="drag"></span></div>
+  </div>
+</div>
+
+<section class="sec" id="why"><div class="wrap">
+  <p class="eyebrow rv" data-i="whyE"></p>
+  <h2 class="sec-h rv" data-i="whyT"></h2>
+  <p class="sec-p rv" data-i="whyP"></p>
+  <div class="facts">
+    <div class="card fact rv"><div class="v" data-i="f1v"></div><div class="l" data-i="f1"></div></div>
+    <div class="card fact rv"><div class="v" data-i="f2v"></div><div class="l" data-i="f2"></div></div>
+    <div class="card fact rv"><div class="v" data-i="f3v"></div><div class="l" data-i="f3"></div></div>
+  </div>
+</div></section>
+
+<section class="sec alt" id="gap"><div class="wrap">
+  <p class="eyebrow rv" data-i="paE"></p>
+  <h2 class="sec-h rv" data-i="paT"></h2>
+  <div class="pa" style="margin-top:40px">
+    <div class="card rv"><h3 data-i="pa1"></h3><ol><li data-i="p1"></li><li data-i="p2"></li><li data-i="p3"></li></ol></div>
+    <div class="card ans rv"><h3 data-i="pa2"></h3><ol><li data-i="a1"></li><li data-i="a2"></li><li data-i="a3"></li></ol></div>
+  </div>
+  <p class="note rv" style="margin-top:18px;font-size:14px" data-i="gapN"></p>
+</div></section>
+
+<section class="sec" id="parts"><div class="wrap">
+  <p class="eyebrow rv" data-i="ptE"></p>
+  <h2 class="sec-h rv" data-i="ptT"></h2>
+  <p class="sec-p rv" data-i="ptP"></p>
+  <div class="turns">
+    <figure class="card turncard rv"><div class="turn" data-sheet="assets/turn_frame.webp?v=6af5e174" role="img" data-ia="aria-label:pt1"></div><figcaption><small>01</small><b data-i="pt1"></b><span data-i="pt1d"></span></figcaption></figure>
+    <figure class="card turncard rv"><div class="turn" data-sheet="assets/turn_module.webp?v=6af5e174" role="img" data-ia="aria-label:pt2"></div><figcaption><small>02</small><b data-i="pt2"></b><span data-i="pt2d"></span></figcaption></figure>
+    <figure class="card turncard rv"><div class="turn" data-sheet="assets/turn_electrode.webp?v=6af5e174" role="img" data-ia="aria-label:pt3"></div><figcaption><small>03</small><b data-i="pt3"></b><span data-i="pt3d"></span></figcaption></figure>
+  </div>
+  <p class="note rv" style="margin-top:16px;text-align:center" data-i="ptN"></p>
+</div></section>
+
+<section class="sec alt" id="sys"><div class="wrap">
+  <p class="eyebrow rv" data-i="syE"></p>
+  <h2 class="sec-h rv" data-i="syT"></h2>
+  <p class="sec-p rv" data-i="syP"></p>
+  <div class="card rv">
+    <svg class="flow" direction="ltr" viewBox="0 0 1000 300" role="img" aria-label="Stimulator, switching box and mask; the control method is still open">
+      <path class="wire" d="M262 100 H 392"/><path class="pulse" d="M262 100 H 392" style="stroke-dasharray:14 116;animation-duration:1.6s"/>
+      <path class="wire" d="M608 100 H 738"/><path class="pulse d2" d="M608 100 H 738" style="stroke-dasharray:14 116;animation-duration:1.6s"/>
+      <g class="node"><rect x="20" y="40" width="242" height="120" rx="20"/><text x="44" y="92" data-i="n1"></text><text class="s" x="44" y="118" data-i="n1s"></text></g>
+      <g class="node"><rect x="392" y="40" width="216" height="120" rx="20"/><text x="416" y="92" data-i="n2"></text><text class="s" x="416" y="118" data-i="n2s"></text></g>
+      <path class="wire dash" d="M500 160 V 222"/>
+      <g class="node opt"><rect x="380" y="222" width="240" height="64" rx="18"/><text class="s" x="404" y="260" data-i="n4"></text></g>
+      <g class="open"><rect x="404" y="20" width="192" height="26" rx="13"/><text x="500" y="38" text-anchor="middle" data-i="n2o"></text></g>
+      <g class="node"><rect x="738" y="40" width="242" height="120" rx="20"/><text x="762" y="92" data-i="n3"></text><text class="s" x="762" y="118" data-i="n3s"></text></g>
+    </svg>
+    <div class="flow-m"><div class="n"><b data-i="n1"></b><span data-i="n1s"></span></div><i></i><div class="n"><b data-i="n2"></b><span data-i="n2s"></span><em class="openchip" data-i="n2o"></em></div><i></i><div class="n"><b data-i="n3"></b><span data-i="n3s"></span></div><div class="n opt" style="margin-top:10px"><span data-i="n4"></span></div></div>
+    <div class="opennote"><b data-i="opT"></b><p data-i="opP"></p></div>
+  </div>
+  <div class="card rv" style="margin-top:28px">
+    <div class="seqhead"><div><b data-i="ordT"></b><p class="note" id="modeDesc" style="margin-top:4px"></p></div>
+      <div class="seg" role="group" aria-label="Order"><button id="mBlock" aria-pressed="true" data-i="mBlock"></button><button id="mCirc" aria-pressed="false" data-i="mCirc"></button></div></div>
+    <div class="seq" id="seq"></div>
+    <svg class="wave" id="tl" direction="ltr" viewBox="0 0 1000 110" aria-hidden="true"></svg>
+    <p class="note" data-i="waveN"></p>
+  </div>
+  <div class="grid g2" style="margin-top:20px">
+    <div class="card rv"><p class="k" data-i="doseK"></p><p style="margin:0 0 12px;font-size:16px;line-height:1.55" data-i="doseP"></p>
+      <ul class="dose"><li data-i="dose1"></li><li data-i="dose2"></li><li data-i="dose3"></li><li data-i="dose4"></li></ul></div>
+    <div class="card rv"><p class="k" data-i="ctrK"></p><p style="margin:0;font-size:16px;line-height:1.55" data-i="ctrP"></p></div>
+  </div>
+</div></section>
+
+<section class="sec" id="nums"><div class="wrap">
+  <div class="stats">
+    <div class="rv"><div class="v num" data-count="6">0</div><div class="l" data-i="st1"></div></div>
+    <div class="rv"><div class="v num" data-count="1">0</div><div class="l" data-i="st2"></div></div>
+    <div class="rv"><div class="v num" data-count="2">0</div><div class="l" data-i="st3"></div></div>
+    <div class="rv"><div class="v num" data-range="53,60">0</div><div class="l" data-i="st4"></div></div>
+  </div>
+  <div class="ticker" aria-hidden="true"><div id="tick"></div></div>
+</div></section>
+
+<section class="sec alt"><div class="wrap band">
+  <div class="rv"><p class="eyebrow" data-i="cpE"></p><p class="big" data-i="cpT"></p></div>
+  <p class="rv" data-i="cpP"></p>
+</div></section>
+
+<section class="sec"><div class="wrap">
+  <div class="ctas">
+    <a class="cta rv" href="science.html"><span class="ph" style="background-image:url(assets/tile_science.webp?v=6af5e174)" aria-hidden="true"></span><div><small data-i="c0s"></small><b data-i="c0b"></b></div><span class="go"><span data-i="go"></span><i>→</i></span></a>
+    <a class="cta rv" href="evidence.html"><span class="ph" style="background-image:url(assets/tile_evidence.webp?v=6af5e174)" aria-hidden="true"></span><div><small data-i="c1s"></small><b data-i="c1b"></b></div><span class="go"><span data-i="go"></span><i>→</i></span></a>
+    <a class="cta rv" href="papers.html"><span class="ph" style="background-image:url(assets/tile_papers.webp?v=6af5e174)" aria-hidden="true"></span><div><small data-i="c2s"></small><b data-i="c2b"></b></div><span class="go"><span data-i="go"></span><i>→</i></span></a>
+    <a class="cta rv" href="team.html"><span class="ph" style="background-image:url(assets/tile_team.webp?v=6af5e174)" aria-hidden="true"></span><div><small data-i="c3s"></small><b data-i="c3b"></b></div><span class="go"><span data-i="go"></span><i>→</i></span></a>
+  </div>
+  <p class="strip rv" style="margin-top:28px" data-i="caveat"></p>
+</div></section>
+</main>
+<script type="module" src="assets/home.js?v=6af5e174"></script>
+</body>
+</html>

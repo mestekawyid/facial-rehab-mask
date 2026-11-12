@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<title>Evidence · Facial Rehabilitation Mask</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="An open-face electrical-stimulation mask for facial palsy rehabilitation — graduation project, Faculty of Physical Therapy, Kafrelsheikh University.">
+<meta name="theme-color" content="#FFFFFF">
+<link rel="icon" type="image/png" sizes="64x64" href="assets/favicon.png?v=6af5e174">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png?v=6af5e174">
+<link rel="preload" href="assets/fonts/inter-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/site.css?v=6af5e174">
+
+</head>
+<body>
+<main id="main">
+<section class="phero"><div class="wrap">
+  <p class="eyebrow rv" data-i="hE"></p>
+  <h1 class="rv" data-i="hT"></h1>
+  <p class="lede rv" data-i="hL"></p>
+</div></section>
+
+<section style="padding-bottom:96px"><div class="wrap">
+  <div class="acc rv">
+    <details open><summary><span data-i="q1"></span><i aria-hidden="true"></i></summary><div class="body" data-i="a1"></div></details>
+    <details><summary><span data-i="q2"></span><i aria-hidden="true"></i></summary><div class="body"><div data-i="a2"></div>
+      <div class="ci"><svg viewBox="0 0 600 110" direction="ltr" data-scale="log" role="img" aria-label="Risk ratio 0.65, 95% confidence interval 0.48 to 0.88">
+        <line x1="40" y1="60" x2="560" y2="60" stroke="var(--line)"/>
+        <line x1="300" y1="22" x2="300" y2="84" stroke="var(--ink2)" stroke-dasharray="3 4"/>
+        <g id="ciBar"><line x1="125" y1="50" x2="270" y2="50" stroke="var(--teal)" stroke-width="3" stroke-linecap="round"/><rect x="190" y="43" width="14" height="14" fill="var(--teal)"/></g>
+        <text x="304" y="100" text-anchor="start" font-size="12" fill="var(--ink2)">1.0</text>
+        <text x="125" y="100" text-anchor="middle" font-size="12" fill="var(--ink2)">0.48</text>
+        <text x="266" y="100" text-anchor="end" font-size="12" fill="var(--ink2)">0.88</text>
+        <text x="197" y="34" text-anchor="middle" font-size="13" font-weight="600" fill="var(--ink)">RR 0.65</text>
+        <text x="60" y="22" font-size="12" fill="var(--ink2)" id="ciL"></text><text x="540" y="22" font-size="12" text-anchor="end" fill="var(--ink2)" id="ciR"></text>
+      </svg><div class="cap" data-i="ciCap"></div></div></div></details>
+    <details><summary><span data-i="q3"></span><i aria-hidden="true"></i></summary><div class="body" data-i="a3"></div></details>
+    <details><summary><span data-i="q4"></span><i aria-hidden="true"></i></summary><div class="body" data-i="a4"></div></details>
+    <details><summary><span data-i="q5"></span><i aria-hidden="true"></i></summary><div class="body" data-i="a5"></div></details>
+    <details><summary><span data-i="q6"></span><i aria-hidden="true"></i></summary><div class="body" data-i="a6"></div></details>
+  </div>
+  <p class="strip rv" style="margin-top:40px" data-i="more"></p>
+</div></section>
+
+<section class="sec alt" id="refs"><div class="wrap">
+  <p class="eyebrow" data-i="rE"></p>
+  <h2 class="sec-h" data-i="rT"></h2>
+  <p class="sec-p" data-i="rP" style="margin-bottom:32px"></p>
+  <div class="rfind"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg><input id="rq" type="search" autocomplete="off" data-ia="placeholder:rQ" aria-label="Search references"><span id="rn" class="num"></span></div>
+  <ol class="refs" id="reflist"></ol>
+  <p class="note ltr" id="stdnote" style="margin-top:20px;text-align:left"></p>
+</div></section>
+</main>
+<script type="module">
+import { initSite, $ } from './assets/site.js?v=6af5e174';
+import { REFS, STD } from './assets/refs.js?v=6af5e174';
+const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;');
+const fmtRef = (r, i) => {
+  const urlM = r.match(/https?:\/\/[^\s]+[^\s.,;)]/); const url = urlM ? urlM[0] : '';
+  let body = url ? r.replace(url, '').replace(/\s+$/, '') : r;
+  const m = body.match(/^(.*?)\s\((\d{4}[a-z]?|n\.d\.)\)\.\s(.*)$/);
+  const host = url ? (url.includes('doi.org') ? 'DOI' : new URL(url).hostname.replace(/^www\./, '')) : '';
+  const link = url ? ` <a class="rl" href="${url}" target="_blank" rel="noopener">${host} ↗</a>` : '';
+  const inner = m ? `<span class="ra">${esc(m[1])}</span><span class="ry num">${m[2]}</span><span class="rt">${esc(m[3])}${link}</span>` : `<span class="rt">${esc(body)}${link}</span>`;
+  return `<li id="r-${i + 1}" data-q="${esc(r.toLowerCase())}"><b class="rnum num">${i + 1}</b><div>${inner}</div></li>`;
+};
+$('#reflist').innerHTML = REFS.map(fmtRef).join('');
+const rq = $('#rq'), rn = $('#rn'), items = [...document.querySelectorAll('#reflist li')];
+const filt = () => { const q = rq.value.trim().toLowerCase(); let n = 0; items.forEach(li => { const ok = !q || li.dataset.q.includes(q); li.hidden = !ok; n += ok; }); rn.textContent = q ? n + ' / ' + items.length : items.length; };
+rq.addEventListener('input', filt); filt();
+document.querySelectorAll('.acc summary').forEach((s, i) => s.insertAdjacentHTML('afterbegin', `<b class="qn num">${String(i + 1).padStart(2, '0')}</b>`));
+$('#stdnote').textContent = STD;
+const T = {
+ en: {
+  hE: 'Evidence', hT: 'What the studies say.', hL: 'Plain answers to the main questions, drawn from the project report. Each number links to its source at the bottom of the page.',
+  q1: 'What is facial palsy?',
+  a1: '<p>Peripheral facial palsy is weakness or paralysis of the muscles of facial expression, caused by damage to the facial nerve (cranial nerve VII) or its branches [[DiPietro2023,Pauna2024]]. Bell’s palsy, which has no identified cause, is the most common form [[Hohman2014,DiPietro2023]]. Reported incidence ranges from about 7 to 40 cases per 100,000 people per year [[Heckmann2019]].</p><p>Most people with Bell’s palsy improve within two to three weeks and recover fully by three to four months. About <strong>30% do not recover fully</strong> and may develop contracture or synkinesis — unwanted movement of one part of the face when another part moves, caused by nerve fibres regrowing to the wrong muscles [[Pauna2024]]. Recovery is slower and less complete when the nerve fibres themselves are damaged [[Kurz2022]]. These are the people for whom rehabilitation matters most.</p>',
+  q2: 'Does electrical stimulation help?',
+  a2: '<p><strong>The evidence is mixed.</strong> None of the guidelines in our evidence base recommends electrical stimulation; two advise against it [[deAlmeida2014,Pauna2024]], and the newest does not address it [[Lee2026]].</p><p>The electrotherapy textbook counts seven controlled trials in Bell’s palsy: five found a weak benefit and two found neither benefit nor harm, with small samples and variable parameters [[Cameron2023a]]. A 2020 review reported improvement when stimulation was combined with other treatments [[Burelo2020]]. A 2026 meta-analysis found that stimulation started within seven days reduced the risk of incomplete recovery — but 13 of its 14 trials used electroacupuncture, so the result does not transfer directly to the surface stimulation this mask would deliver [[Choi2026]].</p>',
+  ciL: 'favours stimulation', ciR: 'favours usual care',
+  ciCap: 'Risk of incomplete recovery, add-on stimulation vs usual care: risk ratio 0.65 (95% CI 0.48–0.88), moderate certainty [[Choi2026]]. Values below 1 favour stimulation.',
+  q3: 'Can stimulation cause synkinesis?',
+  a3: '<p>It is a known concern. Stimulation could reinforce misdirected nerve regrowth, which is why selective, well-controlled stimulation and monitoring for synkinesis matter [[Yoo2023]].</p><p>A 2026 review of six studies found that stimulation appeared to help overall facial function <strong>without significant extra risk of synkinesis</strong>, while calling for more research [[Eberly2026]]. In contrast, a 2026 cohort of 317 patients with severe Bell’s palsy linked <strong>non-selective</strong> stimulation with higher synkinesis scores, most of all when it was started in the acute phase [[Jung2026]].</p>',
+  q4: 'How does it compare with exercise and acupuncture?',
+  a4: '<p><strong>Exercise has the more consistent evidence.</strong> A Cochrane review found low-quality evidence that tailored facial exercises help [[Teixeira2011]]; a 2022 update added seven trials, and all four high-quality ones were positive [[Khan2022]]. In the analyses behind the 2026 Korean guideline, facial rehabilitation raised the Sunnybrook score by about 11.9 points, above the 10-point minimal clinically important difference [[Lee2026]].</p><p>Acupuncture has many reviews, but of low quality: of 17 systematic reviews, 14 were rated very low and 3 low [[Huang2025]], and neither the American nor the Brazilian guideline recommends it [[Baugh2013,Pauna2024]].</p><p>That is why the mask is designed to <strong>add to</strong> exercise therapy, not replace it.</p>',
+  q5: 'How many contractions, and in what order?',
+  a5: '<p>In the project, muscles are stimulated one at a time, and <strong>all contractions for one muscle are completed before the next muscle starts</strong>. The number is set by the clinician. Published Bell’s palsy studies used:</p><ul><li>3 sets of 30 minimal contractions per muscle [[Tuncay2015,Ray2025]]</li><li>5 strong contractions per muscle [[DiPietro2023]]</li><li>10 contractions per muscle, one muscle at a time — a trial protocol that has not yet reported results [[Loyo2020]]</li></ul><p>No study has compared this order with moving to the next muscle after each contraction, so the order is a design choice still to be evaluated. Each contraction ramps up, holds and ramps down — ramps help to prevent pain [[Nussbaum2017]].</p>',
+  q6: 'Has the mask been tested?',
+  a6: '<p><strong>Not yet.</strong> The project covers the evidence review, the design requirements and a concept design. No bench or clinical testing has been done. Any study on volunteers or patients would need ethics approval and clinical supervision, and the device is meant as a rehabilitation aid used under a clinician’s control, alongside medical treatment and exercise therapy.</p>',
+  more: 'Want the full detail — stimulation parameters, safety and the verification plan? Read the two papers on the Papers page.',
+  rQ: 'Search authors, titles or years', rE: 'Sources', rT: 'References', rP: 'The complete reference list of the project report — 113 sources, in alphabetical order. Numbers on this site point to this list.',
+ },
+ ar: {
+  hE: 'الأدلة', hT: 'ماذا تقول الدراسات؟', hL: 'إجابات مبسّطة عن الأسئلة الأساسية، مأخوذة من تقرير المشروع. كل رقم يقودك إلى مصدره في أسفل الصفحة.',
+  q1: 'ما هو شلل الوجه؟',
+  a1: '<p>شلل الوجه الطرفي هو ضعف أو شلل في عضلات تعبيرات الوجه، سببه إصابة العصب الوجهي (العصب القحفي السابع) أو فروعه [[DiPietro2023,Pauna2024]]. وشلل بِل، الذي لا يُعرف له سبب محدد، هو أكثر أنواعه شيوعًا [[Hohman2014,DiPietro2023]]. وتتراوح الإصابات الجديدة المسجّلة بين نحو 7 و40 حالة لكل 100,000 شخص سنويًا [[Heckmann2019]].</p><p>معظم مرضى شلل بِل يتحسنون خلال أسبوعين إلى ثلاثة، ويتعافون تمامًا خلال ثلاثة إلى أربعة أشهر. لكن <strong>نحو 30% لا يتعافون تمامًا</strong>، وقد تظهر لديهم تقلصات أو حركات مصاحبة (synkinesis)، أي أن يتحرك جزء من الوجه دون إرادة عند تحريك جزء آخر، لأن الألياف العصبية تنمو من جديد نحو عضلات خاطئة [[Pauna2024]]. ويكون التعافي أبطأ وأقل اكتمالًا عندما تتضرر الألياف العصبية نفسها [[Kurz2022]]. وهؤلاء هم أكثر من يحتاج إلى التأهيل.</p>',
+  q2: 'هل يفيد التحفيز الكهربائي؟',
+  a2: '<p><strong>الأدلة متباينة.</strong> لا يوصي أيٌّ من الأدلة الإرشادية التي راجعناها بالتحفيز الكهربائي، واثنان منها ينصحان بعدم استخدامه [[deAlmeida2014,Pauna2024]]، وأحدثها لا يتناوله [[Lee2026]].</p><p>يذكر كتاب العلاج الكهربائي سبع تجارب مضبوطة في شلل بِل: خمس وجدت فائدة ضعيفة، واثنتان لم تجدا فائدة ولا ضررًا، مع عيّنات صغيرة ومعاملات متفاوتة [[Cameron2023a]]. ووجدت مراجعة عام 2020 تحسنًا عند الجمع بين التحفيز وعلاجات أخرى [[Burelo2020]]. ووجد تحليل تجميعي عام 2026 أن التحفيز الذي يبدأ خلال سبعة أيام قلّل خطر عدم التعافي الكامل، لكن 13 من تجاربه الأربع عشرة استخدمت الوخز بالإبر الكهربائي، فلا تنطبق النتيجة مباشرة على التحفيز السطحي الذي سيقدّمه هذا القناع [[Choi2026]].</p>',
+  ciL: 'لصالح التحفيز', ciR: 'لصالح الرعاية المعتادة',
+  ciCap: 'خطر عدم التعافي الكامل، التحفيز الإضافي مقابل الرعاية المعتادة: نسبة الخطر 0.65 (فاصل الثقة 95%: 0.48–0.88)، بدرجة يقين متوسطة [[Choi2026]]. القيم الأقل من 1 لصالح التحفيز.',
+  q3: 'هل يمكن أن يسبب التحفيز حركات مصاحبة (synkinesis)؟',
+  a3: '<p>هذا قلق معروف. قد يعزّز التحفيز نموّ الألياف العصبية في الاتجاه الخاطئ، ولذلك يهمّ أن يكون التحفيز انتقائيًا ومضبوطًا، مع متابعة ظهور الحركات المصاحبة [[Yoo2023]].</p><p>وجدت مراجعة عام 2026 لست دراسات أن التحفيز بدا مفيدًا لوظيفة الوجه عمومًا <strong>دون خطر إضافي واضح للحركات المصاحبة</strong>، مع الدعوة إلى مزيد من البحث [[Eberly2026]]. وفي المقابل، ربطت دراسة أترابية عام 2026 شملت 317 مريضًا بشلل بِل الشديد بين التحفيز <strong>غير الانتقائي</strong> وارتفاع درجات الحركات المصاحبة، وخاصة عند بدئه في المرحلة الحادة [[Jung2026]].</p>',
+  q4: 'كيف يُقارن بالتمارين والوخز بالإبر؟',
+  a4: '<p><strong>أدلة التمارين أكثر اتساقًا.</strong> وجدت مراجعة كوكرين أدلة منخفضة الجودة على فائدة تمارين الوجه المصمّمة لكل مريض [[Teixeira2011]]، وأضاف تحديث عام 2022 سبع تجارب، كانت الأربع عالية الجودة منها إيجابية [[Khan2022]]. وفي التحليلات التي بُني عليها الدليل الكوري لعام 2026، رفع تأهيل الوجه درجة Sunnybrook بنحو 11.9 نقطة، وهو أعلى من الحد الأدنى للفرق المهم سريريًا وهو 10 نقاط [[Lee2026]].</p><p>أما الوخز بالإبر فله مراجعات كثيرة لكن جودتها منخفضة: من 17 مراجعة منهجية، قُيّمت 14 بجودة منخفضة جدًا و3 بجودة منخفضة [[Huang2025]]، ولا يوصي به الدليل الأمريكي ولا البرازيلي [[Baugh2013,Pauna2024]].</p><p>ولهذا صُمّم القناع ليكون <strong>إضافة إلى</strong> العلاج بالتمارين، لا بديلًا عنه.</p>',
+  q5: 'كم انقباضة، وبأي ترتيب؟',
+  a5: '<p>في المشروع تُحفَّز العضلات واحدة تلو الأخرى، <strong>وتكتمل كل انقباضات العضلة قبل أن تبدأ العضلة التالية</strong>. ويحدّد المعالج العدد. استخدمت دراسات شلل بِل المنشورة:</p><ul><li>3 مجموعات من 30 انقباضة بسيطة لكل عضلة [[Tuncay2015,Ray2025]]</li><li>5 انقباضات قوية لكل عضلة [[DiPietro2023]]</li><li>10 انقباضات لكل عضلة، عضلة واحدة في كل مرة، في بروتوكول تجربة لم تُنشر نتائجه بعد [[Loyo2020]]</li></ul><p>لم تقارن أي دراسة هذا الترتيب بالانتقال إلى العضلة التالية بعد كل انقباضة، فالترتيب اختيار تصميمي ما زال يحتاج تقييمًا. وكل انقباضة تبدأ بصعود تدريجي ثم ثبات ثم نزول، والصعود التدريجي يساعد على تجنّب الألم [[Nussbaum2017]].</p>',
+  q6: 'هل جُرِّب القناع؟',
+  a6: '<p><strong>ليس بعد.</strong> يشمل المشروع مراجعة الأدلة ومتطلبات التصميم وتصميمًا تصوّريًا، ولم تُجرَ أي اختبارات معملية أو سريرية. وأي دراسة على متطوعين أو مرضى تحتاج موافقة لجنة أخلاقيات وإشرافًا سريريًا، والجهاز مقصود به أن يكون وسيلة مساعدة في التأهيل تحت إشراف المعالج، إلى جانب العلاج الطبي والتمارين.</p>',
+  more: 'تريد التفاصيل الكاملة، من معاملات التحفيز والسلامة إلى خطة التحقق؟ اقرأ البحثين في صفحة الأبحاث.',
+  rQ: 'ابحث بالمؤلف أو العنوان أو السنة', rE: 'المصادر', rT: 'المراجع', rP: 'قائمة المراجع الكاملة لتقرير المشروع: 113 مصدرًا مرتّبة أبجديًا. الأرقام في الموقع تشير إلى هذه القائمة.',
+ },
+};
+initSite({ page: 'evidence', T, onLang: (l, t) => { $('#ciL').textContent = t.ciL; $('#ciR').textContent = t.ciR; } });
+// animate the CI bar when the answer opens
+document.querySelectorAll('.acc details').forEach(d => d.addEventListener('toggle', () => { if (d.open) { const g = d.querySelector('#ciBar'); if (g) { g.style.transition = 'none'; g.style.opacity = 0; g.style.transform = 'scaleX(.2)'; g.style.transformOrigin = '197px 50px'; requestAnimationFrame(() => { g.style.transition = 'opacity .8s, transform .9s cubic-bezier(.2,.7,.2,1)'; g.style.opacity = 1; g.style.transform = 'none'; }); } } }));
+if (location.hash.startsWith('#r-')) { const li = document.querySelector(location.hash); li && li.scrollIntoView(); }
+window.__done = true;
+</script>
+</body>
+</html>

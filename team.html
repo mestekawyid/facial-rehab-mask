@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<title>Team · Facial Rehabilitation Mask</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="An open-face electrical-stimulation mask for facial palsy rehabilitation — graduation project, Faculty of Physical Therapy, Kafrelsheikh University.">
+<meta name="theme-color" content="#FFFFFF">
+<link rel="icon" type="image/png" sizes="64x64" href="assets/favicon.png?v=6af5e174">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png?v=6af5e174">
+<link rel="preload" href="assets/fonts/inter-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/site.css?v=6af5e174">
+
+</head>
+<body>
+<main id="main">
+<section class="thero"><div class="wrap">
+  <div class="tcopy">
+    <p class="eyebrow rv" data-i="tE"></p>
+    <h1 class="rv" data-i="tT"></h1>
+    <p class="lede rv" data-i="tL"></p>
+    <div class="tstats rv"><div><b class="num">20</b><span data-i="sStu"></span></div><div><b class="num" id="nAreas">10</b><span data-i="sAreas"></span></div><div><b class="num">1</b><span data-i="sMask"></span></div></div>
+  </div>
+  <div class="astack" id="astack" aria-hidden="true"><div class="arows"></div><p class="alab" id="alab"></p></div>
+  <div class="orbit" id="orbit" aria-hidden="true"><div class="core"><i class="lg"></i></div><div class="tip" id="tip"></div></div>
+</div></section>
+
+<section class="sec tsup"><div class="wrap">
+  <div class="supcard rv">
+    <div class="suplogos" id="supLogos"></div>
+    <div><p class="eyebrow" data-i="supK"></p><h2 data-i="supN"></h2><p data-i="supR"></p></div>
+  </div>
+</div></section>
+
+<section class="sec alt"><div class="wrap">
+  <p class="eyebrow rv" data-i="mK"></p>
+  <h2 class="sec-h rv" data-i="gT"></h2>
+  <p class="sec-p rv" data-i="gP"></p>
+  <div class="areas" id="areas"></div>
+  <p class="note rv" style="margin-top:28px" data-i="mNote"></p>
+</div></section>
+</main>
+<script type="module">
+import { initSite, $ } from './assets/site.js?v=6af5e174';
+// Team members: replace the placeholders with {en, ar, role_en, role_ar}
+const MEMBERS = [{"ar": "احمد مفيد ابراهيم احمد", "en": "Ahmed Mofid Ibrahim Ahmed", "role_en": "External benchmarking; flexible arm", "role_ar": "المقارنة بالأجهزة الموجودة؛ الذراع المرنة", "lead": false}, {"ar": "آلاء أحمد محمد أنصاري دراز", "en": "Alaa Ahmed Mohamed Ansary Darraz", "role_en": "Treatment priority & modalities", "role_ar": "أولويات العلاج والوسائل العلاجية", "lead": false}, {"ar": "آلاء عبدالعزيز إبراهيم جداده", "en": "Alaa Abdelaziz Ibrahim Gadada", "role_en": "Mask components & materials", "role_ar": "مكوّنات القناع وخاماته", "lead": false}, {"ar": "حسن محمد أحمد فؤاد", "en": "Hassan Mohamed Ahmed Fouad", "role_en": "Research paper collection", "role_ar": "جمع الأبحاث", "lead": true}, {"ar": "روان بهاء حسين صبرى ياسين عثمان", "en": "Rawan Bahaa Hussein Sabry Yassin Osman", "role_en": "Safety & precautions", "role_ar": "السلامة والاحتياطات", "lead": false}, {"ar": "زينب احمد على عبد العال محمد", "en": "Zeinab Ahmed Ali Abdelaal Mohamed", "role_en": "Indications & contraindications", "role_ar": "دواعي الاستخدام وموانعه", "lead": false}, {"ar": "ساره حسن فوقى ابوعيد", "en": "Sara Hassan Fawky Abou Eid", "role_en": "Safety & precautions", "role_ar": "السلامة والاحتياطات", "lead": false}, {"ar": "صلاح ضياء صلاح السيد", "en": "Salah Diaa Salah Elsayed", "role_en": "Complicated cases", "role_ar": "الحالات المعقّدة", "lead": false}, {"ar": "طاهر ابراهيم طاهر فهيم", "en": "Taher Ibrahim Taher Fahim", "role_en": "External benchmarking", "role_ar": "المقارنة بالأجهزة الموجودة", "lead": false}, {"ar": "عبدالرحمن محمد عبدالرحيم محمد الطوي", "en": "Abdelrahman Mohamed Abdelrahim Mohamed Eltawy", "role_en": "Parameters & current selection", "role_ar": "المعاملات واختيار التيار", "lead": false}, {"ar": "علاء الدين محمد السيد محمود السقيلي", "en": "Alaa Eldin Mohamed Elsayed Mahmoud Elsekaily", "role_en": "External benchmarking", "role_ar": "المقارنة بالأجهزة الموجودة", "lead": false}, {"ar": "محمود محمد السعيد عطاالله", "en": "Mahmoud Mohamed Elsaeed Attallah", "role_en": "Complicated cases", "role_ar": "الحالات المعقّدة", "lead": false}, {"ar": "محمود محمد محمود حمد", "en": "Mahmoud Mohamed Mahmoud Hamad", "role_en": "Stimulation & electrode selection", "role_ar": "التحفيز واختيار الأقطاب", "lead": false}, {"ar": "معاذ إبراهيم بسيوني خليفة", "en": "Moaz Ibrahim Bassiouny Khalifa", "role_en": "Flexible arm mechanism", "role_ar": "آلية الذراع المرنة", "lead": false}, {"ar": "منه عامر على الهجرسى سليم", "en": "Menna Amer Ali Elhagrasy Selim", "role_en": "Indications & contraindications", "role_ar": "دواعي الاستخدام وموانعه", "lead": false}, {"ar": "مي محمد حميده قاسم", "en": "Mai Mohamed Hemeida Kassem", "role_en": "Stimulation & electrode selection", "role_ar": "التحفيز واختيار الأقطاب", "lead": false}, {"ar": "نجلاء عبداللّه الشربينى الشربينى محمد", "en": "Naglaa Abdallah Elsherbiny Elsherbiny Mohamed", "role_en": "Treatment priority & modalities", "role_ar": "أولويات العلاج والوسائل العلاجية", "lead": false}, {"ar": "ندى نادر محمد عاشور العشري", "en": "Nada Nader Mohamed Ashour Elashry", "role_en": "Research paper collection", "role_ar": "جمع الأبحاث", "lead": false}, {"ar": "نورهان عبدالرحيم عبدالرازق", "en": "Nourhan Abdelrahim Abdelrazek", "role_en": "Parameters & current selection", "role_ar": "المعاملات واختيار التيار", "lead": false}, {"ar": "نورهان نشأت إسماعيل", "en": "Nourhan Nashaat Ismail", "role_en": "Mask components & materials", "role_ar": "مكوّنات القناع وخاماته", "lead": false}];
+const T = {
+ en: { tE: 'Team', tT: 'The people behind the mask.', tL: 'Twenty physical therapy students at Kafrelsheikh University, each owning one part of the evidence and the design.',
+  sStu: 'students', sAreas: 'work areas', sMask: 'shared design',
+  supK: 'Supervisor', supN: 'Prof. Mahmoud Mohamed Ewida', supR: 'Dean of the Faculty of Physical Therapy and Head of the Electrotherapy Department.',
+  tapHint: 'Tap a face to see who it is.', mK: 'Team members', gT: 'Who worked on what.', gP: 'The work was split into areas; every name below appears in the project report with its task.', lead: 'Team leader', also: 'also',
+  mNote: 'Names and tasks as listed in the project report. English spellings of the names are transliterations.' },
+ ar: { tE: 'الفريق', tT: 'الناس وراء القناع.', tL: 'عشرون طالبًا وطالبة من كلية العلاج الطبيعي بجامعة كفر الشيخ، تولّى كلٌّ منهم جزءًا من الأدلة والتصميم.',
+  sStu: 'طالبًا وطالبة', sAreas: 'مجالات عمل', sMask: 'تصميم واحد',
+  supK: 'المشرف', supN: 'أ.د. محمود محمد عويضة', supR: 'عميد كلية العلاج الطبيعي ورئيس قسم العلاج الكهربائي.',
+  tapHint: 'اضغط على أي شخص لتعرف مين هو.', mK: 'أعضاء الفريق', gT: 'مين اشتغل على إيه.', gP: 'اتقسّم الشغل لمجالات، وكل اسم هنا مذكور في تقرير المشروع مع مهمته.', lead: 'قائد الفريق', also: 'وأيضًا',
+  mNote: 'الأسماء والمهام كما وردت في تقرير المشروع.' },
+};
+const AREA_ORDER = ['Research paper collection', 'Stimulation & electrode selection', 'Parameters & current selection', 'Treatment priority & modalities', 'Indications & contraindications', 'Safety & precautions', 'Complicated cases', 'Mask components & materials', 'Flexible arm mechanism', 'External benchmarking'];
+const ICON = {
+  'Research paper collection': '<path d="M7 4h8l4 4v12H7z M15 4v4h4 M10 12h6 M10 15h6 M10 18h4"/>',
+  'Stimulation & electrode selection': '<circle cx="12" cy="12" r="3.5"/><path d="M12 3v4 M12 17v4 M3 12h4 M17 12h4"/>',
+  'Parameters & current selection': '<path d="M4 7h10 M18 7h2 M4 17h4 M12 17h8"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="17" r="2"/>',
+  'Treatment priority & modalities': '<path d="M5 19V11 M12 19V5 M19 19v-6"/>',
+  'Indications & contraindications': '<circle cx="12" cy="12" r="8"/><path d="M8.5 12.5l2.2 2.2 4.8-5"/>',
+  'Safety & precautions': '<path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/>',
+  'Complicated cases': '<path d="M4 12c3-6 5 6 8 0s5 6 8 0"/>',
+  'Mask components & materials': '<path d="M4 9c4-5 12-5 16 0 M6 9v3 M18 9v3"/><circle cx="12" cy="15" r="2.5"/>',
+  'Flexible arm mechanism': '<path d="M5 19c0-6 4-6 7-9s3-5 7-5"/><circle cx="19" cy="5" r="1.8"/>',
+  'External benchmarking': '<path d="M4 18l5-6 4 3 7-9"/><path d="M16 6h4v4"/>'
+};
+const ini = (m, l) => l === 'ar' ? m.ar.split(' ').slice(0, 2).map(w => w[0]).join('') : (m.en.match(/\b[A-Z]/g) || []).slice(0, 2).join('');
+const PAL = ['#2A7F8A', '#1F3A5F', '#B8692A'];
+// faceless doctor avatars (no facial features): male doctor, female doctor in hijab
+const FEM = new Set([1, 2, 4, 5, 6, 14, 15, 16, 17, 18, 19]);
+// refined faceless doctor avatars, 64x64
+const SKIN = [['#EED9C6','#DDBFA6'],['#E6C9AE','#D2AE8E'],['#DDB896','#C69C78']];
+const HIJ = [['#2E4A6B','#243B57'],['#6E7F96','#5B6B80'],['#9A7B80','#836669'],['#4E6E78','#3F5B64'],['#8C7D6E','#76695C'],['#3B4F66','#2F4054']];
+const HAIR = ['#2A2D33','#3A2E28','#23262B'];
+const SCRUB = ['#8FC0C7','#A9B8D6','#9DC4B0'];
+function avatarSvg(i, fem) {
+  const [sk, skd] = SKIN[i % 3], scrub = SCRUB[i % 3];
+  const coat = `
+  <path d="M8 64c0-12.5 9.5-20 24-20s24 7.5 24 20z" fill="#FFFFFF"/>
+  <path d="M32 44c10.5 0 18.6 4 22.2 11.4L56 64H44z" fill="#E9EEF3"/>
+  <path d="M8 64c0-12.5 9.5-20 24-20s24 7.5 24 20" fill="none" stroke="#CBD4DE" stroke-width=".9"/>
+  <path d="M26.2 44.6 32 54.5l5.8-9.9C36 44.2 34 44 32 44s-4 .2-5.8.6z" fill="${scrub}"/>
+  <path d="M26.2 44.6 31 56.5 28.6 64M37.8 44.6 33 56.5 35.4 64" fill="none" stroke="#CBD4DE" stroke-width=".9" stroke-linejoin="round"/>
+  <path d="M24.6 45.4c-2.4 4.6-2.2 9.8 1.6 12.6" fill="none" stroke="#3E4C5E" stroke-width="1.5" stroke-linecap="round"/>
+  <path d="M39.4 45.4c1.8 3.4 2 6.6.6 9" fill="none" stroke="#3E4C5E" stroke-width="1.5" stroke-linecap="round"/>
+  <circle cx="27.4" cy="58.6" r="2.3" fill="#AEB8C4" stroke="#3E4C5E" stroke-width="1.1"/>`;
+  if (fem) {
+    const [h, hd] = HIJ[i % HIJ.length];
+    return `<svg viewBox="9 9 46 46" aria-hidden="true">${coat}
+    <path d="M19.5 31C18.6 18.4 24.6 10.5 32 10.5S45.4 18.4 44.5 31c-.3 4.4 1.6 8 5.6 11.4-5 3.4-11.4 5-18.1 5s-13.1-1.6-18.1-5c4-3.4 5.9-7 5.6-11.4z" fill="${h}"/>
+    <path d="M44.5 31c-.3 4.4 1.6 8 5.6 11.4-3.3 2.2-7.2 3.7-11.5 4.4 3.6-3.7 5.6-9.6 5.9-15.8z" fill="${hd}"/>
+    <ellipse cx="32" cy="27.6" rx="7.4" ry="9.3" fill="${sk}"/>
+    <path d="M23.5 38.5c2.6 2.8 5.4 4 8.5 4s5.9-1.2 8.5-4" fill="none" stroke="${hd}" stroke-width="1" opacity=".7"/>
+    </svg>`;
+  }
+  const hair = HAIR[i % 3], style = i % 2;
+  return `<svg viewBox="9 9 46 46" aria-hidden="true">${coat}
+    <path d="M28 36h8v7.5c0 2.2-1.8 3.5-4 3.5s-4-1.3-4-3.5z" fill="${skd}"/>
+    <ellipse cx="22.6" cy="27.6" rx="1.7" ry="2.7" fill="${skd}"/><ellipse cx="41.4" cy="27.6" rx="1.7" ry="2.7" fill="${skd}"/>
+    <ellipse cx="32" cy="26.5" rx="9.6" ry="11.2" fill="${sk}"/>
+    ${style ? `<path d="M22.3 26.2C21.4 17.2 25.8 13 32.2 13c6.7 0 10.6 4.3 9.5 13.2-.8-3.6-2.4-6-5.2-7.1-3 1.8-8.2 2.3-12.6 1.6-.8 1.6-1.3 3.4-1.6 5.5z" fill="${hair}"/>`
+            : `<path d="M22.4 25.6C21.6 16.8 26 12.8 32 12.8s10.4 4 9.6 12.8c-1-4.4-3.4-6.6-9.6-6.8-6.2.2-8.6 2.4-9.6 6.8z" fill="${hair}"/>`}
+    </svg>`;
+}
+
+const avatar = i => avatarSvg(i, FEM.has(i));
+function orbit(l, t) {
+  const o = $('#orbit'); o.querySelectorAll('.bub').forEach(e => e.remove());
+  const lead = MEMBERS.findIndex(m => m.lead), rest = MEMBERS.map((_, i) => i).filter(i => i !== lead);
+  const outer = rest.slice(0, 11).concat([lead]), inner = rest.slice(11);
+  const place = (list, r, off) => list.forEach((i, k) => {
+    const a = off + k / list.length * Math.PI * 2, x = 50 + Math.cos(a) * r, y = 50 + Math.sin(a) * r, m = MEMBERS[i];
+    const b = document.createElement('button'); b.type = 'button'; b.className = 'bub' + (m.lead ? ' is-lead' : '') + (list === inner ? ' in' : '');
+    b.style.cssText = `left:${x}%;top:${y}%;animation-delay:${(k * 40) + (list === inner ? 300 : 0)}ms`;
+    b.innerHTML = avatar(i); b.dataset.i = i; b.setAttribute('aria-label', l === 'ar' ? m.ar : m.en); o.append(b);
+  });
+  place(outer, 43, -Math.PI / 2 + 0.26); place(inner, 27, -Math.PI / 2);
+}
+// phones: overlapping avatar rows instead of the circle; tap one to see who it is
+function stack(l, t) {
+  const lead = MEMBERS.findIndex(m => m.lead), f = [], mm = []; MEMBERS.forEach((_, i) => { if (i !== lead) (FEM.has(i) ? f : mm).push(i); });
+  const order = [lead]; while (f.length || mm.length) { if (f.length) order.push(f.shift()); if (mm.length) order.push(mm.shift()); }
+  const rows = [order.slice(0, 7), order.slice(7, 14), order.slice(14)];
+  $('#astack .arows').innerHTML = rows.map(r => `<div class="ar">${r.map((i, k) => `<button type="button" style="z-index:${10 - k}" class="sav${MEMBERS[i].lead ? ' is-lead' : ''}" data-i="${i}" aria-label="${l === 'ar' ? MEMBERS[i].ar : MEMBERS[i].en}">${avatar(i)}</button>`).join('')}</div>`).join('');
+  $('#alab').textContent = t.tapHint;
+}
+function tipFor(b, l, t) {
+  const m = MEMBERS[+b.dataset.i], tip = $('#tip'), r = b.getBoundingClientRect(), R = $('#orbit').getBoundingClientRect();
+  tip.innerHTML = `<b>${l === 'ar' ? m.ar : m.en}</b><span>${m.lead ? t.lead + ' · ' : ''}${l === 'ar' ? m.role_ar : m.role_en}</span>`;
+  const x = Math.max(8, Math.min(R.width - 228, r.left - R.left + r.width / 2 - 110)); tip.style.transform = `translate(${x}px,${r.top - R.top + r.height + 10}px)`; tip.classList.add('on');
+}
+function areas(l, t) {
+  const g = {}; MEMBERS.forEach((m, i) => { const k = m.role_en.split(';')[0].trim(); (g[k] = g[k] || []).push(i); });
+  const keys = AREA_ORDER.filter(k => g[k]).concat(Object.keys(g).filter(k => !AREA_ORDER.includes(k)));
+  $('#nAreas').textContent = keys.length;
+  $('#areas').innerHTML = keys.map((k, gi) => {
+    const first = MEMBERS[g[k][0]], title = l === 'ar' ? first.role_ar.split('؛')[0] : k;
+    return `<div class="arow rv" style="--d:${gi * 50}ms"><div class="ahead"><span class="aic"><svg viewBox="0 0 24 24">${ICON[k] || ''}</svg></span><h3>${title}</h3><em class="num">${String(g[k].length).padStart(2, '0')}</em></div><ul>${g[k].map(i => { const m = MEMBERS[i]; return `<li id="m-${i}" class="${m.lead ? 'is-lead' : ''}"><i class="av">${avatar(i)}</i><div><b>${l === 'ar' ? m.ar : m.en}</b>${m.lead ? `<span class="lb">${t.lead}</span>` : ''}${m.role_en.includes(';') ? `<small>+ ${l === 'ar' ? m.role_ar.split('؛').slice(1).join('؛') : m.role_en.split(';').slice(1).join(';')}</small>` : ''}</div></li>`; }).join('')}</ul></div>`;
+  }).join('');
+  document.querySelectorAll('#areas .rv').forEach(e => { const io = new IntersectionObserver(es => es.forEach(x => { if (x.isIntersecting) { x.target.classList.add('in'); io.disconnect(); } }), { rootMargin: '0px 0px -6% 0px' }); io.observe(e); });
+}
+let LL = 'en', TT = T.en;
+['logo_kfs_university', 'logo_kfs_pt'].forEach((f, k) => { const im = new Image(); im.alt = k ? 'Faculty of Physical Therapy, Kafrelsheikh University' : 'Kafrelsheikh University'; im.onload = () => $('#supLogos').append(im); im.src = 'assets/' + f + '.png'; });
+initSite({ page: 'team', T, onLang: (l, t) => { LL = l; TT = t; orbit(l, t); stack(l, t); areas(l, t); $('#tip').classList.remove('on'); } });
+$('#astack').addEventListener('click', e => { const b = e.target.closest('.sav'); if (!b) return; const m = MEMBERS[+b.dataset.i]; document.querySelectorAll('.sav.on').forEach(x => x.classList.remove('on')); b.classList.add('on'); $('#alab').innerHTML = `<b>${LL === 'ar' ? m.ar : m.en}</b> · ${m.lead ? TT.lead + ' · ' : ''}${LL === 'ar' ? m.role_ar : m.role_en}`; });
+const orb = $('#orbit');
+orb.addEventListener('pointerover', e => { const b = e.target.closest('.bub'); if (b) tipFor(b, LL, TT); });
+orb.addEventListener('pointerout', e => { if (e.target.closest('.bub') && e.pointerType === 'mouse') $('#tip').classList.remove('on'); });
+orb.addEventListener('click', e => { const b = e.target.closest('.bub'); if (!b) return; tipFor(b, LL, TT); const li = document.getElementById('m-' + b.dataset.i); if (li && e.detail > 0 && matchMedia('(hover:hover)').matches) { li.scrollIntoView({ behavior: 'smooth', block: 'center' }); li.classList.remove('flash'); void li.offsetWidth; li.classList.add('flash'); } });
+window.__done = true;
+</script>
+</body>
+</html>
