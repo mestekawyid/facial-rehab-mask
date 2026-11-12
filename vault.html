@@ -6,16 +6,16 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="description" content="An open-face electrical-stimulation mask for facial palsy rehabilitation — graduation project, Faculty of Physical Therapy, Kafrelsheikh University.">
 <meta name="theme-color" content="#FFFFFF">
-<link rel="icon" type="image/png" sizes="64x64" href="assets/favicon.png?v=6af5ecea">
-<link rel="apple-touch-icon" href="assets/apple-touch-icon.png?v=6af5ecea">
+<link rel="icon" type="image/png" sizes="64x64" href="assets/favicon.png?v=6af5ef37">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png?v=6af5ef37">
 <link rel="preload" href="assets/fonts/inter-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/site.css?v=6af5ecea">
+<link rel="stylesheet" href="assets/site.css?v=6af5ef37">
 
 </head>
 <body class="vaultpg locked">
 <main id="main">
 <div class="vstage">
-  <div class="vbeam" aria-hidden="true"></div>
+  <div class="vbeam" aria-hidden="true"></div><div class="vfog f1" aria-hidden="true"></div><div class="vfog f2" aria-hidden="true"></div><svg class="vbgtrace" viewBox="0 0 1600 200" preserveAspectRatio="none" aria-hidden="true"><path id="bgTrace"/></svg>
   <section class="vcard" id="vcard">
     <p class="vpill"><span class="num" id="vpN">06</span><i></i><span id="vpT" data-i="vpLocked"></span></p>
     <h1 class="vtitle" id="vTitle" data-i="vgT"></h1>
@@ -23,7 +23,7 @@
     <!-- locked: one featured slide = the lock -->
     <div class="vgate" id="vgate">
       <div class="vslide cur solo">
-        <div class="vtile"><svg class="vico lock" viewBox="0 0 120 120" aria-hidden="true"><use href="#gLock"/></svg></div>
+        <div class="vtile"><svg class="vtrace" viewBox="0 0 400 120" preserveAspectRatio="none" aria-hidden="true"><use href="#trace"/></svg><svg class="vico lock" viewBox="0 0 120 120" aria-hidden="true"><use href="#gLock"/></svg></div>
         <div class="vpanel">
           <p class="vk" data-i="vgK"></p>
           <h2 data-i="vgH"></h2>
@@ -52,23 +52,24 @@
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <defs>
-    <linearGradient id="gm" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFFFFF"/><stop offset=".45" stop-color="#C9CED6"/><stop offset="1" stop-color="#5D636D"/></linearGradient>
+    <linearGradient id="gm" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFFFFF"/><stop offset=".5" stop-color="#E3ECF2"/><stop offset="1" stop-color="#A9BFCD"/></linearGradient>
     <linearGradient id="gt" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#9FE3EA"/><stop offset="1" stop-color="#2A7F8A"/></linearGradient>
-    <filter id="gs" x="-30%" y="-30%" width="160%" height="170%"><feDropShadow dx="0" dy="6" stdDeviation="5" flood-color="#000" flood-opacity=".55"/></filter>
+    <filter id="gs" x="-30%" y="-30%" width="160%" height="170%"><feDropShadow dx="0" dy="6" stdDeviation="5" flood-color="#06121F" flood-opacity=".45"/></filter>
+    <path id="trace" d=""/>
     <g id="gLock" filter="url(#gs)" fill="none" stroke-linecap="round" stroke-linejoin="round">
       <path class="shackle" d="M42 54V40a18 18 0 0 1 36 0v14" stroke="url(#gm)" stroke-width="8"/>
       <rect x="30" y="52" width="60" height="46" rx="12" fill="url(#gm)"/>
       <rect x="30" y="52" width="60" height="46" rx="12" stroke="#fff" stroke-opacity=".6" stroke-width="1.2"/>
-      <circle cx="60" cy="72" r="6" fill="#1A1C20"/><path d="M60 76v9" stroke="#1A1C20" stroke-width="5"/>
+      <circle cx="60" cy="72" r="6" fill="#1F3A5F"/><path d="M60 76v9" stroke="#1F3A5F" stroke-width="5"/>
     </g>
-    <g id="g0" filter="url(#gs)" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="38" y="24" width="50" height="66" rx="8" fill="#6E747E"/><rect x="30" y="30" width="52" height="68" rx="8" fill="url(#gm)"/><path d="M41 50h30M41 61h30M41 72h20" stroke="#2B2E34" stroke-width="4"/><circle cx="74" cy="84" r="9" fill="url(#gt)"/></g>
-    <g id="g1" filter="url(#gs)" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="26" y="34" width="44" height="58" rx="7" fill="#6E747E" transform="rotate(-10 48 63)"/><rect x="48" y="28" width="44" height="58" rx="7" fill="url(#gm)" transform="rotate(8 70 57)"/><path d="M58 46h22M57 56h22M56 66h14" stroke="#2B2E34" stroke-width="4" transform="rotate(8 70 57)"/></g>
+    <g id="g0" filter="url(#gs)" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="38" y="24" width="50" height="66" rx="8" fill="#7FA3B8"/><rect x="30" y="30" width="52" height="68" rx="8" fill="url(#gm)"/><path d="M41 50h30M41 61h30M41 72h20" stroke="#1F3A5F" stroke-width="4"/><circle cx="74" cy="84" r="9" fill="url(#gt)"/></g>
+    <g id="g1" filter="url(#gs)" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="26" y="34" width="44" height="58" rx="7" fill="#7FA3B8" transform="rotate(-10 48 63)"/><rect x="48" y="28" width="44" height="58" rx="7" fill="url(#gm)" transform="rotate(8 70 57)"/><path d="M58 46h22M57 56h22M56 66h14" stroke="#1F3A5F" stroke-width="4" transform="rotate(8 70 57)"/></g>
     <g id="g2" filter="url(#gs)" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="22" y="28" width="76" height="50" rx="9" fill="url(#gm)"/><path d="M60 78v14M44 96l16-8 16 8" stroke="url(#gm)" stroke-width="6"/><path d="M36 64l12-12 10 8 16-16" stroke="url(#gt)" stroke-width="6"/></g>
     <g id="g3" filter="url(#gs)" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M28 38h64M28 60h64M28 82h64" stroke="url(#gm)" stroke-width="7"/><circle cx="50" cy="38" r="9" fill="url(#gt)"/><circle cx="76" cy="60" r="9" fill="url(#gm)"/><circle cx="40" cy="82" r="9" fill="url(#gt)"/></g>
-    <g id="g4" filter="url(#gs)" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="30" y="22" width="60" height="76" rx="10" fill="url(#gm)"/><path d="M42 46l5 5 9-10M42 66l5 5 9-10" stroke="url(#gt)" stroke-width="5"/><path d="M64 47h14M64 67h14M44 86h34" stroke="#2B2E34" stroke-width="4"/></g>
-    <g id="g5" filter="url(#gs)" stroke-linejoin="round"><path d="M60 22l32 18v38L60 96 28 78V40z" fill="url(#gm)"/><path d="M60 58L28 40M60 58l32-18M60 58v38" fill="none" stroke="#2B2E34" stroke-width="3" stroke-opacity=".55"/><path d="M60 58l32-18v38L60 96z" fill="#000" fill-opacity=".25"/><circle cx="60" cy="40" r="5" fill="url(#gt)"/></g>
+    <g id="g4" filter="url(#gs)" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="30" y="22" width="60" height="76" rx="10" fill="url(#gm)"/><path d="M42 46l5 5 9-10M42 66l5 5 9-10" stroke="url(#gt)" stroke-width="5"/><path d="M64 47h14M64 67h14M44 86h34" stroke="#1F3A5F" stroke-width="4"/></g>
+    <g id="g5" filter="url(#gs)" stroke-linejoin="round"><path d="M60 22l32 18v38L60 96 28 78V40z" fill="url(#gm)"/><path d="M60 58L28 40M60 58l32-18M60 58v38" fill="none" stroke="#1F3A5F" stroke-width="3" stroke-opacity=".55"/><path d="M60 58l32-18v38L60 96z" fill="#000" fill-opacity=".25"/><circle cx="60" cy="40" r="5" fill="url(#gt)"/></g>
   </defs>
 </svg>
-<script type="module" src="assets/vault.js?v=6af5ecea"></script>
+<script type="module" src="assets/vault.js?v=6af5ef37"></script>
 </body>
 </html>
