@@ -1,130 +1,110 @@
-import { initSite, $, $$ } from './site.js?v=6af5eaf7';
-import { createMaskScene, loadBust } from './mask3d.js?v=6af5eaf7';
-import { unlock, fileBlob, manifest } from './crypt.js?v=6af5eaf7';
+import { initSite, $, $$ } from './site.js?v=6af5ecea';
+import { unlock, fileBlob } from './crypt.js?v=6af5ecea';
 
 const T = {
   en: {
-    vgK: 'Restricted · team only', vgT: 'The project vault.', vgL: 'Every file from the project, in its latest version: report, papers, both presentations, the parameter files, the evidence appraisal and the 3D model.',
-    vgPh: 'Enter the vault password', vgGo: 'Open the vault', vBad: 'That password does not open the vault.', vWait: 'Verifying…', vOk: 'Access granted',
-    vcE: 'Vault', vcT: 'Everything we made.', vcP: 'Latest reviewed versions only. Files are decrypted on this device when you open them.',
-    vsN: 'files', vsS: 'in total', vsG: 'collections', vfN: 'The vault locks again when you leave or reload this page.', vLock: 'Lock the vault now',
-    open: 'Open', dl: 'Download', working: 'Decrypting',
-    g: [
-      ['The project', 'The full report and the two Arabic study companions.'],
-      ['Papers', 'The two manuscripts prepared for submission.'],
-      ['Presentation', 'The discussion deck, with and without speaker notes.'],
-      ['Parameters', 'How every stimulation parameter was chosen, with references.'],
-      ['Evidence appraisal', 'The team’s rating of every source.'],
-      ['3D model', 'The interactive model of the mask and the raw 3D file.'],
-    ],
+    vpLocked: 'TEAM ONLY', vpOpen: 'VAULT', vgT: 'The project vault.', vgK: 'Restricted', vgH: 'Every file we made, in its latest version.',
+    vgL: 'The report, both papers, both presentations, the parameter files, the evidence appraisal and the 3D model.',
+    vgPh: 'Vault password', vgGo: 'Open', vBad: 'That password does not open the vault.', vWait: 'Verifying…',
+    sF: 'files', sG: 'collections', sE: 'encryption', prev: 'Previous', next: 'Next', vLock: 'Lock the vault',
+    open: 'Open', dl: 'Download', files: 'files', total: 'total', pages: 'pages',
+    g: [['The project', 'The full report and the two Arabic study companions.'], ['Papers', 'The two manuscripts prepared for submission.'], ['Presentation', 'The discussion deck, with and without speaker notes.'],
+        ['Parameters', 'How every stimulation parameter was chosen, with references.'], ['Evidence appraisal', 'The team’s rating of every source.'], ['3D model', 'The interactive model of the mask and the raw 3D file.']],
   },
   ar: {
-    vgK: 'محظور · للفريق فقط', vgT: 'أرشيف المشروع.', vgL: 'كل ملفات المشروع بأحدث نسخة: التقرير، والبحثان، والعرضان، وملفات المعاملات، وتقييم الأدلة، والموديل الـ3D.',
-    vgPh: 'اكتب كلمة مرور الأرشيف', vgGo: 'افتح الأرشيف', vBad: 'كلمة المرور دي مش بتفتح الأرشيف.', vWait: 'جارٍ التحقق…', vOk: 'تم السماح بالدخول',
-    vcE: 'الأرشيف', vcT: 'كل اللي عملناه.', vcP: 'أحدث النسخ بعد المراجعة فقط. الملفات بتتفك على جهازك وقت ما تفتحها.',
-    vsN: 'ملف', vsS: 'الحجم الكلي', vsG: 'مجموعات', vfN: 'الأرشيف بيتقفل تاني لما تخرج من الصفحة أو تعمل تحديث.', vLock: 'اقفل الأرشيف دلوقتي',
-    open: 'فتح', dl: 'تنزيل', working: 'جارٍ الفك',
-    g: [
-      ['المشروع', 'التقرير الكامل وملفّي الشرح بالعربي.'],
-      ['الأبحاث', 'البحثان المجهزان للنشر.'],
-      ['العرض التقديمي', 'عرض المناقشة، بملاحظات المتحدث وبدونها.'],
-      ['المعاملات', 'إزاي اتحدد كل معامل في التحفيز، بالمراجع.'],
-      ['تقييم الأدلة', 'تقييم الفريق لكل مصدر.'],
-      ['الموديل الـ3D', 'الموديل التفاعلي للقناع وملف الـ3D الخام.'],
-    ],
+    vpLocked: 'للفريق فقط', vpOpen: 'الأرشيف', vgT: 'أرشيف المشروع.', vgK: 'محظور', vgH: 'كل ملف عملناه، بأحدث نسخة.',
+    vgL: 'التقرير، والبحثان، والعرضان، وملفات المعاملات، وتقييم الأدلة، والموديل الـ3D.',
+    vgPh: 'كلمة مرور الأرشيف', vgGo: 'افتح', vBad: 'كلمة المرور دي مش بتفتح الأرشيف.', vWait: 'جارٍ التحقق…',
+    sF: 'ملف', sG: 'مجموعات', sE: 'تشفير', prev: 'السابق', next: 'التالي', vLock: 'اقفل الأرشيف',
+    open: 'فتح', dl: 'تنزيل', files: 'ملفات', total: 'الحجم', pages: 'صفحة',
+    g: [['المشروع', 'التقرير الكامل وملفّي الشرح بالعربي.'], ['الأبحاث', 'البحثان المجهزان للنشر.'], ['العرض التقديمي', 'عرض المناقشة، بملاحظات المتحدث وبدونها.'],
+        ['المعاملات', 'إزاي اتحدد كل معامل في التحفيز، بالمراجع.'], ['تقييم الأدلة', 'تقييم الفريق لكل مصدر.'], ['الموديل الـ3D', 'الموديل التفاعلي للقناع وملف الـ3D الخام.']],
   },
 };
-// groups of files: [title EN, title AR, meta, [[id, label]...]]
+// [title, meta, actions, group, base name, pages]
 const FILES = [
-  [{ en: 'Project report', ar: 'تقرير المشروع' }, 'v22 · 79 pp · 113 refs', [['report.pdf', 'PDF'], ['report.docx', 'Word']], 0, 'Smart_Facial_Mask_Report_v22'],
-  [{ en: 'Brief project explainer (Arabic)', ar: 'شرح المشروع المختصر' }, 'v22 · 21 pp', [['explainer_ar.pdf', 'PDF']], 0, 'Project_Explainer_AR_v22'],
-  [{ en: 'Comprehensive reference guide (Arabic)', ar: 'دليل المراجع الشامل' }, 'v22 · 61 pp', [['refguide_ar.pdf', 'PDF']], 0, 'Reference_Guide_AR_v22'],
-  [{ en: 'Paper 1 — narrative review', ar: 'البحث الأول — مراجعة سردية' }, '44 pp · 80 refs', [['paper1.pdf', 'PDF'], ['paper1.docx', 'Word']], 1, 'Paper1_Narrative_Review'],
-  [{ en: 'Paper 2 — mask design and verification plan', ar: 'البحث الثاني — تصميم القناع وخطة التحقق' }, '50 pp · 104 refs', [['paper2.pdf', 'PDF'], ['paper2.docx', 'Word']], 1, 'Paper2_Mask_Design'],
-  [{ en: 'Discussion presentation', ar: 'عرض المناقشة' }, 'v5 · 25 slides', [['deck.pdf', 'PDF'], ['deck.pptx', 'PowerPoint']], 2, 'Presentation_v5'],
-  [{ en: 'Discussion presentation, with speaker notes', ar: 'عرض المناقشة بملاحظات المتحدث' }, 'v5 · 25 slides', [['decknotes.pptx', 'PowerPoint']], 2, 'Presentation_v5_Speaker_Notes'],
-  [{ en: 'Parameters summary', ar: 'ملخص المعاملات' }, 'v22 · 4 pp', [['params_sum.pdf', 'PDF']], 3, 'Parameters_Summary_v22'],
-  [{ en: 'Parameters rationale and references', ar: 'مبررات المعاملات ومراجعها' }, 'v22 · 41 pp', [['params_rat.pdf', 'PDF']], 3, 'Parameters_Rationale_v22'],
-  [{ en: 'Evidence appraisal sheet', ar: 'جدول تقييم الأبحاث' }, 'v14 · Excel', [['appraisal.xlsx', 'Excel']], 4, 'Evidence_Appraisal_v14'],
-  [{ en: 'Interactive 3D model', ar: 'الموديل الـ3D التفاعلي' }, 'v5 · opens in the browser', [['model3d.html', 'HTML']], 5, 'Facial_Mask_3D_v5'],
-  [{ en: '3D model file', ar: 'ملف الموديل الـ3D' }, 'GLB · for 3D software', [['model3d.glb', 'GLB']], 5, 'Facial_Mask_3D'],
+  [{ en: 'Project report', ar: 'تقرير المشروع' }, 'v22 · 113 refs', [['report.pdf', 'PDF'], ['report.docx', 'Word']], 0, 'Smart_Facial_Mask_Report_v22', 79],
+  [{ en: 'Brief project explainer', ar: 'شرح المشروع المختصر' }, 'v22 · Arabic', [['explainer_ar.pdf', 'PDF']], 0, 'Project_Explainer_AR_v22', 21],
+  [{ en: 'Comprehensive reference guide', ar: 'دليل المراجع الشامل' }, 'v22 · Arabic', [['refguide_ar.pdf', 'PDF']], 0, 'Reference_Guide_AR_v22', 61],
+  [{ en: 'Paper 1 — narrative review', ar: 'البحث الأول — مراجعة سردية' }, '80 refs', [['paper1.pdf', 'PDF'], ['paper1.docx', 'Word']], 1, 'Paper1_Narrative_Review', 44],
+  [{ en: 'Paper 2 — mask design', ar: 'البحث الثاني — تصميم القناع' }, '104 refs', [['paper2.pdf', 'PDF'], ['paper2.docx', 'Word']], 1, 'Paper2_Mask_Design', 50],
+  [{ en: 'Discussion presentation', ar: 'عرض المناقشة' }, 'v5 · 25 slides', [['deck.pdf', 'PDF'], ['deck.pptx', 'PowerPoint']], 2, 'Presentation_v5', 25],
+  [{ en: 'With speaker notes', ar: 'بملاحظات المتحدث' }, 'v5 · 25 slides', [['decknotes.pptx', 'PowerPoint']], 2, 'Presentation_v5_Speaker_Notes', 25],
+  [{ en: 'Parameters summary', ar: 'ملخص المعاملات' }, 'v22', [['params_sum.pdf', 'PDF']], 3, 'Parameters_Summary_v22', 4],
+  [{ en: 'Rationale and references', ar: 'المبررات والمراجع' }, 'v22', [['params_rat.pdf', 'PDF']], 3, 'Parameters_Rationale_v22', 41],
+  [{ en: 'Evidence appraisal sheet', ar: 'جدول تقييم الأبحاث' }, 'v14 · Excel', [['appraisal.xlsx', 'Excel']], 4, 'Evidence_Appraisal_v14', 0],
+  [{ en: 'Interactive 3D model', ar: 'الموديل الـ3D التفاعلي' }, 'v5 · browser', [['model3d.html', 'HTML']], 5, 'Facial_Mask_3D_v5', 0],
+  [{ en: '3D model file', ar: 'ملف الموديل الـ3D' }, 'GLB', [['model3d.glb', 'GLB']], 5, 'Facial_Mask_3D', 0],
 ];
-let L = 'en', t = T.en, sess = null;
+let L = 'en', t = T.en, sess = null, cur = 0;
 const fmt = n => n > 1e6 ? (n / 1e6).toFixed(1) + ' MB' : Math.max(1, Math.round(n / 1e3)) + ' KB';
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-const mobile = () => matchMedia('(max-width:820px)').matches;
-
-// ---------- 3D gate ----------
-const canvas = $('#v3d'), gate = $('#vgate');
-let S = null, run = true, t0 = performance.now(), anim = null;
-const nav_ = navigator, lite = !!(nav_.connection && nav_.connection.saveData) || (nav_.hardwareConcurrency || 8) <= 2;
-function frame3d() {
-  if (!S) return;
-  const w = canvas.clientWidth, h = canvas.clientHeight, cam = S.camera;
-  S.resize(); cam.clearViewOffset();
-  if (mobile()) cam.setViewOffset(w, h, 0, h * 0.2, w, h); else cam.setViewOffset(w, h, (L === 'ar' ? 1 : -1) * w * 0.2, 0, w, h);
-  cam.updateProjectionMatrix();
-}
-loadBust(lite ? 'assets/bust_lite.js?v=6af5eaf7' : 'assets/bust_full.js?v=6af5eaf7').then(b => createMaskScene(canvas, { lite, maxDpr: mobile() ? 1.75 : 2, cheapMat: mobile(), noShadow: mobile(), fit: mobile() ? 0.62 : 0.66, wfit: mobile() ? 0.9 : 0.9, lookY: 0.15, bust: b }))
-  .then(s => { S = s; Object.assign(S.state, { progress: 1, explode: 1, yaw: -0.42, active: -1, side: 0 }); frame3d(); gate.classList.add('ready'); requestAnimationFrame(loop); })
-  .catch(e => { console.warn(e); gate.classList.add('nogl'); });
-addEventListener('resize', () => { if (S) frame3d(); });
-const ease = x => x < 0 ? 0 : x > 1 ? 1 : x * x * (3 - 2 * x);
-function loop(now) {
-  if (!run || !S) return; requestAnimationFrame(loop);
-  const tt = (now - t0) / 1000; S.state.time = tt;
-  if (anim) {
-    const p = Math.min(1, (now - anim.t) / anim.d), e = ease(p);
-    S.state.explode = 1 - ease(p / 0.55);
-    S.state.yaw = anim.y0 + e * (Math.PI * 2 + (-0.38 - anim.y0));
-    S.state.active = p > 0.55 && p < 0.98 ? Math.min(5, Math.floor((p - 0.55) / 0.43 * 6)) : -1;
-    S.state.pitch = 0;
-  } else if (!reduce) { S.state.yaw = -0.42 + Math.sin(tt * 0.22) * 0.55; S.state.pitch = Math.sin(tt * 0.5) * 0.03; S.state.explode = 0.8 + Math.sin(tt * 0.8) * 0.2; }
-  S.render();
-}
-document.addEventListener('visibilitychange', () => { if (document.hidden) run = false; else if (!run && !gate.hidden) { run = true; requestAnimationFrame(loop); } });
 
 // ---------- unlock ----------
-const form = $('#vForm'), pw = $('#vpw'), msg = $('#vMsg');
-const say = (k, bad) => { msg.textContent = k ? t[k] : ''; msg.classList.toggle('bad', !!bad); };
+const form = $('#vForm'), pw = $('#vpw'), msg = $('#vMsg'), card = $('#vcard');
+const say = k => { msg.textContent = k ? t[k] : ''; msg.classList.toggle('bad', k === 'vBad'); };
 form.addEventListener('submit', async e => {
   e.preventDefault(); if (!pw.value) { pw.focus(); return; }
-  say('vWait'); gate.classList.add('busy');
+  say('vWait'); card.classList.add('busy');
   try { sess = await unlock('vault', pw.value); pw.value = ''; pw.blur(); say(''); opened(); }
-  catch (_) { say('vBad', true); gate.classList.remove('shake'); void gate.offsetWidth; gate.classList.add('shake'); }
-  finally { gate.classList.remove('busy'); }
+  catch (_) { say('vBad'); card.classList.remove('shake'); void card.offsetWidth; card.classList.add('shake'); }
+  finally { card.classList.remove('busy'); }
 });
 function opened() {
-  $('#vStatus').textContent = t.vOk;
-  build();
-  const D = reduce ? 10 : 2600;
-  gate.classList.add('granted');
-  if (S) anim = { t: performance.now(), d: D, y0: Math.atan2(Math.sin(S.state.yaw), Math.cos(S.state.yaw)) };
+  document.body.classList.add('granted');               // lock opens, beam brightens
+  const D = reduce ? 0 : 1100;
   setTimeout(() => {
-    const c = $('#vcontent'); c.hidden = false; document.body.classList.remove('vault-locked'); document.body.classList.add('vault-open');
-    requestAnimationFrame(() => { gate.classList.add('away'); c.classList.add('in'); });
-    setTimeout(() => { run = false; gate.hidden = true; scrollTo(0, 0); }, reduce ? 0 : 1100);
-  }, reduce ? 0 : D - 300);
+    card.classList.add('swap');                          // gate fades out
+    setTimeout(() => {
+      $('#vgate').hidden = true; $('#vcar').hidden = false; $('#vdots').hidden = false; $('#vLock').hidden = false;
+      document.body.classList.remove('locked'); document.body.classList.add('open');
+      build(); go(0, true);
+      requestAnimationFrame(() => card.classList.remove('swap'));
+    }, reduce ? 0 : 420);
+  }, D);
 }
 $('#vLock').onclick = () => location.reload();
 
-// ---------- file list ----------
-let dls = null; (async () => { try { dls = await window.claude?.use?.('downloads'); } catch (_) { } })();
+// ---------- carousel ----------
+function stats(gi) {
+  const rows = FILES.filter(f => f[3] === gi), files = sess.m.files;
+  let n = 0, sz = 0, pg = 0; rows.forEach(r => { n += r[2].length; r[2].forEach(([id]) => sz += files[id].size); pg += r[5]; }); return { rows, n, sz, pg };
+}
 function build() {
   if (!sess) return;
-  const files = sess.m.files; let total = 0, n = 0;
-  const groups = t.g.map((g, gi) => {
-    const rows = FILES.filter(f => f[3] === gi);
-    return `<div class="vg" style="--d:${gi * 90}ms"><div class="vgh"><span class="vn num">${String(gi + 1).padStart(2, '0')}</span><div><h3>${g[0]}</h3><p>${g[1]}</p></div></div>
-      <ul>${rows.map(([title, meta, acts, , base]) => { const sz = acts.reduce((a, [id]) => a + (files[id] ? files[id].size : 0), 0); n += acts.length; total += sz;
-        return `<li><div class="vt"><b>${title[L]}</b><small class="ltr">${meta} · ${fmt(files[acts[0][0]].size)}</small></div><div class="va">${acts.map(([id, lab], k) => {
+  const files = sess.m.files;
+  $('#vtrack').innerHTML = t.g.map((g, gi) => { const s = stats(gi);
+    return `<article class="vslide" data-i="${gi}"><div class="vtile"><svg class="vico" viewBox="0 0 120 120" aria-hidden="true"><use href="#g${gi}"/></svg><span class="vno num">${String(gi + 1).padStart(2, '0')}</span></div>
+      <div class="vpanel"><p class="vk">${String(gi + 1).padStart(2, '0')} · ${s.n} ${t.files}</p><h2>${g[0]}</h2><p class="vd">${g[1]}</p>
+        <ul class="vfiles">${s.rows.map(([title, meta, acts, , base]) => `<li><div class="vt"><b>${title[L]}</b><small class="ltr">${meta} · ${fmt(files[acts[0][0]].size)}</small></div><div class="va">${acts.map(([id, lab]) => {
           const ext = id.split('.').pop(), canOpen = ['pdf', 'html'].includes(ext);
-          return `${canOpen ? `<button type="button" class="vb pri" data-f="${id}" data-act="open" data-n="${base}.${ext}">${t.open}<i class="tag">${lab}</i></button>` : ''}<button type="button" class="vb" data-f="${id}" data-act="dl" data-n="${base}.${ext}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>${lab}</button>`; }).join('')}</div><i class="vp" aria-hidden="true"></i></li>`; }).join('')}</ul></div>`;
-  }).join('');
-  $('#vgroups').innerHTML = groups;
-  $('#vsN').textContent = n; $('#vsS').textContent = fmt(total); $('#vsG').textContent = t.g.length;
-  $$('#vgroups .vb').forEach(b => b.addEventListener('click', () => act(b)));
+          return `${canOpen ? `<button type="button" class="vb pri" data-f="${id}" data-act="open" data-n="${base}.${ext}">${t.open}</button>` : ''}<button type="button" class="vb" data-f="${id}" data-act="dl" data-n="${base}.${ext}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>${lab}</button>`; }).join('')}</div><i class="vp" aria-hidden="true"></i></li>`).join('')}</ul>
+        <div class="vstats"><div><b class="num">${s.n}</b><span>${t.files}</span></div><div><b class="num">${fmt(s.sz)}</b><span>${t.total}</span></div>${s.pg ? `<div><b class="num">${s.pg}</b><span>${t.pages}</span></div>` : ''}</div>
+      </div></article>`; }).join('');
+  $('#vdots').innerHTML = t.g.map((_, i) => `<button type="button" aria-label="${t.g[i][0]}" data-i="${i}"></button>`).join('');
+  $$('#vdots button').forEach(b => b.onclick = () => go(+b.dataset.i));
+  $$('#vtrack .vb').forEach(b => b.addEventListener('click', () => act(b)));
+  $$('#vtrack .vslide').forEach(s => s.addEventListener('click', () => { const i = +s.dataset.i; if (i !== cur) go(i); }));
+  $('#vpT').textContent = t.vpOpen; $('#vpN').textContent = String(FILES.reduce((a, f) => a + f[2].length, 0));
+  go(cur, true);
 }
+function go(i, instant) {
+  const n = t.g.length; cur = (i + n) % n;
+  $$('#vtrack .vslide').forEach(s => { const k = +s.dataset.i; let d = k - cur; if (d > n / 2) d -= n; if (d < -n / 2) d += n;
+    s.className = 'vslide ' + (d === 0 ? 'cur' : d === -1 ? 'prev' : d === 1 ? 'next' : d < 0 ? 'far-l' : 'far-r'); s.inert = d !== 0; });
+  $$('#vdots button').forEach((b, k) => b.classList.toggle('on', k === cur));
+  const c = $('#vtrack .vslide.cur'); if (c) $('#vtrack').style.height = c.offsetHeight + 'px';
+}
+$('#vPrev').onclick = () => go(cur + (L === 'ar' ? 1 : -1)); $('#vNext').onclick = () => go(cur + (L === 'ar' ? -1 : 1));
+addEventListener('keydown', e => { if (!sess || e.target.tagName === 'INPUT') return; if (e.key === 'ArrowLeft') $('#vPrev').click(); if (e.key === 'ArrowRight') $('#vNext').click(); });
+addEventListener('resize', () => { if (sess) go(cur, true); });
+{ let x0 = null, y0 = 0; const tr = $('#vtrack');
+  tr.addEventListener('touchstart', e => { x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; }, { passive: true });
+  tr.addEventListener('touchend', e => { if (x0 == null) return; const dx = e.changedTouches[0].clientX - x0, dy = e.changedTouches[0].clientY - y0; x0 = null;
+    if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.3) (dx < 0 ? $('#vNext') : $('#vPrev')).click(); }); }
+
+// ---------- open / download ----------
+let dls = null; (async () => { try { dls = await window.claude?.use?.('downloads'); } catch (_) { } })();
 async function act(b) {
   if (b.classList.contains('busy')) return; b.classList.add('busy');
   const li = b.closest('li'), bar = li.querySelector('.vp'), f = b.dataset.f, open = b.dataset.act === 'open';
@@ -141,6 +121,6 @@ async function act(b) {
   finally { b.classList.remove('busy'); li.classList.remove('working'); }
 }
 
-initSite({ page: 'vault', T, onLang: (l, tt) => { L = l; t = tt; build(); if (S) frame3d(); if ($('#vStatus').textContent) $('#vStatus').textContent = t.vOk; } });
-setTimeout(() => { if (!sess) pw.focus({ preventScroll: true }); }, 900);
+initSite({ page: 'vault', T, onLang: (l, tt) => { L = l; t = tt; if (sess) build(); } });
+setTimeout(() => { if (!sess && matchMedia('(hover:hover)').matches) pw.focus({ preventScroll: true }); }, 700);
 window.__done = true;

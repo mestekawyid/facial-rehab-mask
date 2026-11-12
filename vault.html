@@ -6,43 +6,69 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="description" content="An open-face electrical-stimulation mask for facial palsy rehabilitation — graduation project, Faculty of Physical Therapy, Kafrelsheikh University.">
 <meta name="theme-color" content="#FFFFFF">
-<link rel="icon" type="image/png" sizes="64x64" href="assets/favicon.png?v=6af5eaf7">
-<link rel="apple-touch-icon" href="assets/apple-touch-icon.png?v=6af5eaf7">
+<link rel="icon" type="image/png" sizes="64x64" href="assets/favicon.png?v=6af5ecea">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png?v=6af5ecea">
 <link rel="preload" href="assets/fonts/inter-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/site.css?v=6af5eaf7">
+<link rel="stylesheet" href="assets/site.css?v=6af5ecea">
 
-<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"}}</script>
 </head>
-<body class="vault-locked">
+<body class="vaultpg locked">
 <main id="main">
-<section class="vgate" id="vgate" aria-labelledby="vgT">
-  <canvas id="v3d" aria-hidden="true"></canvas>
-  <div class="vglow" aria-hidden="true"></div>
-  <div class="vring" aria-hidden="true"><i></i><i></i><i></i></div>
-  <div class="vcopy">
-    <p class="vk"><span class="dot"></span><span data-i="vgK"></span></p>
-    <h1 id="vgT" data-i="vgT"></h1>
-    <p class="vl" data-i="vgL"></p>
-    <form class="vform" id="vForm" autocomplete="off">
-      <input id="vpw" type="password" data-ia="placeholder:vgPh" aria-label="Password" autocomplete="off" spellcheck="false">
-      <button type="submit" id="vGo" data-ia="aria-label:vgGo"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
-    </form>
-    <p class="vmsg" id="vMsg" role="status"></p>
-  </div>
-  <p class="vstatus" id="vStatus" aria-hidden="true"></p>
-</section>
+<div class="vstage">
+  <div class="vbeam" aria-hidden="true"></div>
+  <section class="vcard" id="vcard">
+    <p class="vpill"><span class="num" id="vpN">06</span><i></i><span id="vpT" data-i="vpLocked"></span></p>
+    <h1 class="vtitle" id="vTitle" data-i="vgT"></h1>
 
-<div class="vcontent" id="vcontent" hidden>
-  <section class="vhead"><div class="wrap">
-    <p class="eyebrow" data-i="vcE"></p>
-    <h2 class="sec-h" data-i="vcT"></h2>
-    <p class="sec-p" data-i="vcP"></p>
-    <div class="vstats"><div><b class="num" id="vsN">0</b><span data-i="vsN"></span></div><div><b class="num" id="vsS">0</b><span data-i="vsS"></span></div><div><b class="num" id="vsG">0</b><span data-i="vsG"></span></div></div>
-  </div></section>
-  <section class="vlist"><div class="wrap" id="vgroups"></div></section>
-  <section class="vfoot"><div class="wrap"><p data-i="vfN"></p><button type="button" class="vlock" id="vLock" data-i="vLock"></button></div></section>
+    <!-- locked: one featured slide = the lock -->
+    <div class="vgate" id="vgate">
+      <div class="vslide cur solo">
+        <div class="vtile"><svg class="vico lock" viewBox="0 0 120 120" aria-hidden="true"><use href="#gLock"/></svg></div>
+        <div class="vpanel">
+          <p class="vk" data-i="vgK"></p>
+          <h2 data-i="vgH"></h2>
+          <p class="vd" data-i="vgL"></p>
+          <form class="vform" id="vForm" autocomplete="off">
+            <input id="vpw" type="password" data-ia="placeholder:vgPh" aria-label="Password" autocomplete="off" spellcheck="false">
+            <button type="submit" id="vGo"><span data-i="vgGo"></span></button>
+          </form>
+          <p class="vmsg" id="vMsg" role="status"></p>
+          <div class="vstats"><div><b class="num">16</b><span data-i="sF"></span></div><div><b class="num">6</b><span data-i="sG"></span></div><div><b class="num">AES-256</b><span data-i="sE"></span></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- open: carousel of collections -->
+    <div class="vcar" id="vcar" hidden>
+      <button type="button" class="varr prev" id="vPrev" data-ia="aria-label:prev"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button>
+      <div class="vtrack" id="vtrack"></div>
+      <button type="button" class="varr next" id="vNext" data-ia="aria-label:next"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button>
+    </div>
+    <div class="vdots" id="vdots" hidden></div>
+    <button type="button" class="vbtn" id="vLock" hidden><span data-i="vLock"></span></button>
+  </section>
 </div>
 </main>
-<script type="module" src="assets/vault.js?v=6af5eaf7"></script>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <linearGradient id="gm" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFFFFF"/><stop offset=".45" stop-color="#C9CED6"/><stop offset="1" stop-color="#5D636D"/></linearGradient>
+    <linearGradient id="gt" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#9FE3EA"/><stop offset="1" stop-color="#2A7F8A"/></linearGradient>
+    <filter id="gs" x="-30%" y="-30%" width="160%" height="170%"><feDropShadow dx="0" dy="6" stdDeviation="5" flood-color="#000" flood-opacity=".55"/></filter>
+    <g id="gLock" filter="url(#gs)" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <path class="shackle" d="M42 54V40a18 18 0 0 1 36 0v14" stroke="url(#gm)" stroke-width="8"/>
+      <rect x="30" y="52" width="60" height="46" rx="12" fill="url(#gm)"/>
+      <rect x="30" y="52" width="60" height="46" rx="12" stroke="#fff" stroke-opacity=".6" stroke-width="1.2"/>
+      <circle cx="60" cy="72" r="6" fill="#1A1C20"/><path d="M60 76v9" stroke="#1A1C20" stroke-width="5"/>
+    </g>
+    <g id="g0" filter="url(#gs)" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="38" y="24" width="50" height="66" rx="8" fill="#6E747E"/><rect x="30" y="30" width="52" height="68" rx="8" fill="url(#gm)"/><path d="M41 50h30M41 61h30M41 72h20" stroke="#2B2E34" stroke-width="4"/><circle cx="74" cy="84" r="9" fill="url(#gt)"/></g>
+    <g id="g1" filter="url(#gs)" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="26" y="34" width="44" height="58" rx="7" fill="#6E747E" transform="rotate(-10 48 63)"/><rect x="48" y="28" width="44" height="58" rx="7" fill="url(#gm)" transform="rotate(8 70 57)"/><path d="M58 46h22M57 56h22M56 66h14" stroke="#2B2E34" stroke-width="4" transform="rotate(8 70 57)"/></g>
+    <g id="g2" filter="url(#gs)" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="22" y="28" width="76" height="50" rx="9" fill="url(#gm)"/><path d="M60 78v14M44 96l16-8 16 8" stroke="url(#gm)" stroke-width="6"/><path d="M36 64l12-12 10 8 16-16" stroke="url(#gt)" stroke-width="6"/></g>
+    <g id="g3" filter="url(#gs)" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M28 38h64M28 60h64M28 82h64" stroke="url(#gm)" stroke-width="7"/><circle cx="50" cy="38" r="9" fill="url(#gt)"/><circle cx="76" cy="60" r="9" fill="url(#gm)"/><circle cx="40" cy="82" r="9" fill="url(#gt)"/></g>
+    <g id="g4" filter="url(#gs)" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="30" y="22" width="60" height="76" rx="10" fill="url(#gm)"/><path d="M42 46l5 5 9-10M42 66l5 5 9-10" stroke="url(#gt)" stroke-width="5"/><path d="M64 47h14M64 67h14M44 86h34" stroke="#2B2E34" stroke-width="4"/></g>
+    <g id="g5" filter="url(#gs)" stroke-linejoin="round"><path d="M60 22l32 18v38L60 96 28 78V40z" fill="url(#gm)"/><path d="M60 58L28 40M60 58l32-18M60 58v38" fill="none" stroke="#2B2E34" stroke-width="3" stroke-opacity=".55"/><path d="M60 58l32-18v38L60 96z" fill="#000" fill-opacity=".25"/><circle cx="60" cy="40" r="5" fill="url(#gt)"/></g>
+  </defs>
+</svg>
+<script type="module" src="assets/vault.js?v=6af5ecea"></script>
 </body>
 </html>
