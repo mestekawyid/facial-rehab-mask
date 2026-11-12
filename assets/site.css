@@ -653,7 +653,7 @@ footer.foot .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:
 .steps ol{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,1fr);gap:20px;position:relative}
 .steps .track{position:absolute;top:22px;inset-inline:12.5%;height:2px;background:var(--line);border-radius:2px}
 .steps .track i{display:block;height:100%;width:calc(var(--p)*100%);background:var(--teal);transition:width .9s var(--ease)}
-:root[dir="rtl"] .steps .track i{margin-inline-start:auto}
+:root[dir="rtl"] .steps .track i{margin-inline-start:0}
 .steps li{text-align:center;cursor:pointer;padding:0 8px 8px;border-radius:20px;transition:all var(--t3) var(--ease)}
 .steps .dot{position:relative;z-index:1;display:inline-grid;place-items:center;width:46px;height:46px;border-radius:50%;background:var(--card);border:2px solid var(--line);font-weight:700;transition:all var(--t2) var(--ease)}
 .steps li.done .dot{border-color:var(--teal);color:var(--teal)}
@@ -1799,3 +1799,15 @@ body.vaultpg .selfx .hl{mix-blend-mode:normal}
 .pdtrack{background:#fff!important;box-shadow:inset 0 0 0 1px color-mix(in srgb,#1F3A5F 9%,transparent)}
 .pdh .sw{align-self:center;height:30px;width:3px}
 .pdh{margin-bottom:8px}
+
+/* ===== Arabic typography: Latin digits/words and punctuation come from Inter (consistent, correctly mirrored brackets) ===== */
+:root[lang="ar"]{--font:"Inter","Thmanyah Serif Text","Noto Naskh Arabic","Amiri",serif;--f-display:"Inter","Thmanyah Serif Display","Amiri","Noto Naskh Arabic",serif;--f-ui:"Inter","Thmanyah Sans","IBM Plex Sans Arabic",sans-serif}
+/* number blocks align to the reading side in Arabic */
+:root[dir="rtl"] .num:not(span):not(sup){text-align:right}
+:root[dir="rtl"] .stats .v{text-align:right}
+:root[dir="rtl"] .ticker #tick{font-family:"Inter",sans-serif}
+/* stepper progress fills from the right in Arabic */
+:root[dir="rtl"] .steps .bar,:root[dir="rtl"] .steps .fill,:root[dir="rtl"] .steps::after{transform-origin:right!important}
+/* vault: the tile fills its column and never grows wider than it (longer Arabic text made it overflow) */
+@media (min-width:821px){.vslide>.vtile{aspect-ratio:auto!important;width:100%;min-width:0;min-height:clamp(300px,34vw,440px);height:100%}}
+.vslide{grid-template-columns:minmax(0,44%) minmax(0,1fr)!important}
