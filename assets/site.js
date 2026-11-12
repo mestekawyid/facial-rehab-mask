@@ -1,5 +1,5 @@
 // Shared shell: nav, footer, language, citations, reveal, count-up, smooth scroll.
-import { KEYS } from './refs.js?v=6af60492';
+import { KEYS } from './refs.js?v=6af6467d';
 
 const COMMON = {
   en: {
@@ -110,6 +110,34 @@ export function initSite({ page, T, onLang }) {
     el.insertAdjacentHTML('afterbegin', '<i class="fog f1"></i><i class="fog f2"></i>');
     h.prepend(el);
   });
+  // iPhone-style text selection: soft teal highlight that grows in, round handles at both ends
+  if (matchMedia('(prefers-reduced-motion: no-preference)').matches && document.caretRangeFromPoint !== undefined || CSS.supports('selector(::selection)')) {
+    const layer = document.createElement('div'); layer.className = 'selfx'; layer.setAttribute('aria-hidden', 'true'); document.body.append(layer);
+    document.documentElement.classList.add('cselect');
+    let raf = 0, last = '';
+    const draw = () => {
+      raf = 0; const sel = getSelection();
+      const inField = document.activeElement && /^(INPUT|TEXTAREA)$/.test(document.activeElement.tagName);
+      if (!sel || sel.isCollapsed || !sel.rangeCount || inField) { if (last) { layer.classList.add('out'); last = ''; setTimeout(() => { if (!last) { layer.innerHTML = ''; layer.classList.remove('out'); } }, 180); } return; }
+      const r = sel.getRangeAt(0); const lines = [];
+      for (const q of r.getClientRects()) { if (q.width < 2 || q.height < 4) continue; const l = lines.find(o => Math.abs(o.top - q.top) < q.height * 0.5);
+        if (l) { l.left = Math.min(l.left, q.left); l.right = Math.max(l.right, q.right); l.bottom = Math.max(l.bottom, q.bottom); } else lines.push({ top: q.top, bottom: q.bottom, left: q.left, right: q.right }); }
+      if (!lines.length) return;
+      lines.sort((a, b) => a.top - b.top || a.left - b.left);
+      const key = lines.map(o => [o.top, o.left, o.right].map(Math.round).join(',')).join('|');
+      const fresh = !last; last = key; layer.classList.remove('out');
+      const rtlSel = getComputedStyle(r.startContainer.parentElement || document.body).direction === 'rtl';
+      let html = lines.map((o, i) => `<i class="hl${fresh ? ' in' : ''}" style="left:${o.left - 2}px;top:${o.top}px;width:${o.right - o.left + 4}px;height:${o.bottom - o.top}px;--d:${fresh ? i * 40 : 0}ms"></i>`).join('');
+      const a = lines[0], b = lines[lines.length - 1];
+      const sx = rtlSel ? a.right + 1 : a.left - 1, ex = rtlSel ? b.left - 1 : b.right + 1;
+      html += `<i class="hd s${fresh ? ' in' : ''}" style="left:${sx}px;top:${a.top}px;height:${a.bottom - a.top}px"></i><i class="hd e${fresh ? ' in' : ''}" style="left:${ex}px;top:${b.top}px;height:${b.bottom - b.top}px"></i>`;
+      layer.innerHTML = html;
+    };
+    const queue = () => { if (!raf) raf = requestAnimationFrame(draw); };
+    document.addEventListener('selectionchange', queue);
+    addEventListener('scroll', () => { if (last) { last = last; queue(); } }, { passive: true, capture: true });
+    addEventListener('resize', queue);
+  }
   // reading progress bar under the nav
   const pb = document.createElement('div'); pb.className = 'sprog'; pb.setAttribute('aria-hidden', 'true'); pb.innerHTML = '<i></i>'; document.body.append(pb);
   let pt = false; const upd = () => { pt = false; const h = document.documentElement.scrollHeight - innerHeight; pb.style.setProperty('--p', h > 0 ? Math.min(1, scrollY / h).toFixed(4) : 0); };

@@ -1753,3 +1753,49 @@ nav#nav .navlinks a .ic svg{width:21px;height:21px}
 .chart .zone.key{opacity:1}
 .chart text.halo{paint-order:stroke;stroke:#fff;stroke-width:4px;stroke-linejoin:round}
 @media (max-width:600px){#chPD .zl{font-size:13px;font-weight:600}}
+/* pulse durations, phone layout */
+.pdm{display:flex;flex-direction:column;gap:22px;padding-top:4px}
+.pdh{display:flex;align-items:center;gap:12px;margin-bottom:6px}
+.pdh .sw{width:4px;align-self:stretch;border-radius:4px}
+.pdg.za .sw{background:#1F3A5F}.pdg.zb .sw{background:#2A7F8A}
+.pdh b{display:block;font-size:15px;font-weight:600;color:#2C3440}
+.pdg.za .pdh b{color:#1F3A5F}.pdg.zb .pdh b{color:#2A7F8A}
+.pdh small{display:block;font-size:12.5px;color:var(--ink2)}
+.pdzone{position:relative}
+.pdr{padding:11px 0 12px;border-top:1px solid color-mix(in srgb,#1F3A5F 8%,transparent);opacity:0;transform:translateY(6px);transition:opacity .5s ease calc(var(--i)*60ms),transform .6s var(--ease) calc(var(--i)*60ms)}
+.chart.in .pdr{opacity:1;transform:none}
+.pdt{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-bottom:8px}
+.pdt span{font-size:14px;color:#2C3440;line-height:1.35}
+.pdt b{flex:none;font-size:13px;font-weight:600;color:#1F3A5F;background:#EEF2F6;border-radius:999px;padding:2px 9px}
+.pdg.zb .pdt b{color:#1E6670;background:#E8F3F4}
+.pdtrack{position:relative;height:10px;border-radius:5px;background:linear-gradient(90deg,transparent var(--za),color-mix(in srgb,currentColor 0%,transparent) 0);background:#F1F3F6}
+.pdzone .pdtrack::before{content:"";position:absolute;top:0;bottom:0;left:var(--za);right:calc(100% - var(--zb));border-radius:5px;background:color-mix(in srgb,#2A7F8A 10%,transparent)}
+.pdg.za .pdtrack::before{background:color-mix(in srgb,#1F3A5F 9%,transparent)}
+.pdtrack .tk{position:absolute;top:2px;bottom:2px;width:1px;background:rgba(31,58,95,.12)}
+.pdtrack .bar{position:absolute;top:1px;bottom:1px;border-radius:4px;min-width:8px}
+.pdtrack .dot{position:absolute;top:50%;width:12px;height:12px;margin:-6px 0 0 -6px;border-radius:50%;box-shadow:0 0 0 2px #fff}
+.pdtrack .navy{background:#1F3A5F}.pdtrack .teal{background:#2A7F8A}
+.pdscale{position:relative;height:16px;margin-top:-8px;font-size:11px;color:var(--ink2)}
+.pdscale span{position:absolute;transform:translateX(-50%)}
+.pdscale span:first-child{transform:none}.pdscale span:last-child{transform:translateX(-100%)}
+.pdax{margin:6px 0 0;font-size:11.5px;color:var(--ink2);text-align:center}
+
+/* ===== text selection: teal, animated, with handles ===== */
+::selection{background:rgba(42,127,138,.2);color:inherit}
+html.cselect ::selection{background:transparent}
+html.cselect input::selection,html.cselect textarea::selection{background:rgba(42,127,138,.25)}
+.selfx{position:fixed;inset:0;z-index:80;pointer-events:none;transition:opacity .18s ease}
+.selfx.out{opacity:0}
+.selfx .hl{position:absolute;border-radius:5px;background:rgba(42,127,138,.2);mix-blend-mode:multiply}
+.selfx .hl.in{transform-origin:left center;animation:selgrow .26s cubic-bezier(.2,.8,.2,1) var(--d) both}
+:root[dir="rtl"] .selfx .hl.in{transform-origin:right center}
+@keyframes selgrow{from{transform:scaleX(.2);opacity:0}to{transform:none;opacity:1}}
+.selfx .hd{position:absolute;width:2px;margin-left:-1px;background:#2A7F8A;border-radius:1px}
+.selfx .hd::after{content:"";position:absolute;left:50%;width:10px;height:10px;margin-left:-5px;border-radius:50%;background:#2A7F8A;box-shadow:0 1px 3px rgba(0,0,0,.25)}
+.selfx .hd.s::after{top:-9px}.selfx .hd.e::after{bottom:-9px}
+.selfx .hd.in{animation:selpop .32s cubic-bezier(.3,1.6,.5,1) .1s both}
+@keyframes selpop{from{transform:scaleY(.3);opacity:0}to{transform:none;opacity:1}}
+body.vaultpg .selfx .hl{mix-blend-mode:normal}
+.pdtrack{background:#fff!important;box-shadow:inset 0 0 0 1px color-mix(in srgb,#1F3A5F 9%,transparent)}
+.pdh .sw{align-self:center;height:30px;width:3px}
+.pdh{margin-bottom:8px}

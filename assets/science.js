@@ -1,5 +1,5 @@
-import { initSite, cite, $, $$ } from './site.js?v=6af60492';
-import { hbar, donut, ranges, forest, gantt, vbars, svg, logx } from './charts.js?v=6af60492';
+import { initSite, cite, $, $$ } from './site.js?v=6af6467d';
+import { hbar, donut, ranges, forest, gantt, vbars, svg, logx } from './charts.js?v=6af6467d';
 
 const T = {
  en: {
@@ -19,6 +19,7 @@ const T = {
   sdSrc: 'Schematic, not to scale; after Kurz et al. (2022) and Geitner et al. (2026) [[Kurz2022,Geitner2026]].', axPD: 'Pulse duration (ms, log scale)', axTh: 'Threshold (log)',
   zA: 'mode A', zB: 'mode B start',
   pdT: 'Pulse durations used in published work', pdS: 'Dots: single values. Bars: ranges.', pdSrc: 'Efthimiou 2024; Ilves 2019; Frigerio 2015; Tuncay 2015; Di Pietro 2023; Puls 2020; Arnold 2023; Geitner 2026 [[Efthimiou2024,Ilves2019,Frigerio2015,Tuncay2015,DiPietro2023,Puls2020,Arnold2023,Geitner2026]].',
+  zSs: 'All below 1 ms', zLs: 'From 25 ms up to 1 s',
   pd: ['fNMES studies, most used range', 'Facial muscles, healthy volunteers', 'Blink in acute palsy (mean)', 'Bell’s palsy RCT', 'Bell’s palsy, selective EMS', 'Denervated, home FES', 'Reinnervated zygomaticus', 'Complete paralysis, home FES'],
   zS: 'short pulses: intact nerve', zL: 'long pulses: denervated fibres',
   c3T: 'Two modes, chosen muscle by muscle.', c3P: 'The supervising clinician picks the mode for each muscle from the clinical assessment and, when indicated, nerve testing. The muscle’s response only supports that decision.',
@@ -69,6 +70,7 @@ const T = {
   sdSrc: 'رسم توضيحي ليس بمقياس حقيقي، مأخوذ عن Kurz et al. (2022) وGeitner et al. (2026) [[Kurz2022,Geitner2026]].', axPD: 'مدة النبضة (ms، مقياس لوغاريتمي)', axTh: 'العتبة (لوغاريتمي)',
   zA: 'الوضع A', zB: 'بداية الوضع B',
   pdT: 'مدد النبضات المستخدمة في الأبحاث المنشورة', pdS: 'النقاط: قيم مفردة. الأشرطة: نطاقات.', pdSrc: 'Efthimiou 2024; Ilves 2019; Frigerio 2015; Tuncay 2015; Di Pietro 2023; Puls 2020; Arnold 2023; Geitner 2026 [[Efthimiou2024,Ilves2019,Frigerio2015,Tuncay2015,DiPietro2023,Puls2020,Arnold2023,Geitner2026]].',
+  zSs: 'كلها أقل من 1 مللي ثانية', zLs: 'من 25 مللي ثانية حتى ثانية كاملة',
   pd: ['دراسات fNMES، النطاق الأكثر استخدامًا', 'عضلات الوجه لدى متطوعين أصحاء', 'إغماض العين في الشلل الحاد (متوسط)', 'تجربة عشوائية في شلل بِل', 'شلل بِل، تحفيز انتقائي', 'عضلة فاقدة للعصب، تحفيز منزلي', 'عضلة Zygomaticus بعد عودة العصب', 'شلل كامل، تحفيز منزلي'],
   zS: 'نبضات قصيرة: العصب السليم', zL: 'نبضات طويلة: الألياف الفاقدة للعصب',
   c3T: 'وضعان، يُختار أحدهما لكل عضلة.', c3P: 'يختار المعالج المشرف الوضع لكل عضلة بناءً على التقييم السريري، وفحص العصب عند الحاجة. واستجابة العضلة تدعم القرار فقط.',
@@ -109,6 +111,20 @@ const NM = matchMedia('(max-width: 600px)'); const nar = () => NM.matches; const
 const rtl = () => L === 'ar';
 const AET = [38, 17, 10, 7, 7, 7, 5, 5, 4];
 const PD = [[0.01, 0.1], [0.4], [0.7], [100], [30, 200], [100, 280], [25, 1000], [25, 155]];
+// phones: the same data as two grouped lists, each study with its value and a small log-scale track
+function pdList() {
+  const lo = Math.log10(0.005), hi = Math.log10(2000), X = v => ((Math.log10(v) - lo) / (hi - lo) * 100).toFixed(2) + '%';
+  const f = v => (v < 1 ? String(v) : String(Math.round(v)));
+  const ticks = [0.01, 0.1, 1, 10, 100, 1000].map(v => `<i class="tk" style="left:${X(v)}"></i>`).join('');
+  const row = i => { const [a, b] = PD[i], cls = i < 3 ? 'navy' : 'teal';
+    const val = (b ? f(a) + '–' + f(b) : f(a)) + ' ms';
+    const mark = b ? `<i class="bar ${cls}" style="left:${X(a)};width:calc(${X(b)} - ${X(a)})"></i>` : `<i class="dot ${cls}" style="left:${X(a)}"></i>`;
+    return `<div class="pdr" style="--i:${i}"><div class="pdt"><span>${t.pd[i]}</span><b class="num ltr">${val}</b></div><div class="pdtrack" dir="ltr">${ticks}${mark}</div></div>`; };
+  const grp = (cls, title, sub, idx, z) => `<div class="pdg ${cls}"><div class="pdh"><span class="sw"></span><div><b>${title}</b><small>${sub}</small></div></div>
+    <div class="pdzone" dir="ltr" style="--za:${X(z[0])};--zb:${X(z[1])}">${idx.map(row).join('')}</div></div>`;
+  const scale = `<div class="pdscale" dir="ltr">${[0.01, 0.1, 1, 10, 100, 1000].map(v => `<span style="left:${X(v)}">${v}</span>`).join('')}</div><p class="pdax">${t.axPD}</p>`;
+  return `<div class="pdm">${grp('za', t.zS, t.zSs, [0, 1, 2], [0.005, 1])}${grp('zb', t.zL, t.zLs, [3, 4, 5, 6, 7], [10, 2000])}${scale}</div>`;
+}
 
 function render() {
   // 1. aetiology + recovery
@@ -117,6 +133,7 @@ function render() {
   // 2. pulse durations used
   $('#chPD .cv').innerHTML = ranges(t.pd.map((l, i) => ({ label: l, a: PD[i][0], b: PD[i][1], cls: i < 3 ? 'navy' : 'teal' })),
     { rtl: rtl(), labelW: 290, w: nar() ? CW() : 800, stack: nar(), axisLabel: t.axPD, zones: [{ from: 0.005, to: 1, cls: 'za', label: t.zS }, { from: 10, to: 2000, cls: 'zb', label: t.zL }], label: t.pdT });
+  if (nar()) $('#chPD .cv').innerHTML = pdList();
   drawSD();
   // 4. gantt
   const G = [[[0, 14, 1]], [[0, 7, 1], [7, 14, .5]], [[3, 14, 1], [14, 21, .45]], [[14, 21, .45], [21, 90, 1]], [[14, 21, 1]], [[14, 21, 1]]];
