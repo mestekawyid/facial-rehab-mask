@@ -1,4 +1,4 @@
-import { initSite, $, $$, LANG } from './site.js?v=6714d5644d';
+import { initSite, $, $$, LANG } from './site.js?v=7d9ad74aff';
 // the 3D engine loads in parallel and never holds up the page text
 const M3 = import('./mask3d.js?v=034906bed6');
 

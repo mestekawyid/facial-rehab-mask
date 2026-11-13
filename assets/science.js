@@ -1,4 +1,4 @@
-import { initSite, cite, $, $$ } from './site.js?v=6714d5644d';
+import { initSite, cite, $, $$ } from './site.js?v=7d9ad74aff';
 import { hbar, donut, ranges, forest, gantt, vbars, svg, logx } from './charts.js?v=4f80100eb0';
 
 const T = {
@@ -42,7 +42,7 @@ const T = {
   fSrc: 'Madhok et al. (2016); Choi et al. (2026) [[Madhok2016,Choi2026]]. Different populations and follow-up: shown side by side, not compared.',
   wT: 'Inside the 2026 meta-analysis', wS: 'Its 14 trials, one square each', w1: 'Type of stimulation', w1a: 'electroacupuncture (13)', w1b: 'other electrical stimulation (1)', w2: 'Adverse events reported', w2a: 'reported (2)', w2b: 'not reported (12)', wSrc: 'Choi et al. (2026) [[Choi2026]]. Electroacupuncture results do not transfer directly to surface stimulation.',
   xT: 'Exercise vs acupuncture', xS: 'Facial rehabilitation: change in Sunnybrook score (95% CI)', xM: 'MCID 10 points', xA: 'Acupuncture: quality of 17 systematic reviews', xA1: '14 very low', xA2: '3 low', xSrc: 'Lee et al. (2026); Huang et al. (2025) [[Lee2026,Huang2025]].',
-  jT: 'A warning sign on synkinesis', jS: '317 patients with severe Bell’s palsy: non-selective ES vs not exposed', jA: 'Synkinesis score', jAn: 'higher = more synkinesis', jB: 'Botulinum toxin effect (months)', jBn: 'shorter = worse', jE: 'non-selective ES', jN: 'not exposed', jSrc: 'Jung et al. (2026) [[Jung2026]], a retrospective cohort. Another review found no significant extra risk [[Eberly2026]].',
+  jT: 'A warning sign on synkinesis', jS: '317 patients with severe Bell’s palsy who developed synkinesis: non-selective ES vs not exposed', jA: 'Synkinesis score', jAn: 'higher = more synkinesis', jB: 'Botulinum toxin effect (months)', jBn: 'shorter = worse', jE: 'non-selective ES', jN: 'not exposed', jSrc: 'Jung et al. (2026) [[Jung2026]], a retrospective cohort. Another review found no significant extra risk [[Eberly2026]].',
   c6T: 'A supervised session, step by step.', c6P: 'The clinician stays in control from screening to review. The open face lets the therapist watch every response.',
   s1: 'Screen and fit', s1p: 'Check skin and contraindications; adjust the frame; find the motor points.', s2: 'Set the program', s2p: 'Clinician selects muscles, order, phase duration and intensity limits.', s3: 'Stimulate in sequence', s3p: 'One muscle at a time; the patient can try the same movement in a mirror.', s4: 'Record and review', s4p: 'Log settings and responses; re-grade, including synkinesis, at follow-up.',
   sSrc: 'Session protocol from the project report, based on Nussbaum et al. (2017) and Geitner et al. (2026) [[Nussbaum2017,Geitner2026]].',
@@ -93,7 +93,7 @@ const T = {
   fSrc: 'Madhok et al. (2016); Choi et al. (2026) [[Madhok2016,Choi2026]]. مجموعات مرضى ومدد متابعة مختلفة: معروضتان جنبًا إلى جنب، لا للمقارنة.',
   wT: 'من داخل التحليل التجميعي لعام 2026', wS: 'تجاربه الأربع عشرة، كل مربع تجربة', w1: 'نوع التحفيز', w1a: 'وخز بالإبر الكهربائي (13)', w1b: 'تحفيز كهربائي آخر (1)', w2: 'هل ذُكرت الآثار الجانبية', w2a: 'ذُكرت (2)', w2b: 'لم تُذكر (12)', wSrc: 'Choi et al. (2026) [[Choi2026]]. نتائج الوخز بالإبر الكهربائي لا تنطبق مباشرة على التحفيز السطحي.',
   xT: 'التمارين مقابل الوخز بالإبر', xS: 'تأهيل الوجه: التغير في درجة Sunnybrook (فاصل الثقة 95%)', xM: 'MCID ‏10 نقاط', xA: 'الوخز بالإبر: جودة 17 مراجعة منهجية', xA1: '14 منخفضة جدًا', xA2: '3 منخفضة', xSrc: 'Lee et al. (2026); Huang et al. (2025) [[Lee2026,Huang2025]].',
-  jT: 'إشارة تحذير بشأن الحركات المصاحبة', jS: '317 مريضًا بشلل بِل الشديد: تحفيز غير انتقائي مقابل عدم التعرض', jA: 'درجة الحركات المصاحبة', jAn: 'الأعلى = حركات مصاحبة أكثر', jB: 'مدة مفعول البوتوكس (أشهر)', jBn: 'الأقصر = أسوأ', jE: 'تحفيز غير انتقائي', jN: 'بدون تعرض', jSrc: 'Jung et al. (2026) [[Jung2026]]، دراسة أترابية بأثر رجعي. ووجدت مراجعة أخرى أنه لا خطر إضافي واضح [[Eberly2026]].',
+  jT: 'إشارة تحذير بشأن الحركات المصاحبة', jS: '317 مريضًا بشلل بِل الشديد ظهرت لديهم حركات مصاحبة: تحفيز غير انتقائي مقابل عدم التعرض', jA: 'درجة الحركات المصاحبة', jAn: 'الأعلى = حركات مصاحبة أكثر', jB: 'مدة مفعول البوتوكس (أشهر)', jBn: 'الأقصر = أسوأ', jE: 'تحفيز غير انتقائي', jN: 'بدون تعرض', jSrc: 'Jung et al. (2026) [[Jung2026]]، دراسة أترابية بأثر رجعي. ووجدت مراجعة أخرى أنه لا خطر إضافي واضح [[Eberly2026]].',
   c6T: 'جلسة تحت الإشراف، خطوة بخطوة.', c6P: 'يبقى التحكم بيد المعالج من الفحص المبدئي حتى المراجعة، والوجه المكشوف يتيح له مراقبة كل استجابة.',
   s1: 'الفحص والتركيب', s1p: 'فحص الجلد وموانع الاستخدام، وضبط الإطار، وتحديد النقاط الحركية.', s2: 'ضبط البرنامج', s2p: 'يختار المعالج العضلات والترتيب ومدة النبضة وحدود الشدة.', s3: 'التحفيز بالتسلسل', s3p: 'عضلة واحدة في كل مرة، ويمكن للمريض أن يحاول الحركة نفسها أمام المرآة.', s4: 'التسجيل والمراجعة', s4p: 'تسجيل الإعدادات والاستجابات، وإعادة التقييم في المتابعة، بما فيها الحركات المصاحبة.',
   sSrc: 'بروتوكول الجلسة من تقرير المشروع، استنادًا إلى Nussbaum et al. (2017) وGeitner et al. (2026) [[Nussbaum2017,Geitner2026]].',
@@ -122,12 +122,12 @@ Object.assign(T.en, {
   psWA: 'Short biphasic pulses fire the nerve.', psWB: 'Long triangular pulses reach the muscle fibres directly.',
   psF: 'Starting points only. Complete denervation is treated under specialist supervision.',
   pA: [
-    ['Waveform', 'Biphasic rectangular, charge-balanced', 'No net charge is safer; in the face, pulse shape made no difference [[Cameron2023b,Selkowitz2021,Bowman1985,Rabello2021,Makela2020]]'],
+    ['Waveform', 'Biphasic rectangular, charge-balanced', 'Leaves no net charge in the tissue, so it is safer [[Efthimiou2024,Cameron2023b]]; in unresolved facial palsy, square and sinusoidal pulses gave similar movement and discomfort [[Makela2020]]'],
     ['Pulse width', '0.4–1 ms, start at 0.4 ms; down to about 0.2 ms if unpleasant (our inference)', 'Used in facial palsy and blink studies; force rises up to about 1 ms; overlaps the normal chronaxie of 0.15–0.8 ms [[Frigerio2015,Ilves2019,Marotta2020,Robinson2008a]]'],
     ['Frequency', '20–30 Hz (35 at most); avoid below 20 Hz', 'Smooth contraction above 20 Hz; less fatigue at the lower end [[Efthimiou2024,Barss2018,Nussbaum2017,Loyo2020,Cameron2023a]]'],
     ['Intensity', 'Lowest clear contraction of the target muscle only', 'Higher current spreads to other muscles and is linked to synkinesis [[Efthimiou2024,Ilves2019,Raslan2020,Maffiuletti2018,Geitner2026,Pauna2024,Jung2026]]'],
     ['On / off', '10 s on with 2 s ramps; 50 s off (1:5), then 40 s (1:4) or 30 s (1:3)', 'Textbook duty cycles; facial protocol uses 10 s on [[Anthony2021,Cameron2023a,Nussbaum2017,Loyo2020,Taylor2018a,Taylor2018b,Gkesou2023]]'],
-    ['Dose', '1 set of 10 contractions, up to 15; one muscle at a time; about 11 min per muscle (our calculation)', 'Textbooks: 10–20 per session; trials: 3 × 30 or 5 strong [[Anthony2021,Cameron2023a,Loyo2020,Tuncay2015,Ray2025]]'],
+    ['Dose', '1 set of 10 contractions per muscle (textbook ranges 10–15 and 10–20); one muscle at a time; about 11 min per muscle (our calculation)', 'Textbooks: 10–20 per session; trials: 3 × 30 or 5 strong [[Anthony2021,Cameron2023a,Loyo2020,Tuncay2015,Ray2025]]'],
     ['Electrode', 'Active about 3 cm²; reference on the same-side trapezius; RMS current density ≤ 2 mA/cm²', 'Small electrodes are selective but concentrate the current [[Efthimiou2024,Tuncay2015,Celik2024,Anthony2021,Puls2020,Nussbaum2017]]'],
   ],
   pB: [
@@ -135,7 +135,7 @@ Object.assign(T.en, {
     ['Phase duration', '≥ 25 ms; start at 50–200 ms; avoid ≥ 250 ms; shortest selective, comfortable phase', 'Selective only from 25 ms; in one series it fell from 155 to 51 ms over 20 weeks [[Kurz2022,Arnold2021,Geitner2026,Tuncay2015,DiPietro2023,Puls2020]]'],
     ['Pause', '5 × the phase at the start, then 3 × as the twitch strengthens; never shorter than the phase', 'Published pauses ranged from about 1× to 10× the phase; the 5× rule is our inference [[Kurz2022,Tuncay2015,Puls2020,Geitner2026]]'],
     ['Frequency', 'About 1–5 pulses per second, set by phase + pause', 'Example: 100 ms + 500 ms ≈ 1.7 per second (our calculation) [[Tuncay2015,Geitner2026,DiPietro2023]]'],
-    ['Intensity', 'Lowest selective response without pain or spread', 'Studies used currents up to 6–27 mA; check the RMS density for each programme [[Puls2020,Geitner2026,Kurz2022,Efthimiou2024]]'],
+    ['Intensity', 'Lowest selective response without pain or spread', 'Published amplitudes ranged from 0.5 to 27 mA [[Eberly2026]]; the RMS density is checked for every programme [[Efthimiou2024]]'],
     ['Dose', '3 × 30 twitches; rest about 5 × the set duration (about 1–1.5 min)', 'From Bell’s palsy trials; the rest rule is our inference [[Tuncay2015,Ray2025,Celik2024,DiPietro2023,Kurz2022]]'],
     ['Complete denervation', 'Jena home protocol: 20 min twice a day — specialist only', 'The only tested home protocol (10 patients); risk of synkinesis [[Geitner2026,Pauna2024,Jung2026]]'],
   ],
@@ -161,12 +161,12 @@ Object.assign(T.ar, {
   psWA: 'نبضات قصيرة ثنائية الطور تُثير العصب.', psWB: 'نبضات مثلثية طويلة تصل لألياف العضلة مباشرة.',
   psF: 'نقاط بداية فقط. والفقد الكامل للعصب يُعالج تحت إشراف متخصص.',
   pA: [
-    ['شكل الموجة', 'مستطيلة ثنائية الطور، متوازنة الشحنة', 'عدم وجود شحنة صافية أأمن؛ وفي الوجه لم يفرق شكل النبضة [[Cameron2023b,Selkowitz2021,Bowman1985,Rabello2021,Makela2020]]'],
+    ['شكل الموجة', 'مستطيلة ثنائية الطور، متوازنة الشحنة', 'لا تترك شحنة صافية في الأنسجة، فهي أأمن [[Efthimiou2024,Cameron2023b]]؛ وفي شلل الوجه غير المتعافي أعطت النبضات المربعة والجيبية حركة وإزعاجًا متقاربين [[Makela2020]]'],
     ['عرض النبضة', '0.4–1 ms، البداية 0.4 ms؛ ونزولًا لنحو 0.2 ms لو مزعجة (استنتاجنا)', 'مستخدمة في دراسات شلل الوجه والرمش؛ القوة تزيد حتى نحو 1 ms؛ وتتداخل مع الكروناكسي الطبيعي 0.15–0.8 ms [[Frigerio2015,Ilves2019,Marotta2020,Robinson2008a]]'],
     ['التردد', '20–30 Hz (35 كحد أقصى)؛ وتجنّب أقل من 20 Hz', 'انقباض سلس فوق 20 Hz؛ وإجهاد أقل عند الطرف الأدنى [[Efthimiou2024,Barss2018,Nussbaum2017,Loyo2020,Cameron2023a]]'],
     ['الشدة', 'أقل انقباضة واضحة للعضلة المستهدفة فقط', 'التيار الأعلى ينتشر لعضلات أخرى ومرتبط بالتزامن الحركي [[Efthimiou2024,Ilves2019,Raslan2020,Maffiuletti2018,Geitner2026,Pauna2024,Jung2026]]'],
     ['التشغيل / الراحة', '10 ث تشغيل مع صعود ونزول 2 ث؛ 50 ث راحة (1:5)، ثم 40 ث (1:4) أو 30 ث (1:3)', 'دورات تشغيل مرجعية من الكتب؛ وبروتوكول الوجه يستخدم 10 ث تشغيل [[Anthony2021,Cameron2023a,Nussbaum2017,Loyo2020,Taylor2018a,Taylor2018b,Gkesou2023]]'],
-    ['الجرعة', 'مجموعة واحدة من 10 انقباضات، حتى 15؛ عضلة واحدة في كل مرة؛ نحو 11 دقيقة لكل عضلة (حسابنا)', 'الكتب: 10–20 في الجلسة؛ والتجارب: 3 × 30 أو 5 قوية [[Anthony2021,Cameron2023a,Loyo2020,Tuncay2015,Ray2025]]'],
+    ['الجرعة', 'مجموعة واحدة من 10 انقباضات لكل عضلة (النطاقات في الكتب 10–15 و10–20)؛ عضلة واحدة في كل مرة؛ نحو 11 دقيقة لكل عضلة (حسابنا)', 'الكتب: 10–20 في الجلسة؛ والتجارب: 3 × 30 أو 5 قوية [[Anthony2021,Cameron2023a,Loyo2020,Tuncay2015,Ray2025]]'],
     ['القطب', 'النشط نحو 3 سم²؛ المرجعي على العضلة شبه المنحرفة في نفس الجانب؛ كثافة تيار RMS ≤ 2 mA/سم²', 'الأقطاب الصغيرة انتقائية لكنها تُركّز التيار [[Efthimiou2024,Tuncay2015,Celik2024,Anthony2021,Puls2020,Nussbaum2017]]'],
   ],
   pB: [
@@ -174,7 +174,7 @@ Object.assign(T.ar, {
     ['مدة الطور', '25 ms أو أكثر؛ البداية 50–200 ms؛ وتجنّب 250 ms أو أكثر؛ أقصر طور انتقائي ومريح', 'انتقائي فقط من 25 ms؛ وفي سلسلة واحدة نزل من 155 إلى 51 ms خلال 20 أسبوعًا [[Kurz2022,Arnold2021,Geitner2026,Tuncay2015,DiPietro2023,Puls2020]]'],
     ['الراحة', '5 × الطور في البداية، ثم 3 × مع قوة الانقباضة؛ ولا تقل أبدًا عن الطور', 'فترات الراحة المنشورة تراوحت من نحو 1× إلى 10× الطور؛ وقاعدة الـ5× استنتاجنا [[Kurz2022,Tuncay2015,Puls2020,Geitner2026]]'],
     ['التردد', 'نحو 1–5 نبضات في الثانية، يتحدد بالطور + الراحة', 'مثال: 100 ms + 500 ms ≈ 1.7 في الثانية (حسابنا) [[Tuncay2015,Geitner2026,DiPietro2023]]'],
-    ['الشدة', 'أقل استجابة انتقائية بدون ألم أو انتشار', 'الدراسات استخدمت تيارات حتى 6–27 mA؛ وتُراجع كثافة RMS لكل برنامج [[Puls2020,Geitner2026,Kurz2022,Efthimiou2024]]'],
+    ['الشدة', 'أقل استجابة انتقائية بدون ألم أو انتشار', 'تراوحت الشدات المنشورة بين 0.5 و27 mA [[Eberly2026]]؛ وتُراجع كثافة RMS لكل برنامج [[Efthimiou2024]]'],
     ['الجرعة', '3 × 30 انقباضة؛ والراحة نحو 5 × مدة المجموعة (نحو 1–1.5 دقيقة)', 'من تجارب شلل بِل؛ وقاعدة الراحة استنتاجنا [[Tuncay2015,Ray2025,Celik2024,DiPietro2023,Kurz2022]]'],
     ['الفقد الكامل للعصب', 'بروتوكول Jena المنزلي: 20 دقيقة مرتين يوميًا — للمتخصص فقط', 'البروتوكول المنزلي الوحيد المُختبَر (10 مرضى)؛ مع خطر التزامن الحركي [[Geitner2026,Pauna2024,Jung2026]]'],
   ],

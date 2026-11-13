@@ -9,7 +9,7 @@
 <link rel="icon" type="image/png" sizes="64x64" href="assets/favicon.png?v=a476ad0a67">
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png?v=b7cd9663cc">
 <link rel="preload" href="assets/fonts/inter-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/site.css?v=99b1d6d83a">
+<link rel="stylesheet" href="assets/site.css?v=b1583a740e">
 
 </head>
 <body>
@@ -50,10 +50,23 @@
   <ol class="refs" id="reflist"></ol>
   <p class="note ltr" id="stdnote" style="margin-top:20px;text-align:left"></p>
 </div></section>
+
+<section class="sec faqx" id="faq"><div class="wrap">
+  <p class="eyebrow rv" data-i="fxE"></p>
+  <h2 class="sec-h rv" data-i="fxT"></h2>
+  <p class="fxlede rv" data-i="fxP"></p>
+  <div class="fxbar rv">
+    <div class="fxchips" id="fxchips" role="group"></div>
+    <div class="rfind fxfind"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg><input id="fxq" type="search" autocomplete="off" data-ia="placeholder:fxQ" aria-label="Search questions"><span id="fxn" class="num"></span></div>
+  </div>
+  <div class="acc fxlist" id="fxlist"></div>
+  <p class="fxnone" id="fxnone" hidden data-i="fxN"></p>
+</div></section>
 </main>
 <script type="module">
-import { initSite, $ } from './assets/site.js?v=6714d5644d';
-import { REFS, STD } from './assets/refs.js?v=978749d49b';
+import { initSite, $, $$, cite } from './assets/site.js?v=7d9ad74aff';
+import { FAQ, CATS } from './assets/faq.js?v=0c6b5a0428';
+import { REFS, STD } from './assets/refs.js?v=85aacf6437';
 const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;');
 const fmtRef = (r, i) => {
   const urlM = r.match(/https?:\/\/[^\s]+[^\s.,;)]/); const url = urlM ? urlM[0] : '';
@@ -68,7 +81,7 @@ $('#reflist').innerHTML = REFS.map(fmtRef).join('');
 const rq = $('#rq'), rn = $('#rn'), items = [...document.querySelectorAll('#reflist li')];
 const filt = () => { const q = rq.value.trim().toLowerCase(); let n = 0; items.forEach(li => { const ok = !q || li.dataset.q.includes(q); li.hidden = !ok; n += ok; }); rn.textContent = q ? n + ' / ' + items.length : items.length; };
 rq.addEventListener('input', filt); filt();
-document.querySelectorAll('.acc summary').forEach((s, i) => s.insertAdjacentHTML('afterbegin', `<b class="qn num">${String(i + 1).padStart(2, '0')}</b>`));
+document.querySelectorAll('.acc:not(.fxlist) summary').forEach((s, i) => s.insertAdjacentHTML('afterbegin', `<b class="qn num">${String(i + 1).padStart(2, '0')}</b>`));
 $('#stdnote').textContent = STD;
 const T = {
  en: {
@@ -80,7 +93,7 @@ const T = {
   ciL: 'favours stimulation', ciR: 'favours usual care',
   ciCap: 'Risk of incomplete recovery, add-on stimulation vs usual care: risk ratio 0.65 (95% CI 0.48–0.88), moderate certainty [[Choi2026]]. Values below 1 favour stimulation.',
   q3: 'Can stimulation cause synkinesis?',
-  a3: '<p>It is a known concern. Stimulation could reinforce misdirected nerve regrowth, which is why selective, well-controlled stimulation and monitoring for synkinesis matter [[Yoo2023]].</p><p>A 2026 review of six studies found that stimulation appeared to help overall facial function <strong>without significant extra risk of synkinesis</strong>, while calling for more research [[Eberly2026]]. In contrast, a 2026 cohort of 317 patients with severe Bell’s palsy linked <strong>non-selective</strong> stimulation with higher synkinesis scores, most of all when it was started in the acute phase [[Jung2026]].</p>',
+  a3: '<p>It is a known concern. Stimulation could reinforce misdirected nerve regrowth, which is why selective, well-controlled stimulation and monitoring for synkinesis matter [[Yoo2023]].</p><p>A 2026 review of six studies found that stimulation appeared to help overall facial function <strong>without significant extra risk of synkinesis</strong>, while calling for more research [[Eberly2026]]. In contrast, a 2026 cohort of 317 patients with severe Bell’s palsy who developed synkinesis linked <strong>non-selective</strong> stimulation with higher synkinesis scores, most of all when it was started in the acute phase [[Jung2026]].</p>',
   q4: 'How does it compare with exercise and acupuncture?',
   a4: '<p><strong>Exercise has the more consistent evidence.</strong> A Cochrane review found low-quality evidence that tailored facial exercises help [[Teixeira2011]]; a 2022 update added seven trials, and all four high-quality ones were positive [[Khan2022]]. In the analyses behind the 2026 Korean guideline, facial rehabilitation raised the Sunnybrook score by about 11.9 points, above the 10-point minimal clinically important difference [[Lee2026]].</p><p>Acupuncture has many reviews, but of low quality: of 17 systematic reviews, 14 were rated very low and 3 low [[Huang2025]], and neither the American nor the Brazilian guideline recommends it [[Baugh2013,Pauna2024]].</p><p>That is why the mask is designed to <strong>add to</strong> exercise therapy, not replace it.</p>',
   q5: 'How many contractions, and in what order?',
@@ -88,6 +101,7 @@ const T = {
   q6: 'Has the mask been tested?',
   a6: '<p><strong>Not yet.</strong> The project covers the evidence review, the design requirements and a concept design. No bench or clinical testing has been done. Any study on volunteers or patients would need ethics approval and clinical supervision, and the device is meant as a rehabilitation aid used under a clinician’s control, alongside medical treatment and exercise therapy.</p>',
   more: 'Want the full detail — stimulation parameters, safety and the verification plan? Read the two papers on the Papers page.',
+  fxE: 'More questions', fxT: 'Everything people ask.', fxP: 'Short answers on the condition, the evidence, safety, the mask, its settings and the sessions — each one from the project report, with its sources.', fxQ: 'Search the questions', fxN: 'No question matches. Try another word.',
   rQ: 'Search authors, titles or years', rE: 'Sources', rT: 'References', rP: 'The complete reference list of the project report — 113 sources, in alphabetical order. Numbers on this site point to this list.',
  },
  ar: {
@@ -99,7 +113,7 @@ const T = {
   ciL: 'لصالح التحفيز', ciR: 'لصالح الرعاية المعتادة',
   ciCap: 'خطر عدم التعافي الكامل، التحفيز الإضافي مقابل الرعاية المعتادة: نسبة الخطر 0.65 (فاصل الثقة 95%: 0.48–0.88)، بدرجة يقين متوسطة [[Choi2026]]. القيم الأقل من 1 لصالح التحفيز.',
   q3: 'هل يمكن أن يسبب التحفيز حركات مصاحبة (synkinesis)؟',
-  a3: '<p>هذا قلق معروف. قد يعزّز التحفيز نموّ الألياف العصبية في الاتجاه الخاطئ، ولذلك يهمّ أن يكون التحفيز انتقائيًا ومضبوطًا، مع متابعة ظهور الحركات المصاحبة [[Yoo2023]].</p><p>وجدت مراجعة عام 2026 لست دراسات أن التحفيز بدا مفيدًا لوظيفة الوجه عمومًا <strong>دون خطر إضافي واضح للحركات المصاحبة</strong>، مع الدعوة إلى مزيد من البحث [[Eberly2026]]. وفي المقابل، ربطت دراسة أترابية عام 2026 شملت 317 مريضًا بشلل بِل الشديد بين التحفيز <strong>غير الانتقائي</strong> وارتفاع درجات الحركات المصاحبة، وخاصة عند بدئه في المرحلة الحادة [[Jung2026]].</p>',
+  a3: '<p>هذا قلق معروف. قد يعزّز التحفيز نموّ الألياف العصبية في الاتجاه الخاطئ، ولذلك يهمّ أن يكون التحفيز انتقائيًا ومضبوطًا، مع متابعة ظهور الحركات المصاحبة [[Yoo2023]].</p><p>وجدت مراجعة عام 2026 لست دراسات أن التحفيز بدا مفيدًا لوظيفة الوجه عمومًا <strong>دون خطر إضافي واضح للحركات المصاحبة</strong>، مع الدعوة إلى مزيد من البحث [[Eberly2026]]. وفي المقابل، ربطت دراسة أترابية عام 2026 شملت 317 مريضًا بشلل بِل الشديد ظهرت لديهم حركات مصاحبة بين التحفيز <strong>غير الانتقائي</strong> وارتفاع درجات الحركات المصاحبة، وخاصة عند بدئه في المرحلة الحادة [[Jung2026]].</p>',
   q4: 'كيف يُقارن بالتمارين والوخز بالإبر؟',
   a4: '<p><strong>أدلة التمارين أكثر اتساقًا.</strong> وجدت مراجعة كوكرين أدلة منخفضة الجودة على فائدة تمارين الوجه المصمّمة لكل مريض [[Teixeira2011]]، وأضاف تحديث عام 2022 سبع تجارب، كانت الأربع عالية الجودة منها إيجابية [[Khan2022]]. وفي التحليلات التي بُني عليها الدليل الكوري لعام 2026، رفع تأهيل الوجه درجة Sunnybrook بنحو 11.9 نقطة، وهو أعلى من الحد الأدنى للفرق المهم سريريًا وهو 10 نقاط [[Lee2026]].</p><p>أما الوخز بالإبر فله مراجعات كثيرة لكن جودتها منخفضة: من 17 مراجعة منهجية، قُيّمت 14 بجودة منخفضة جدًا و3 بجودة منخفضة [[Huang2025]]، ولا يوصي به الدليل الأمريكي ولا البرازيلي [[Baugh2013,Pauna2024]].</p><p>ولهذا صُمّم القناع ليكون <strong>إضافة إلى</strong> العلاج بالتمارين، لا بديلًا عنه.</p>',
   q5: 'كم انقباضة، وبأي ترتيب؟',
@@ -107,10 +121,41 @@ const T = {
   q6: 'هل جُرِّب القناع؟',
   a6: '<p><strong>ليس بعد.</strong> يشمل المشروع مراجعة الأدلة ومتطلبات التصميم وتصميمًا تصوّريًا، ولم تُجرَ أي اختبارات معملية أو سريرية. وأي دراسة على متطوعين أو مرضى تحتاج موافقة لجنة أخلاقيات وإشرافًا سريريًا، والجهاز مقصود به أن يكون وسيلة مساعدة في التأهيل تحت إشراف المعالج، إلى جانب العلاج الطبي والتمارين.</p>',
   more: 'تريد التفاصيل الكاملة، من معاملات التحفيز والسلامة إلى خطة التحقق؟ اقرأ البحثين في صفحة الأبحاث.',
+  fxE: 'أسئلة أخرى', fxT: 'كل ما يُسأل عنه.', fxP: 'إجابات قصيرة عن الحالة والأدلة والسلامة والقناع وإعداداته والجلسات، كلها من تقرير المشروع مع مصادرها.', fxQ: 'ابحث في الأسئلة', fxN: 'لا يوجد سؤال مطابق. جرّب كلمة أخرى.',
   rQ: 'ابحث بالمؤلف أو العنوان أو السنة', rE: 'المصادر', rT: 'المراجع', rP: 'قائمة المراجع الكاملة لتقرير المشروع: 113 مصدرًا مرتّبة أبجديًا. الأرقام في الموقع تشير إلى هذه القائمة.',
  },
 };
-initSite({ page: 'evidence', T, onLang: (l, t) => { $('#ciL').textContent = t.ciL; $('#ciR').textContent = t.ciR; } });
+// ---- more questions: category chips + search over a long list ----
+const base = document.querySelectorAll('.acc:not(.fxlist) details').length;
+let fxCat = 'all', fxL = 'en';
+const plain = h => h.replace(/\[\[[^\]]*\]\]/g, '').replace(/<[^>]+>/g, ' ').toLowerCase();
+function fxRender() {
+  const list = FAQ[fxL], C = CATS[fxL], cats = ['all', ...new Set(list.map(q => q[0]))];
+  $('#fxchips').innerHTML = cats.map(c => `<button type="button" data-c="${c}" aria-pressed="${c === fxCat}">${C[c]}<span class="num">${c === 'all' ? list.length : list.filter(q => q[0] === c).length}</span></button>`).join('');
+  $('#fxlist').innerHTML = list.map(([c, q, a], i) => `<details data-c="${c}" data-q="${plain(q + ' ' + a).replace(/"/g, '')}"><summary><b class="qn num">${String(base + i + 1).padStart(2, '0')}</b><span>${q}</span><i aria-hidden="true"></i></summary><div class="body"><span class="fxtag">${C[c]}</span>${cite(a)}</div></details>`).join('');
+  if (fxL === 'ar') isolateLatin($('#fxlist'));
+  $$('#fxchips button').forEach(b => b.onclick = () => { fxCat = b.dataset.c; $$('#fxchips button').forEach(x => x.setAttribute('aria-pressed', x === b)); fxFilter(); });
+  fxFilter();
+}
+// keep English terms (and their brackets) in their own direction inside Arabic text
+function isolateLatin(root) {
+  const w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT), nodes = [];
+  while (w.nextNode()) { const n = w.currentNode; if (/[A-Za-z]/.test(n.nodeValue) && !n.parentElement.closest('sup,bdi,.qn')) nodes.push(n); }
+  for (const n of nodes) {
+    const parts = n.nodeValue.split(/([A-Za-z][A-Za-z0-9.\/\- ]*[A-Za-z0-9.]|[A-Za-z])/);
+    if (parts.length < 2) continue;
+    const f = document.createDocumentFragment();
+    parts.forEach((p, i) => { if (i % 2) { const b = document.createElement('bdi'); b.textContent = p; f.appendChild(b); } else if (p) f.appendChild(document.createTextNode(p)); });
+    n.replaceWith(f);
+  }
+}
+function fxFilter() {
+  const q = $('#fxq').value.trim().toLowerCase(); let n = 0;
+  $$('#fxlist details').forEach(d => { const ok = (fxCat === 'all' || d.dataset.c === fxCat) && (!q || d.dataset.q.includes(q)); d.hidden = !ok; n += ok; });
+  $('#fxn').textContent = n; $('#fxnone').hidden = n > 0;
+}
+$('#fxq').addEventListener('input', fxFilter);
+initSite({ page: 'evidence', T, onLang: (l, t) => { $('#ciL').textContent = t.ciL; $('#ciR').textContent = t.ciR; fxL = l; fxRender(); } });
 // animate the CI bar when the answer opens
 document.querySelectorAll('.acc details').forEach(d => d.addEventListener('toggle', () => { if (d.open) { const g = d.querySelector('#ciBar'); if (g) { g.style.transition = 'none'; g.style.opacity = 0; g.style.transform = 'scaleX(.2)'; g.style.transformOrigin = '197px 50px'; requestAnimationFrame(() => { g.style.transition = 'opacity .8s, transform .9s cubic-bezier(.2,.7,.2,1)'; g.style.opacity = 1; g.style.transform = 'none'; }); } } }));
 if (location.hash.startsWith('#r-')) { const li = document.querySelector(location.hash); li && li.scrollIntoView(); }
