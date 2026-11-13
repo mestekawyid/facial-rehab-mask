@@ -286,23 +286,20 @@ buildSeq();
 if (!reduce) setInterval(() => { ptr = (ptr + 1) % ev.length; drawTl(); }, 900);
 
 // ---- draggable turntables (pre-rendered sprite sheets, data-n frames in data-g columns) ----
-// time-based: the turn speed no longer depends on the frame rate, and two layers cross-fade between
-// neighbouring frames so the rotation moves continuously at the screen's refresh rate instead of stepping.
+// time-based and evenly paced: each frame is held for the same time (no uneven 70 ms steps), no blending
+// between frames (blending two angles looked like a double image).
 const TURNS = $$('.turn').map(el => {
   const N = +el.dataset.n || 36, G = +el.dataset.g || 6, R = Math.ceil(N / G);
-  const top = document.createElement('i'); top.className = 'tb'; el.appendChild(top);
-  const o = { el, top, N, G, R, f: 0, drag: null, vis: false, hover: false, lastI: -1, lastJ: -1, lastA: -1, ok: false };
+  const o = { el, N, G, R, f: 0, drag: null, vis: false, hover: false, lastI: -1, lastJ: -1, lastA: -1, ok: false };
   const pos = i => `${o.G > 1 ? (i % o.G) / (o.G - 1) * 100 : 0}% ${o.R > 1 ? Math.floor(i / o.G) / (o.R - 1) * 100 : 0}%`;
   o.show = () => {
-    const N2 = o.N, ff = ((o.f % N2) + N2) % N2, i = Math.floor(ff), j = (i + 1) % N2, a = Math.round((ff - i) * 20) / 20;
+    const N2 = o.N, i = ((Math.round(o.f) % N2) + N2) % N2;
     if (i !== o.lastI) { el.style.backgroundPosition = pos(i); o.lastI = i; }
-    if (j !== o.lastJ) { top.style.backgroundPosition = pos(j); o.lastJ = j; }
-    if (a !== o.lastA) { top.style.opacity = a; o.lastA = a; }
   };
   // apply a decoded sheet: n frames in g columns
   const use = (url, n, g) => { const u = `url(${url})`; o.f = o.f / o.N * n; o.N = n; o.G = g; o.R = Math.ceil(n / g);
-    const sz = `${o.G * 100}% ${o.R * 100}%`; el.style.backgroundImage = top.style.backgroundImage = u; el.style.backgroundSize = top.style.backgroundSize = sz;
-    o.lastI = o.lastJ = o.lastA = -1; o.ok = true; el.classList.add('ok'); o.show(); };
+    const sz = `${o.G * 100}% ${o.R * 100}%`; el.style.backgroundImage = u; el.style.backgroundSize = sz;
+    o.lastI = -1; o.ok = true; el.classList.add('ok'); o.show(); };
   const load = url => new Promise((res, rej) => { const im = new Image(); im.decoding = 'async'; im.onload = () => (im.decode ? im.decode() : Promise.resolve()).catch(() => { }).then(() => res(im)); im.onerror = rej; im.src = url; });
   const img = { src: '' };
   img.go = () => { img.src = el.dataset.sheet; load(el.dataset.sheet).then(() => { use(el.dataset.sheet, N, G);
@@ -317,10 +314,10 @@ const TURNS = $$('.turn').map(el => {
   return o;
 });
 if (TURNS.length && !reduce) {
-  const REV = lite ? 9 : 7;   // seconds per full turn: calm
+  const FPS = 15;   // frames of the sheet per second: 72 frames -> one calm turn in about 5 s
   let tp = 0;
-  (function spin(t) { requestAnimationFrame(spin); const dt = tp ? Math.min(0.05, (t - tp) / 1000) : 0; tp = t;
-    for (const o of TURNS) { if (!o.ok || !o.vis || o.drag || o.hover) continue; o.f += dt * o.N / REV; o.show(); } })(0);
+  (function spin(t) { requestAnimationFrame(spin); const dt = tp ? Math.min(0.1, (t - tp) / 1000) : 0; tp = t;
+    for (const o of TURNS) { if (!o.ok || !o.vis || o.drag || o.hover) continue; o.f += dt * FPS * (o.N === 36 ? 0.75 : 1); o.show(); } })(0);
 }
 
 // ---- ticker ----

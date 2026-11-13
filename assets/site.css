@@ -1922,8 +1922,6 @@ img,svg,a{-webkit-user-drag:none}
 .ld3d span{font-size:12px;letter-spacing:.02em;color:var(--ink2)}
 .ld3d i::after{content:none}
 @media (max-width:820px){.ld3d{left:50%!important;top:56%}}
-/* turntables: second layer for frame cross-fading */
-.turn>.tb{position:absolute;inset:0;background-repeat:no-repeat;opacity:0;pointer-events:none;will-change:opacity}
 .turn{will-change:background-position}
 /* keep the fixed grain on its own compositor layer so moving content never repaints it */
 body::after{transform:translateZ(0);will-change:transform;backface-visibility:hidden}
