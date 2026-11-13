@@ -1,5 +1,5 @@
 // Shared shell: nav, footer, language, citations, reveal, count-up, smooth scroll.
-import { KEYS } from './refs.js?v=6af64f8b';
+import { KEYS } from './refs.js?v=978749d49b';
 
 const COMMON = {
   en: {
@@ -77,6 +77,8 @@ function shell(page) {
 }
 
 export function initSite({ page, T, onLang }) {
+  // cache the site for repeat visits on weak connections (GitHub Pages / local only)
+  try { if ('serviceWorker' in navigator && /github\.io$|^localhost$|^127\./.test(location.hostname)) navigator.serviceWorker.register('sw.js').catch(() => { }); } catch (_) { }
   shell(page);
   const dict = l => ({ ...COMMON[l], ...(T?.[l] || {}) });
   function setLang(l) {

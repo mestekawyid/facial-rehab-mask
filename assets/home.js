@@ -1,5 +1,6 @@
-import { initSite, $, $$, LANG } from './site.js?v=6af64f8b';
-import { createMaskScene, loadBust } from './mask3d.js?v=6af64f8b';
+import { initSite, $, $$, LANG } from './site.js?v=6714d5644d';
+// the 3D engine loads in parallel and never holds up the page text
+const M3 = import('./mask3d.js?v=034906bed6');
 
 const CHC = ['#2A8A94', '#4A78B0', '#7D6FB4', '#C07A8E', '#C9915F', '#5E9C7A'];
 const SITES = ['Frontalis', 'Orbicularis oculi', 'Zygomaticus major', 'Orbicularis oris', 'Depressor anguli oris', 'Mentalis'];
@@ -12,7 +13,7 @@ const T = {
     b4e: 'Six target muscles', b4t: 'One muscle at a time.', b4l: 'All contractions for one muscle, then the next. The reference pad sits on the same-side shoulder.',
     sc: ['Swipe sideways on the model to turn it', 'Band, crown strap, then six arms', 'Seven parts, each with one job', 'The module moves to the affected side', 'Each muscle lights up in turn'], scNow: 'Now: ',
     holdTip: 'Press and hold to open', holdGo: 'Keep holding…',
-    pmA: 'Auto', pmS: 'Scroll', pmR: 'Replay the animation', pmL: 'Animation mode',
+    ld: 'Loading the 3D model', pmA: 'Auto', pmS: 'Scroll', pmR: 'Replay the animation', pmL: 'Animation mode',
     hint: 'Scroll to explore', drag: 'Drag to turn', right: 'Right', left: 'Left',
     parts: { band: 'Padded head band', crown: 'Crown strap', dock: 'Temple dock · both sides', module: 'Detachable side module', pod: 'Temple pod', electrode: 'Electrode holder × 6', pad: 'Reference pad' },
     whyE: 'Why it matters', whyT: 'A common condition with a visible, daily cost.',
@@ -49,7 +50,7 @@ const T = {
     b4e: 'ست عضلات مستهدفة', b4t: 'عضلة واحدة في كل مرة.', b4l: 'كل انقباضات العضلة، ثم العضلة التالية. والقطب المرجعي على الكتف في نفس الجانب.',
     sc: ['اسحب الموديل يمين وشمال عشان تلفّه', 'الرباط وحزام الرأس، ثم الأذرع الست', 'سبع قطع، لكل واحدة وظيفة', 'الموديول ينتقل للجانب المصاب', 'كل عضلة بتشتغل بالدور'], scNow: 'الآن: ',
     holdTip: 'اضغط مطوّلًا للفتح', holdGo: 'كمّل ضغط…',
-    pmA: 'تلقائي', pmS: 'بالتمرير', pmR: 'إعادة الأنيميشن', pmL: 'طريقة العرض',
+    ld: 'جارٍ تحميل النموذج ثلاثي الأبعاد', pmA: 'تلقائي', pmS: 'بالتمرير', pmR: 'إعادة الأنيميشن', pmL: 'طريقة العرض',
     hint: 'مرّر لأسفل للاستكشاف', drag: 'اسحب للتدوير', right: 'يمين', left: 'شمال',
     parts: { band: 'رباط الرأس المبطّن', crown: 'رباط فوق الرأس', dock: 'قاعدة تركيب · في الجانبين', module: 'موديول جانبي يُفك', pod: 'كبسولة الصدغ', electrode: 'حامل القطب × 6', pad: 'القطب المرجعي' },
     whyE: 'لماذا يهمّ', whyT: 'حالة شائعة، وأثرها ظاهر كل يوم.',
@@ -132,18 +133,52 @@ const THREE_DEG = Math.PI / 180;
 
 const frameOpts = () => ({ fit: mobile ? 1.0 : 0.8, wfit: mobile ? 0.6 : 0.9, lookY: mobile ? 0.25 : -0.05 });
 const sOpts = { lite, maxDpr: lite ? 1.25 : 2, cheapMat: mobile, noShadow: mobile, shadowSize: 2048, fit: mobile ? 1.0 : 0.8, wfit: mobile ? 0.6 : 0.9, lookY: mobile ? 0.25 : -0.05 };
-loadBust(lite ? 'assets/bust_lite.js?v=6af64f8b' : 'assets/bust_full.js?v=6af64f8b').then(b => createMaskScene(canvas, { ...sOpts, bust: b }))
-  .then(s => { S = s; frameCam(); dirty = true; stage.classList.add('ready'); if (reduce) frame(0); })
-  .catch(e => { console.warn(e); stage.classList.add('nogl'); });
+// ---- progressive model loading ----
+// the download starts in the page head (window.__bq). Weak connections show the light model first and switch to the
+// full-quality model as soon as it arrives; on normal connections the full model loads directly, and if it is still
+// not here after a short wait the light one is shown meanwhile. The visible quality ends at full on every device.
+const BSIZE = { full: 512882, lite: 212382 };   // bytes, rewritten by build.py
+const BQ = window.__bq || { lite, slow: lite, urls: { full: 'assets/bust_full.js?v=b787e07df0', lite: 'assets/bust_lite.js?v=0cc94bea24' }, req: {} };
+if (!BQ.go) BQ.go = k => BQ.req[k] || (BQ.req[k] = fetch(BQ.urls[k]).catch(() => null));
+const ldBar = $('#ld3dBar'), ldTxt = $('#ld3dTxt'), got = { full: 0, lite: 0 };
+function showLoad() { const f = Math.max(got.full / BSIZE.full, got.lite / BSIZE.lite); if (ldBar) ldBar.style.transform = `scaleX(${Math.min(1, f).toFixed(3)})`; }
+async function bustText(k) {
+  let r = await BQ.go(k);
+  if (!r || !r.ok) { BQ.req[k] = null; r = await BQ.go(k); }   // one retry on a dropped connection
+  if (!r || !r.ok) throw new Error('model download failed: ' + k);
+  if (!r.body || !r.body.getReader) return r.text();
+  const rd = r.body.getReader(), parts = []; let n = 0;
+  for (;;) { const { done, value } = await rd.read(); if (done) break; parts.push(value); n += value.length; got[k] = n; showLoad(); }
+  const all = new Uint8Array(n); let o = 0; for (const p of parts) { all.set(p, o); o += p.length; }
+  return new TextDecoder().decode(all);
+}
+const getBust = k => Promise.all([bustText(k), M3]).then(([txt, m]) => m.parseBust(txt));
+let shownQ = null, sceneP = null;
+function show(b, q) {
+  if (!sceneP) {
+    sceneP = M3.then(m => m.createMaskScene(canvas, { ...sOpts, bust: b })).then(s => {
+      S = s; shownQ = q; stage.dataset.q = q; frameCam(); dirty = true; stage.classList.add('ready'); if (reduce) frame(0); return s; });
+    sceneP.catch(fail); return sceneP;
+  }
+  return sceneP.then(s => { if (q === 'full' && shownQ !== 'full') { s.setBody(b); shownQ = 'full'; stage.dataset.q = 'full'; dirty = true; } });
+}
+function fail(e) { console.warn(e); if (!S) stage.classList.add('nogl'); }
+if (BQ.lite) getBust('lite').then(b => show(b, 'lite')).catch(fail);
+else if (BQ.slow) getBust('lite').then(b => show(b, 'lite'), () => { }).finally(() => getBust('full').then(b => show(b, 'full')).catch(fail));
+else {
+  getBust('full').then(b => show(b, 'full')).catch(e => { if (!S) getBust('lite').then(b => show(b, 'lite')).catch(fail); });
+  setTimeout(() => { if (!sceneP) getBust('lite').then(b => show(b, 'lite')).catch(() => { }); }, 2500);
+}
 
 new IntersectionObserver(es => { visible = es[0].isIntersecting; }, { threshold: 0 }).observe(story);
 // ---- animation amode: 'scroll' (story follows the page) or 'auto' (plays once by itself; the page scrolls normally) ----
-const AUTO_SC = [0, 0.15, 0.32, 0.5, 0.8], AUTO_D = [3200, 3600, 3800, 3600];   // last scene lasts 6 muscles × ACT_MS
+const AUTO_SC = [0, 0.15, 0.32, 0.5, 0.8], AUTO_D = [300, 3800, 3800, 3600];   // last scene lasts 6 muscles × ACT_MS
 let amode = 'scroll', autoT0 = 0, autoDone = false;
 try { amode = localStorage.getItem('kfsAnim') === 'auto' ? 'auto' : 'scroll'; } catch (_) { }
 const pmAuto = $('#pmAuto'), pmScroll = $('#pmScroll'), pmode = $('#pmode');
 function autoTotal() { return AUTO_D.reduce((a, b) => a + b, 0) + 6 * ACT_MS + 600; }
 function autoStep(now) {
+  if (!S) { autoT0 = now; target = 0; pmode.style.setProperty('--ap', 0); return; }   // wait for the model, then start at once
   let t = now - autoT0, sc = 0; for (; sc < 4 && t >= AUTO_D[sc]; sc++) t -= AUTO_D[sc];
   const frac = Math.min(1, (now - autoT0) / autoTotal()); pmode.style.setProperty('--ap', frac.toFixed(4));
   if (frac >= 1 && !autoDone) { autoDone = true; pmode.classList.add('done'); }

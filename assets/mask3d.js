@@ -6,10 +6,15 @@ import { MeshoptDecoder } from 'three/addons/libs/meshopt_decoder.module.js';
 
 // load the one-piece sculpted bust: returns {body, proxy} float geometries in scene units
 export async function loadBust(url) {
+  if (/\.js(\?|$)/.test(url)) { const { BUST } = await import(new URL(url, document.baseURI).href); return parseBust(BUST); }
+  return parseBust(await (await fetch(url)).arrayBuffer());
+}
+// accepts the base64 text of a bust module (or the module source itself) or raw .glb bytes
+export async function parseBust(src) {
   const ld = new GLTFLoader().setMeshoptDecoder(MeshoptDecoder);
-  let gltf;
-  if (/\.js(\?|$)/.test(url)) { const { BUST } = await import(new URL(url, document.baseURI).href); const bin = Uint8Array.from(atob(BUST), c => c.charCodeAt(0)); gltf = await ld.parseAsync(bin.buffer, ''); }
-  else gltf = await ld.loadAsync(url);
+  let buf = src;
+  if (typeof src === 'string') { const a = src.indexOf('"'), b = src.lastIndexOf('"'); const b64 = a >= 0 && b > a ? src.slice(a + 1, b) : src; buf = Uint8Array.from(atob(b64), c => c.charCodeAt(0)).buffer; }
+  const gltf = await ld.parseAsync(buf, '');
   const out = {};
   gltf.scene.updateMatrixWorld(true);
   gltf.scene.traverse(o => {
@@ -285,6 +290,8 @@ export function createMaskScene(canvas, opts = {}) {
     }
   }
   function render() { apply(); renderer.render(scene, camera); }
+  // swap in a finer bust (progressive loading: light model first, full quality when it arrives)
+  function setBody(b) { if (!bodyMesh || !b) return; const g = lite && b.mid ? b.mid : b.body; const old = bodyMesh.geometry; bodyMesh.geometry = g; if (old !== g) old.dispose(); }
   function setDpr(d) { renderer.setPixelRatio(d); resize(); }
   const _v = new THREE.Vector3();
   function toScreen(obj) {
@@ -295,5 +302,5 @@ export function createMaskScene(canvas, opts = {}) {
   function anchorScreen(name) { return toScreen(anchors[name]); }
   render();
   const objects = { root, body: bodyMesh || head, bust, bandG, crownG, dockGroups, covers, mods };
-  return { opts, renderer, scene, camera, state, render, resize, setDpr, sites, screenOf, anchorScreen, objects };
+  return { opts, renderer, scene, camera, state, render, resize, setDpr, setBody, sites, screenOf, anchorScreen, objects };
 }

@@ -6,18 +6,30 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="description" content="An open-face electrical-stimulation mask for facial palsy rehabilitation — graduation project, Faculty of Physical Therapy, Kafrelsheikh University.">
 <meta name="theme-color" content="#FFFFFF">
-<link rel="icon" type="image/png" sizes="64x64" href="assets/favicon.png?v=6af64f8b">
-<link rel="apple-touch-icon" href="assets/apple-touch-icon.png?v=6af64f8b">
+<link rel="icon" type="image/png" sizes="64x64" href="assets/favicon.png?v=a476ad0a67">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png?v=b7cd9663cc">
 <link rel="preload" href="assets/fonts/inter-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/site.css?v=6af64f8b">
+<link rel="stylesheet" href="assets/site.css?v=7c108af5f3">
 
-<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"}}</script>
+<script type="importmap">{"imports":{"three":"./assets/vendor/three.module.min.js","three/addons/":"./assets/vendor/jsm/"}}</script>
+<script>/* start downloading the 3D model at once, before any script runs; weak connections get the light model first */
+(function(){var n=navigator,c=n.connection||{},w=window,e=c.effectiveType||'';
+var lite=!!c.saveData||(n.hardwareConcurrency||8)<=2,slow=lite||/2g|3g/.test(e)||(c.downlink>0&&c.downlink<1.5);
+var q=w.__bq={lite:lite,slow:slow,urls:{full:'assets/bust_full.js?v=b787e07df0',lite:'assets/bust_lite.js?v=0cc94bea24'},req:{}};
+q.go=function(k){return q.req[k]||(q.req[k]=fetch(q.urls[k]).catch(function(){return null}))};q.go(slow?'lite':'full');})();</script>
+<link rel="modulepreload" href="assets/vendor/three.module.min.js">
+<link rel="modulepreload" href="assets/mask3d.js?v=034906bed6">
+<link rel="modulepreload" href="assets/vendor/jsm/loaders/GLTFLoader.js">
+<link rel="modulepreload" href="assets/vendor/jsm/utils/BufferGeometryUtils.js">
+<link rel="modulepreload" href="assets/vendor/jsm/environments/RoomEnvironment.js">
+<link rel="modulepreload" href="assets/vendor/jsm/libs/meshopt_decoder.module.js">
 </head>
 <body>
 <main id="main">
 <div class="story" id="story">
   <div class="stage" id="stage">
     <canvas id="c3d" aria-label="3D model of a faceless head wearing the open-face mask"></canvas>
+    <div class="ld3d" id="ld3d" aria-hidden="true"><i><b id="ld3dBar"></b></i><span id="ld3dTxt" data-i="ld"></span></div>
     <div class="beat on" data-b="0"><p class="eyebrow" data-i="b0e"></p><h1 data-i="b0t"></h1><p class="lede" data-i="b0l"></p></div>
     <div class="beat" data-b="1"><p class="eyebrow" data-i="b1e"></p><p class="h1" data-i="b1t"></p><p class="lede" data-i="b1l"></p></div>
     <div class="beat" data-b="2"><p class="eyebrow" data-i="b2e"></p><p class="h1" data-i="b2t"></p><p class="lede" data-i="b2l"></p><ol class="legend" id="legend"></ol></div>
@@ -28,7 +40,7 @@
     <div class="hint" id="hint" data-i="hint"></div>
     <div class="progress" id="prog"><span class="on"></span><span></span><span></span><span></span><span></span></div>
     <div class="scard" id="scard" aria-hidden="true"><div class="sch"><b class="num" id="scN">01</b><span class="num">/05</span><em id="scT"></em></div><div class="strack"><i id="scFill"></i><span></span><span></span><span></span><span></span></div><p id="scS"></p></div>
-    <div class="pmode" id="pmode" role="group" data-ia="aria-label:pmL">
+    <div class="pmode" id="pmode" data-amode="scroll" role="group" data-ia="aria-label:pmL">
       <div class="pseg"><i class="pthumb" aria-hidden="true"></i>
         <button type="button" id="pmAuto" aria-pressed="false"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M5 3.5v9l7.5-4.5z"/></svg><span data-i="pmA"></span></button>
         <button type="button" id="pmScroll" aria-pressed="true"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="5" y="2.5" width="6" height="11" rx="3"/><path d="M8 5.2v2"/></svg><span data-i="pmS"></span></button>
@@ -66,9 +78,9 @@
   <h2 class="sec-h rv" data-i="ptT"></h2>
   <p class="sec-p rv" data-i="ptP"></p>
   <div class="turns">
-    <figure class="card turncard rv"><div class="turn" data-sheet="assets/turn_frame.webp?v=6af64f8b" role="img" data-ia="aria-label:pt1"></div><figcaption><small>01</small><b data-i="pt1"></b><span data-i="pt1d"></span></figcaption></figure>
-    <figure class="card turncard rv"><div class="turn" data-sheet="assets/turn_module.webp?v=6af64f8b" role="img" data-ia="aria-label:pt2"></div><figcaption><small>02</small><b data-i="pt2"></b><span data-i="pt2d"></span></figcaption></figure>
-    <figure class="card turncard rv"><div class="turn" data-sheet="assets/turn_electrode.webp?v=6af64f8b" role="img" data-ia="aria-label:pt3"></div><figcaption><small>03</small><b data-i="pt3"></b><span data-i="pt3d"></span></figcaption></figure>
+    <figure class="card turncard rv"><div class="turn" data-sheet="assets/turn_frame.webp?v=a9d2832690" role="img" data-ia="aria-label:pt1"></div><figcaption><small>01</small><b data-i="pt1"></b><span data-i="pt1d"></span></figcaption></figure>
+    <figure class="card turncard rv"><div class="turn" data-sheet="assets/turn_module.webp?v=0891fe87ca" role="img" data-ia="aria-label:pt2"></div><figcaption><small>02</small><b data-i="pt2"></b><span data-i="pt2d"></span></figcaption></figure>
+    <figure class="card turncard rv"><div class="turn" data-sheet="assets/turn_electrode.webp?v=1493bf1c42" role="img" data-ia="aria-label:pt3"></div><figcaption><small>03</small><b data-i="pt3"></b><span data-i="pt3d"></span></figcaption></figure>
   </div>
   <p class="note rv" style="margin-top:16px;text-align:center" data-i="ptN"></p>
 </div></section>
@@ -124,14 +136,14 @@
 
 <section class="sec"><div class="wrap">
   <div class="ctas">
-    <a class="cta rv" href="science.html"><span class="ph" style="background-image:url(assets/tile_science.webp?v=6af64f8b)" aria-hidden="true"></span><div><small data-i="c0s"></small><b data-i="c0b"></b></div><span class="go"><span data-i="go"></span><i>→</i></span></a>
-    <a class="cta rv" href="evidence.html"><span class="ph" style="background-image:url(assets/tile_evidence.webp?v=6af64f8b)" aria-hidden="true"></span><div><small data-i="c1s"></small><b data-i="c1b"></b></div><span class="go"><span data-i="go"></span><i>→</i></span></a>
-    <a class="cta rv" href="papers.html"><span class="ph" style="background-image:url(assets/tile_papers.webp?v=6af64f8b)" aria-hidden="true"></span><div><small data-i="c2s"></small><b data-i="c2b"></b></div><span class="go"><span data-i="go"></span><i>→</i></span></a>
-    <a class="cta rv" href="team.html"><span class="ph" style="background-image:url(assets/tile_team.webp?v=6af64f8b)" aria-hidden="true"></span><div><small data-i="c3s"></small><b data-i="c3b"></b></div><span class="go"><span data-i="go"></span><i>→</i></span></a>
+    <a class="cta rv" href="science.html"><span class="ph" style="background-image:url(assets/tile_science.webp?v=f385286b27)" aria-hidden="true"></span><div><small data-i="c0s"></small><b data-i="c0b"></b></div><span class="go"><span data-i="go"></span><i>→</i></span></a>
+    <a class="cta rv" href="evidence.html"><span class="ph" style="background-image:url(assets/tile_evidence.webp?v=c26f553b27)" aria-hidden="true"></span><div><small data-i="c1s"></small><b data-i="c1b"></b></div><span class="go"><span data-i="go"></span><i>→</i></span></a>
+    <a class="cta rv" href="papers.html"><span class="ph" style="background-image:url(assets/tile_papers.webp?v=0ed2fef218)" aria-hidden="true"></span><div><small data-i="c2s"></small><b data-i="c2b"></b></div><span class="go"><span data-i="go"></span><i>→</i></span></a>
+    <a class="cta rv" href="team.html"><span class="ph" style="background-image:url(assets/tile_team.webp?v=deab1f8140)" aria-hidden="true"></span><div><small data-i="c3s"></small><b data-i="c3b"></b></div><span class="go"><span data-i="go"></span><i>→</i></span></a>
   </div>
   <p class="strip rv" style="margin-top:28px" data-i="caveat"></p>
 </div></section>
 </main>
-<script type="module" src="assets/home.js?v=6af64f8b"></script>
+<script type="module" src="assets/home.js?v=e68eedde36"></script>
 </body>
 </html>
