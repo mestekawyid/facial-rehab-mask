@@ -1922,3 +1922,26 @@ img,svg,a{-webkit-user-drag:none}
 .ld3d span{font-size:12px;letter-spacing:.02em;color:var(--ink2)}
 .ld3d i::after{content:none}
 @media (max-width:820px){.ld3d{left:50%!important;top:56%}}
+/* turntables: second layer for frame cross-fading */
+.turn>.tb{position:absolute;inset:0;background-repeat:no-repeat;opacity:0;pointer-events:none;will-change:opacity}
+.turn{will-change:background-position}
+/* keep the fixed grain on its own compositor layer so moving content never repaints it */
+body::after{transform:translateZ(0);will-change:transform;backface-visibility:hidden}
+
+/* language switch in the side rail: stacked when the rail is closed, it turns sideways and fills the width when the rail opens */
+@media (min-width:821px){
+  nav#nav .seg{position:relative;display:block;flex:none;width:40px;height:66px;padding:0;gap:0;border-radius:20px;
+    transition:width .42s cubic-bezier(.4,0,.2,1),height .42s cubic-bezier(.4,0,.2,1),border-radius .42s}
+  nav#nav .seg button{position:absolute;top:3px;inset-inline-start:3px;width:34px;height:29px;padding:0;border-radius:15px;
+    transform:translate(0,0);transition:transform .55s cubic-bezier(.34,1.32,.5,1),width .42s cubic-bezier(.4,0,.2,1),background .3s,color .3s,box-shadow .3s}
+  nav#nav .seg button+button{transform:translate(0,31px) rotate(0deg)}
+  nav#nav.rail:hover .seg,nav#nav.rail:focus-within .seg{width:100%;height:36px;border-radius:18px}
+  nav#nav.rail:hover .seg button,nav#nav.rail:focus-within .seg button{width:calc(50% - 3px);height:30px;top:3px}
+  nav#nav.rail:hover .seg button+button,nav#nav.rail:focus-within .seg button+button{transform:translate(100%,0);transition-delay:.04s}
+  :root[dir=rtl] nav#nav.rail:hover .seg button+button,:root[dir=rtl] nav#nav.rail:focus-within .seg button+button{transform:translate(-100%,0)}
+  nav#nav.rail:hover .seg button,nav#nav.rail:focus-within .seg button{font-size:12.5px}
+  nav#nav.rail .seg button{animation:none}
+  /* a small flip while it travels */
+  nav#nav .seg button+button{transform-origin:center}
+  @media (prefers-reduced-motion:reduce){nav#nav .seg,nav#nav .seg button{transition:none}}
+}

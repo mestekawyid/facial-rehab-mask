@@ -285,19 +285,43 @@ $('#mBlock').onclick = () => { mode = 'block'; buildSeq(); }; $('#mCirc').onclic
 buildSeq();
 if (!reduce) setInterval(() => { ptr = (ptr + 1) % ev.length; drawTl(); }, 900);
 
-// ---- draggable turntables (pre-rendered 36-frame sprite sheets) ----
-$$('.turn').forEach(el => {
-  const N = 36; let f = 0, drag = null, vis = false, last = 0, hover = false;
-  const show = () => { const i = ((Math.round(f) % N) + N) % N; el.style.backgroundPosition = `${(i % 6) * 20}% ${Math.floor(i / 6) * 20}%`; };
-  const img = new Image(); img.onload = () => { el.style.backgroundImage = `url(${el.dataset.sheet})`; el.classList.add('ok'); show(); };
-  new IntersectionObserver(es => { vis = es[0].isIntersecting; if (vis && !img.src) img.src = el.dataset.sheet; }, { rootMargin: '200px' }).observe(el);
-  el.addEventListener('pointerdown', e => { drag = { x: e.clientX, f }; el.setPointerCapture(e.pointerId); el.classList.add('grab'); });
-  el.addEventListener('pointermove', e => { if (!drag) return; f = drag.f - (e.clientX - drag.x) / 9 * (L === 'ar' ? -1 : 1); show(); });
-  const up = () => { drag = null; el.classList.remove('grab'); };
+// ---- draggable turntables (pre-rendered sprite sheets, data-n frames in data-g columns) ----
+// time-based: the turn speed no longer depends on the frame rate, and two layers cross-fade between
+// neighbouring frames so the rotation moves continuously at the screen's refresh rate instead of stepping.
+const TURNS = $$('.turn').map(el => {
+  const N = +el.dataset.n || 36, G = +el.dataset.g || 6, R = Math.ceil(N / G);
+  const top = document.createElement('i'); top.className = 'tb'; el.appendChild(top);
+  const o = { el, top, N, G, R, f: 0, drag: null, vis: false, hover: false, lastI: -1, lastJ: -1, lastA: -1, ok: false };
+  const pos = i => `${o.G > 1 ? (i % o.G) / (o.G - 1) * 100 : 0}% ${o.R > 1 ? Math.floor(i / o.G) / (o.R - 1) * 100 : 0}%`;
+  o.show = () => {
+    const N2 = o.N, ff = ((o.f % N2) + N2) % N2, i = Math.floor(ff), j = (i + 1) % N2, a = Math.round((ff - i) * 20) / 20;
+    if (i !== o.lastI) { el.style.backgroundPosition = pos(i); o.lastI = i; }
+    if (j !== o.lastJ) { top.style.backgroundPosition = pos(j); o.lastJ = j; }
+    if (a !== o.lastA) { top.style.opacity = a; o.lastA = a; }
+  };
+  // apply a decoded sheet: n frames in g columns
+  const use = (url, n, g) => { const u = `url(${url})`; o.f = o.f / o.N * n; o.N = n; o.G = g; o.R = Math.ceil(n / g);
+    const sz = `${o.G * 100}% ${o.R * 100}%`; el.style.backgroundImage = top.style.backgroundImage = u; el.style.backgroundSize = top.style.backgroundSize = sz;
+    o.lastI = o.lastJ = o.lastA = -1; o.ok = true; el.classList.add('ok'); o.show(); };
+  const load = url => new Promise((res, rej) => { const im = new Image(); im.decoding = 'async'; im.onload = () => (im.decode ? im.decode() : Promise.resolve()).catch(() => { }).then(() => res(im)); im.onerror = rej; im.src = url; });
+  const img = { src: '' };
+  img.go = () => { img.src = el.dataset.sheet; load(el.dataset.sheet).then(() => { use(el.dataset.sheet, N, G);
+    // twice the frames for a finer turn, fetched afterwards and only when the connection is not weak
+    const hd = el.dataset.hd, BQw = window.__bq; if (hd && !(BQw && BQw.slow)) setTimeout(() => load(hd).then(() => use(hd, 72, 9)).catch(() => { }), 600); }).catch(() => { }); };
+  new IntersectionObserver(es => { o.vis = es[0].isIntersecting; if (o.vis && !img.src) img.go(); }, { rootMargin: '300px' }).observe(el);
+  el.addEventListener('pointerdown', e => { o.drag = { x: e.clientX, f: o.f }; el.setPointerCapture(e.pointerId); el.classList.add('grab'); });
+  el.addEventListener('pointermove', e => { if (!o.drag) return; o.f = o.drag.f - (e.clientX - o.drag.x) / (360 / o.N * 0.9) * (L === 'ar' ? -1 : 1); o.show(); });
+  const up = () => { o.drag = null; el.classList.remove('grab'); };
   el.addEventListener('pointerup', up); el.addEventListener('pointercancel', up);
-  el.addEventListener('pointerenter', () => hover = true); el.addEventListener('pointerleave', () => hover = false);
-  (function tick(t) { requestAnimationFrame(tick); if (!vis || drag || hover || reduce || t - last < (lite ? 110 : 70)) return; last = t; f += 1; show(); })(0);
+  el.addEventListener('pointerenter', e => { if (e.pointerType === 'mouse') o.hover = true; }); el.addEventListener('pointerleave', () => o.hover = false);
+  return o;
 });
+if (TURNS.length && !reduce) {
+  const REV = lite ? 9 : 7;   // seconds per full turn: calm
+  let tp = 0;
+  (function spin(t) { requestAnimationFrame(spin); const dt = tp ? Math.min(0.05, (t - tp) / 1000) : 0; tp = t;
+    for (const o of TURNS) { if (!o.ok || !o.vis || o.drag || o.hover) continue; o.f += dt * o.N / REV; o.show(); } })(0);
+}
 
 // ---- ticker ----
 const tk = SITES.map(n => `<span>${n}</span>`).join(''); $('#tick').innerHTML = tk + tk;
